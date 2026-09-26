@@ -1,0 +1,55 @@
+---
+import Hero from '../components/Hero.astro';
+import { photos } from '../data/images';
+import { site } from '../data/site';
+import Layout from '../layouts/Layout.astro';
+
+const categories = ['Grocery', 'Produce', 'Meat', 'Seafood'];
+---
+
+<Layout
+	title="Wholesale"
+	description="MT Supermarket will operate a separate cash-and-carry wholesale business for restaurants and other businesses in San Antonio."
+>
+	<Hero
+		image={photos.wholesale.src}
+		imageAlt={photos.wholesale.alt}
+		title="Wholesale"
+		kicker="Cash & Carry"
+		detail="For restaurants and businesses"
+		size="page"
+	/>
+	<section class="section">
+		<div class="container prose">
+			<p>
+				MT Supermarket will operate a separate cash-and-carry wholesale operation serving restaurants
+				and other businesses.
+			</p>
+			<h2>Who it serves</h2>
+			<p>Restaurants and other businesses.</p>
+			<h2>Product categories</h2>
+			<ul class="highlight-list">
+				{categories.map((category) => <li>{category}</li>)}
+			</ul>
+			<h2>Inquire</h2>
+			<p>
+				Call the store at <a href={site.phoneHref}>{site.phoneDisplay}</a>.
+			</p>
+			<div class="button-row">
+				<a class="button button-primary" href={site.phoneHref}>Call {site.phoneDisplay}</a>
+				<a class="button button-secondary" href="/contact">Contact page</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	h2 {
+		margin-top: 2rem;
+		font-size: clamp(2rem, 4vw, 2.8rem);
+	}
+
+	a:not(.button) {
+		color: var(--color-accent);
+	}
+</style>

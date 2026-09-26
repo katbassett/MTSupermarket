@@ -1,0 +1,36 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+	src: ImageMetadata;
+	alt: string;
+	sizes?: string;
+	loading?: 'eager' | 'lazy';
+	fetchpriority?: 'high' | 'low' | 'auto';
+	class?: string;
+	widths?: number[];
+}
+
+const {
+	src,
+	alt,
+	sizes = '100vw',
+	loading = 'lazy',
+	fetchpriority,
+	class: className,
+	widths = [480, 768, 1200, 1600, 2000],
+} = Astro.props;
+---
+
+<Image
+	src={src}
+	alt={alt}
+	sizes={sizes}
+	widths={widths}
+	format="webp"
+	quality={72}
+	layout="full-width"
+	loading={loading}
+	fetchpriority={fetchpriority}
+	class={className}
+/>

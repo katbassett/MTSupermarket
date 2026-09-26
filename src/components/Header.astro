@@ -1,0 +1,151 @@
+---
+import { formatAddressLine, isCurrentPath, nav, site } from '../data/site';
+import MobileMenu from './MobileMenu.astro';
+
+const pathname = Astro.url.pathname;
+---
+
+<header class="site-header">
+	<div class="awning">
+		<div class="container awning-inner">
+			<p><a href={site.mapsUrl}>{formatAddressLine()}</a></p>
+			<p>Open daily · {site.hoursLabel}</p>
+			<p><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
+		</div>
+	</div>
+	<div class="container header-bar">
+		<a class="wordmark" href="/" aria-label="MT Supermarket, home">
+			<span class="mark" aria-hidden="true">MT</span>
+			<span class="word" aria-hidden="true">Supermarket</span>
+		</a>
+		<nav class="desktop-nav" aria-label="Primary">
+			<ul>
+				{
+					nav.map((item) => (
+						<li>
+							<a
+								href={item.href}
+								aria-current={isCurrentPath(pathname, item.href) ? 'page' : undefined}
+							>
+								{item.label}
+								{item.hint && <span class="nav-hint"> · {item.hint}</span>}
+							</a>
+						</li>
+					))
+				}
+			</ul>
+		</nav>
+		<MobileMenu />
+	</div>
+</header>
+
+<style>
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 30;
+		background: var(--color-paper);
+		border-bottom: 3px solid var(--color-ink);
+	}
+
+	.awning {
+		background: var(--color-marigold);
+		color: var(--color-ink);
+	}
+
+	.awning-inner {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.2rem 1.25rem;
+		padding: 0.4rem 0;
+		font-size: 0.8rem;
+		font-weight: 700;
+		letter-spacing: 0.01em;
+	}
+
+	@media (max-width: 40rem) {
+		.awning-inner {
+			display: grid;
+			gap: 0.1rem;
+			padding: 0.55rem 0;
+			font-size: 0.85rem;
+		}
+	}
+
+	.awning a {
+		color: inherit;
+		text-underline-offset: 0.15em;
+	}
+
+	.header-bar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: 4.25rem;
+		gap: 1rem;
+	}
+
+	.wordmark {
+		display: flex;
+		align-items: baseline;
+		gap: 0.45rem;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.mark,
+	.word {
+		font-family: var(--font-display-stack);
+		font-weight: 800;
+		letter-spacing: -0.05em;
+		line-height: 1;
+	}
+
+	.mark {
+		color: var(--color-accent);
+		font-size: 1.85rem;
+	}
+
+	.word {
+		font-size: 1.35rem;
+	}
+
+	.desktop-nav {
+		display: none;
+	}
+
+	.desktop-nav ul {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: flex-end;
+		gap: 0.35rem 1.35rem;
+		list-style: none;
+		padding: 0;
+	}
+
+	.desktop-nav a {
+		display: inline-block;
+		padding: 0.35rem 0;
+		border-bottom: 2px solid transparent;
+		font-weight: 800;
+		text-decoration: none;
+	}
+
+	.desktop-nav a:hover,
+	.desktop-nav a[aria-current='page'] {
+		border-bottom-color: var(--color-accent);
+	}
+
+	.nav-hint {
+		color: var(--color-accent);
+		font-size: 0.72rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	@media (min-width: 62rem) {
+		.desktop-nav {
+			display: block;
+		}
+	}
+</style>

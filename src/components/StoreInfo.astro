@@ -1,0 +1,148 @@
+---
+import { formatAddress, site } from '../data/site';
+
+interface Props {
+	id?: string;
+	variant?: 'strip' | 'panel';
+}
+
+const { id, variant = 'strip' } = Astro.props;
+---
+
+{
+	variant === 'strip' ? (
+		<section class="store-strip" id={id} aria-label="Store information">
+			<div class="container store-strip-inner">
+				<p>
+					<span class="strip-label">Address</span>
+					<a class="strip-value" href={site.mapsUrl}>{site.address.street}</a>
+					<span class="strip-sub">{site.address.city}, {site.address.region}</span>
+				</p>
+				<p>
+					<span class="strip-label">Hours</span>
+					<span class="strip-value">{site.hoursLabel}</span>
+					<span class="strip-sub">Open daily</span>
+				</p>
+				<p>
+					<span class="strip-label">Opening</span>
+					<span class="strip-value">{site.opening}</span>
+					<span class="strip-sub">Expected</span>
+				</p>
+				<p>
+					<span class="strip-label">Phone</span>
+					<a class="strip-value" href={site.phoneHref}>{site.phoneDisplay}</a>
+				</p>
+			</div>
+		</section>
+	) : (
+		<section class="section" id={id} aria-labelledby="store-info-heading">
+			<div class="container">
+				<h2 id="store-info-heading">Store information</h2>
+				<dl class="facts">
+					<div>
+						<dt>Address</dt>
+						<dd>
+							<a href={site.mapsUrl}>{formatAddress()}</a>
+						</dd>
+					</div>
+					<div>
+						<dt>Hours</dt>
+						<dd>Open daily, {site.hoursLabel}</dd>
+					</div>
+					<div>
+						<dt>Expected opening</dt>
+						<dd>{site.opening}</dd>
+					</div>
+					<div>
+						<dt>Phone</dt>
+						<dd>
+							<a href={site.phoneHref}>{site.phoneDisplay}</a>
+						</dd>
+					</div>
+					{
+						site.email && (
+							<div>
+								<dt>Email</dt>
+								<dd>
+									<a href={`mailto:${site.email}`}>{site.email}</a>
+								</dd>
+							</div>
+						)
+					}
+					<div>
+						<dt>Directions</dt>
+						<dd>
+							<a href={site.mapsUrl}>Open in Google Maps</a>
+						</dd>
+					</div>
+				</dl>
+			</div>
+		</section>
+	)
+}
+
+<style>
+	.store-strip {
+		background: var(--color-paper);
+		color: var(--color-ink);
+		border-bottom: 3px solid var(--color-ink);
+	}
+
+	.store-strip-inner {
+		display: grid;
+		gap: 1.25rem;
+		padding: 1.4rem 0 1.6rem;
+	}
+
+	.strip-label,
+	.strip-sub {
+		display: block;
+	}
+
+	.strip-label {
+		margin-bottom: 0.3rem;
+		color: var(--color-accent);
+		font-size: 0.75rem;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.strip-value {
+		font-family: var(--font-display-stack);
+		font-size: clamp(1.7rem, 3vw, 2.5rem);
+		font-weight: 800;
+		line-height: 0.95;
+		letter-spacing: -0.04em;
+		text-decoration: none;
+	}
+
+	a.strip-value {
+		text-decoration: underline;
+		text-decoration-thickness: 2px;
+		text-underline-offset: 0.14em;
+	}
+
+	.strip-sub {
+		margin-top: 0.3rem;
+		color: var(--color-muted);
+	}
+
+	h2 {
+		font-size: clamp(2rem, 4vw, 3rem);
+	}
+
+	@media (min-width: 48rem) {
+		.store-strip-inner {
+			grid-template-columns: 1fr 1fr;
+			gap: 1.5rem 2rem;
+		}
+	}
+
+	@media (min-width: 72rem) {
+		.store-strip-inner {
+			grid-template-columns: 1.3fr 0.9fr 1fr 1fr;
+			align-items: start;
+		}
+	}
+</style>

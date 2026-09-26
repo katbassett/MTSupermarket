@@ -1,0 +1,26 @@
+---
+import DepartmentGrid from '../../components/DepartmentGrid.astro';
+import SectionHeader from '../../components/SectionHeader.astro';
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout
+	title="Departments"
+	description="Grocery, produce, meat, and seafood at the MT Supermarket San Antonio store."
+>
+	<header class="page-header">
+		<div class="container">
+			<SectionHeader
+				level="h1"
+				eyebrow="Departments"
+				title="Four departments"
+				text="Grocery, produce, meat, and seafood. These pages introduce each department. They are not a product catalog."
+			/>
+		</div>
+	</header>
+	<section class="section" style="padding-top: 1.25rem;">
+		<div class="container">
+			<DepartmentGrid />
+		</div>
+	</section>
+</Layout>

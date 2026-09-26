@@ -1,0 +1,186 @@
+---
+import Photo from './Photo.astro';
+
+interface Props {
+	image: ImageMetadata;
+	imageAlt: string;
+	title: string;
+	kicker?: string;
+	detail?: string;
+	size?: 'home' | 'page';
+	primaryCta?: { href: string; label: string };
+	secondaryCta?: { href: string; label: string };
+}
+
+const {
+	image,
+	imageAlt,
+	title,
+	kicker,
+	detail,
+	size = 'home',
+	primaryCta,
+	secondaryCta,
+} = Astro.props;
+const [first, ...rest] = title.split(' ');
+const stacked = size === 'home';
+---
+
+<section class:list={['hero', size === 'home' ? 'hero-home' : 'hero-page']}>
+	<div class="hero-sign">
+		{
+			stacked ? (
+				<h1>
+					<span class="hero-line hero-line-mark">{first}</span>
+					{rest.length > 0 && <span class="hero-line">{rest.join(' ')}</span>}
+				</h1>
+			) : (
+				<h1>{title}</h1>
+			)
+		}
+		{kicker && <p class="hero-kicker">{kicker}</p>}
+		{detail && <p class="hero-detail">{detail}</p>}
+		{
+			(primaryCta || secondaryCta) && (
+				<div class="hero-actions">
+					{primaryCta && (
+						<a class="button button-light" href={primaryCta.href}>
+							{primaryCta.label}
+						</a>
+					)}
+					{secondaryCta && (
+						<a class="text-link" href={secondaryCta.href}>
+							{secondaryCta.label}
+						</a>
+					)}
+				</div>
+			)
+		}
+	</div>
+	<div class="hero-media">
+		<Photo
+			src={image}
+			alt={imageAlt}
+			sizes="(min-width: 64rem) 60vw, 100vw"
+			loading="eager"
+			fetchpriority="high"
+			widths={size === 'home' ? [640, 960, 1280, 1600, 2000] : [640, 960, 1280, 1600]}
+		/>
+	</div>
+</section>
+
+<style>
+	.hero {
+		display: grid;
+		color: var(--color-paper);
+	}
+
+	.hero-home {
+		background: var(--color-accent);
+	}
+
+	.hero-page {
+		background: var(--color-ink);
+	}
+
+	.hero-sign {
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+		padding: 1.75rem 1.25rem 2rem;
+	}
+
+	.hero-media {
+		order: -1;
+		min-height: 16rem;
+		overflow: hidden;
+		background: var(--color-ink);
+	}
+
+	.hero-media :global(img) {
+		width: 100%;
+		height: 100%;
+		min-height: 16rem;
+		object-fit: cover;
+	}
+
+	h1 {
+		font-weight: 800;
+	}
+
+	.hero-line {
+		display: block;
+	}
+
+	.hero-home .hero-line-mark {
+		font-size: clamp(4.8rem, 14vw, 7.5rem);
+		line-height: 0.78;
+	}
+
+	.hero-home .hero-line:not(.hero-line-mark) {
+		margin-top: 0.1rem;
+		font-size: clamp(2.1rem, 5vw, 3.3rem);
+		line-height: 0.9;
+	}
+
+	.hero-page h1 {
+		font-size: clamp(3rem, 7vw, 5.25rem);
+		max-width: 10ch;
+	}
+
+	.hero-kicker,
+	.hero-detail {
+		margin-top: 0.9rem;
+		max-width: 18rem;
+		font-size: 1.25rem;
+		line-height: 1.25;
+	}
+
+	.hero-detail {
+		font-weight: 800;
+	}
+
+	.hero-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1rem 1.25rem;
+		margin-top: 1.5rem;
+	}
+
+	.text-link {
+		color: inherit;
+	}
+
+	@media (min-width: 64rem) {
+		.hero-home,
+		.hero-page {
+			grid-template-columns: minmax(20rem, 0.82fr) 1.18fr;
+			min-height: calc(100svh - var(--header-height));
+		}
+
+		.hero-page {
+			min-height: 30rem;
+			grid-template-columns: 0.9fr 1.1fr;
+		}
+
+		.hero-sign {
+			justify-content: center;
+			padding: 2.5rem 2.25rem 3rem;
+			padding-left: max(1.5rem, calc((100vw - 72rem) / 2));
+		}
+
+		.hero-home .hero-line-mark {
+			font-size: clamp(5.5rem, 8vw, 8.25rem);
+		}
+
+		.hero-media {
+			order: 0;
+			min-height: 100%;
+		}
+
+		.hero-media :global(img) {
+			min-height: 100%;
+		}
+	}
+</style>

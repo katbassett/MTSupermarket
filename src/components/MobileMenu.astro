@@ -1,0 +1,107 @@
+---
+import { isCurrentPath, nav } from '../data/site';
+
+const pathname = Astro.url.pathname;
+---
+
+<details class="mobile-nav" data-mobile-menu>
+	<summary class="menu-toggle">
+		Menu
+	</summary>
+	<nav aria-label="Mobile">
+		<ul>
+			{
+				nav.map((item) => (
+					<li>
+						<a href={item.href} aria-current={isCurrentPath(pathname, item.href) ? 'page' : undefined}>
+							{item.label}
+							{item.hint && <span class="nav-hint"> · {item.hint}</span>}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+</details>
+
+<script>
+	const menu = document.querySelector('[data-mobile-menu]');
+	if (menu instanceof HTMLDetailsElement) {
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && menu.open) {
+				menu.open = false;
+				menu.querySelector('summary')?.focus();
+			}
+		});
+	}
+</script>
+
+<style>
+	.mobile-nav {
+		flex: 0 0 auto;
+		margin-left: auto;
+		color: var(--color-ink);
+	}
+
+	.mobile-nav nav {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 100%;
+		z-index: 40;
+		background: var(--color-paper);
+		border-bottom: 1px solid var(--color-line);
+		padding: 0.25rem 0 0.75rem;
+	}
+
+	.menu-toggle {
+		display: block;
+		min-height: 2.75rem;
+		padding: 0.55rem 0;
+		color: var(--color-ink);
+		list-style: none;
+		cursor: pointer;
+		font-family: var(--font-display-stack);
+		font-size: 1.2rem;
+		font-weight: 800;
+		letter-spacing: -0.04em;
+		line-height: 1;
+	}
+
+	.menu-toggle::-webkit-details-marker {
+		display: none;
+	}
+
+	.mobile-nav ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	.mobile-nav a {
+		display: block;
+		padding: 0.85rem 1.25rem;
+		border-top: 1px solid var(--color-line);
+		font-family: var(--font-display-stack);
+		font-size: 1.85rem;
+		line-height: 1.1;
+		text-decoration: none;
+	}
+
+	.mobile-nav a[aria-current='page'] {
+		color: var(--color-accent);
+	}
+
+	.nav-hint {
+		color: var(--color-accent);
+		font-family: var(--font-body-stack);
+		font-size: 0.72rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	@media (min-width: 62rem) {
+		.mobile-nav {
+			display: none;
+		}
+	}
+</style>

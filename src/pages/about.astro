@@ -1,0 +1,39 @@
+---
+import SectionHeader from '../components/SectionHeader.astro';
+import { formatAddress, site } from '../data/site';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+	title="About"
+	description="MT Supermarket is an established Asian and international supermarket opening a San Antonio location."
+>
+	<header class="page-header">
+		<div class="container">
+			<SectionHeader level="h1" eyebrow="About" title="About MT Supermarket" />
+		</div>
+	</header>
+	<section class="section" style="padding-top: 1.25rem;">
+		<div class="container prose">
+			<h2>San Antonio</h2>
+			<ul class="highlight-list">
+				<li>MT Supermarket is an established Asian and international supermarket.</li>
+				<li>A San Antonio location is planned at {formatAddress()}.</li>
+				<li>Expected opening: {site.opening}.</li>
+				<li>Planned hours: {site.hoursLabel} daily.</li>
+				<li>Phone: {site.phoneDisplay}.</li>
+			</ul>
+			<div class="button-row">
+				<a class="button button-primary" href="/contact">Contact</a>
+				<a class="button button-secondary" href="/careers">Careers</a>
+			</div>
+		</div>
+	</section>
+</Layout>
+
+<style>
+	h2 {
+		margin-top: 0.5rem;
+		font-size: clamp(2rem, 4vw, 2.8rem);
+	}
+</style>

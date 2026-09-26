@@ -1,0 +1,64 @@
+---
+import type { Job } from '../data/jobs';
+import { site } from '../data/site';
+
+interface Props {
+	job: Job;
+}
+
+const { job } = Astro.props;
+const external = job.applicationUrl?.startsWith('http') ?? false;
+---
+
+<article class="job-card" id={job.id}>
+	<div>
+		<h3>{job.title}</h3>
+		{job.description && <p>{job.description}</p>}
+	</div>
+	{
+		job.applicationUrl ? (
+			<a
+				class="button button-primary button-block"
+				href={job.applicationUrl}
+				rel={external ? 'noopener noreferrer' : undefined}
+			>
+				Apply
+			</a>
+		) : (
+			<a class="button button-primary button-block" href={site.phoneHref}>
+				Call to apply
+			</a>
+		)
+	}
+</article>
+
+<style>
+	.job-card {
+		display: grid;
+		gap: 1rem;
+		padding: 1.25rem 0;
+		border-top: 1px solid var(--color-line);
+	}
+
+	.job-card:last-child {
+		border-bottom: 1px solid var(--color-line);
+	}
+
+	h3 {
+		font-size: clamp(1.6rem, 3vw, 2.1rem);
+	}
+
+	p {
+		max-width: 42rem;
+		margin-top: 0.45rem;
+		color: var(--color-muted);
+	}
+
+	@media (min-width: 48rem) {
+		.job-card {
+			grid-template-columns: 1fr auto;
+			align-items: center;
+			gap: 2rem;
+		}
+	}
+</style>

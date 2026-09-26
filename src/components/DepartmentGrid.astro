@@ -1,0 +1,85 @@
+---
+import { departments } from '../data/departments';
+import DepartmentCard from './DepartmentCard.astro';
+---
+
+<ul class="dept-mosaic">
+	{
+		departments.map((department, index) => (
+			<li class={department.slug}>
+				<DepartmentCard
+					department={department}
+					number={String(index + 1).padStart(2, '0')}
+					tag={department.slug === 'produce' ? 'Fresh daily' : undefined}
+				/>
+			</li>
+		))
+	}
+</ul>
+
+<style>
+	.dept-mosaic {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 2.5rem 2rem;
+		align-items: start;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.dept-mosaic > li {
+		min-width: 0;
+		list-style: none;
+	}
+
+	.dept-mosaic > li::marker {
+		content: none;
+	}
+
+	.grocery {
+		width: 94%;
+	}
+
+	.produce {
+		width: 86%;
+		margin-left: auto;
+		margin-top: 2.75rem;
+	}
+
+	.meat {
+		width: 74%;
+		margin-left: 10%;
+	}
+
+	.seafood {
+		width: 82%;
+		margin-left: auto;
+		margin-top: 1.5rem;
+	}
+
+	@media (max-width: 47.99rem) {
+		.dept-mosaic {
+			grid-template-columns: 1fr;
+			gap: 2.75rem;
+		}
+
+		.grocery,
+		.produce,
+		.meat,
+		.seafood {
+			width: auto;
+			margin: 0;
+		}
+
+		.produce,
+		.seafood {
+			margin-left: 12%;
+		}
+
+		.grocery,
+		.meat {
+			margin-right: 4%;
+		}
+	}
+</style>

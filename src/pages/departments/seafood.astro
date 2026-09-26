@@ -1,0 +1,11 @@
+---
+import DepartmentView from '../../components/DepartmentView.astro';
+import { getDepartment } from '../../data/departments';
+import Layout from '../../layouts/Layout.astro';
+
+const department = getDepartment('seafood');
+---
+
+<Layout title={department.name} description={department.description}>
+	<DepartmentView department={department} />
+</Layout>

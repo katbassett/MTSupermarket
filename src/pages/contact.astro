@@ -1,0 +1,24 @@
+---
+import SectionHeader from '../components/SectionHeader.astro';
+import StoreInfo from '../components/StoreInfo.astro';
+import { site } from '../data/site';
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+	title="Contact"
+	description={`Contact MT Supermarket at ${site.address.street}, ${site.address.city}, ${site.address.region}. Phone ${site.phoneDisplay}. Expected opening ${site.opening}.`}
+	schema
+>
+	<header class="page-header">
+		<div class="container">
+			<SectionHeader
+				level="h1"
+				eyebrow="Contact"
+				title="Talk to the store"
+				text="For store questions, wholesale inquiries, and job applications, call the store."
+			/>
+		</div>
+	</header>
+	<StoreInfo variant="panel" />
+</Layout>

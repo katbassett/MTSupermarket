@@ -1,0 +1,64 @@
+---
+import JobCard from '../components/JobCard.astro';
+import SectionHeader from '../components/SectionHeader.astro';
+import StoreInfo from '../components/StoreInfo.astro';
+import { getActiveJobs, getJobsByCategory } from '../data/jobs';
+import { site } from '../data/site';
+import Layout from '../layouts/Layout.astro';
+
+const groups = getJobsByCategory();
+const activeJobs = getActiveJobs();
+---
+
+<Layout
+	title="Careers"
+	description="Open jobs at the MT Supermarket San Antonio store. Hiring is underway before the expected early November opening."
+>
+	<header class="page-header">
+		<div class="container">
+			<SectionHeader
+				level="h1"
+				eyebrow="Careers"
+				title="Join the MT Supermarket Team"
+				text={`Hiring for the San Antonio store is open before the expected ${site.opening.toLowerCase()} opening.`}
+			/>
+		</div>
+	</header>
+
+	<section class="section" style="padding-top: 1.5rem;">
+		<div class="container">
+			{
+				activeJobs.length === 0 ? (
+					<p class="lede">There are no open positions listed right now.</p>
+				) : (
+					<>
+						{
+							groups.map((group) => (
+								<section class="job-group" aria-labelledby={`jobs-${group.category.toLowerCase().replace(/\s+/g, '-')}`}>
+									<h2 id={`jobs-${group.category.toLowerCase().replace(/\s+/g, '-')}`}>{group.category}</h2>
+									<div>
+										{group.jobs.map((job) => (
+											<JobCard job={job} />
+										))}
+									</div>
+								</section>
+							))
+						}
+					</>
+				)
+			}
+		</div>
+	</section>
+	<StoreInfo />
+</Layout>
+
+<style>
+	.job-group + .job-group {
+		margin-top: 2.75rem;
+	}
+
+	h2 {
+		margin-bottom: 0.75rem;
+		font-size: clamp(1.8rem, 3vw, 2.4rem);
+	}
+</style>

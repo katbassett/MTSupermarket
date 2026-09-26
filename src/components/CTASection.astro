@@ -1,0 +1,128 @@
+---
+interface Props {
+	eyebrow?: string;
+	title: string;
+	text?: string;
+	cta: { href: string; label: string };
+}
+
+const { eyebrow, title, text, cta } = Astro.props;
+const titleLines = title.split('\n');
+const ctaLines = cta.label.split('\n');
+---
+
+<section class="cta-band">
+	<div class="cta-main">
+		{eyebrow && <p class="cta-label">{eyebrow}</p>}
+		<h2>
+			{
+				titleLines.map((line, index) => (
+					<>
+						{index > 0 && <br />}
+						{line}
+					</>
+				))
+			}
+		</h2>
+		{text && <p>{text}</p>}
+	</div>
+	<a class="cta-go" href={cta.href}>
+		<span>
+			{
+				ctaLines.map((line, index) => (
+					<>
+						{index > 0 && <br />}
+						{line}
+					</>
+				))
+			}
+			<span class="arrow" aria-hidden="true"> →</span>
+		</span>
+	</a>
+</section>
+
+<style>
+	.cta-band {
+		display: grid;
+	}
+
+	.cta-main {
+		background: var(--color-marigold);
+		color: var(--color-ink);
+		padding: clamp(2.25rem, 6vw, 4.25rem) max(1.25rem, calc((100vw - 72rem) / 2));
+	}
+
+	.cta-label {
+		margin-bottom: 0.85rem;
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	h2 {
+		max-width: 16ch;
+		color: var(--color-accent);
+		font-size: clamp(2.8rem, 5.6vw, 4.8rem);
+		line-height: 0.88;
+	}
+
+	.cta-main > p:last-child {
+		max-width: 32rem;
+		margin-top: 1rem;
+		font-size: 1.12rem;
+	}
+
+	.cta-go {
+		display: flex;
+		align-items: flex-end;
+		background: var(--color-accent);
+		color: var(--color-paper);
+		padding: 1.6rem max(1.25rem, calc((100vw - 72rem) / 2)) 1.85rem;
+		font-family: var(--font-display-stack);
+		font-size: clamp(2rem, 3.6vw, 3rem);
+		font-weight: 800;
+		letter-spacing: -0.045em;
+		line-height: 0.92;
+		text-decoration: none;
+	}
+
+	.arrow {
+		display: inline-block;
+		transition: transform 0.2s ease;
+	}
+
+	.cta-go:hover {
+		background: var(--color-accent-deep);
+	}
+
+	.cta-go:hover .arrow {
+		transform: translateX(0.35rem);
+	}
+
+	@media (min-width: 56rem) {
+		.cta-band {
+			grid-template-columns: 1.45fr 0.7fr;
+			min-height: 20rem;
+		}
+
+		.cta-main {
+			padding-right: 3rem;
+		}
+
+		.cta-go {
+			align-items: flex-end;
+			padding: 2rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.arrow {
+			transition: none;
+		}
+
+		.cta-go:hover .arrow {
+			transform: none;
+		}
+	}
+</style>

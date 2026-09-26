@@ -1,0 +1,441 @@
+---
+import CTASection from '../components/CTASection.astro';
+import DepartmentGrid from '../components/DepartmentGrid.astro';
+import Photo from '../components/Photo.astro';
+import { getActiveJobs } from '../data/jobs';
+import { photos } from '../data/images';
+import { site } from '../data/site';
+import Layout from '../layouts/Layout.astro';
+
+const openRoles = getActiveJobs().length;
+const findItems = [
+	'Asian staples',
+	'Fresh seafood',
+	'Specialty cuts',
+	'International snacks',
+	'Produce',
+	'Frozen foods',
+];
+---
+
+<Layout
+	title="MT Supermarket | Coming to San Antonio"
+	description={site.description}
+	fullTitle
+	schema
+>
+	<section class="poster">
+		<div class="container poster-grid">
+			<p class="poster-kicker">Fresh · Global · Local</p>
+			<h1>
+				A world of food<br />
+				under one roof.
+			</h1>
+			<div class="poster-photo">
+				<figure class="blob">
+					<Photo
+						src={photos.hero.src}
+						alt={photos.hero.alt}
+						sizes="(min-width: 64rem) 28rem, 80vw"
+						loading="eager"
+						fetchpriority="high"
+						widths={[480, 720, 960, 1200]}
+					/>
+				</figure>
+				<p class="stamp">
+					<span>San Antonio</span>
+					<strong>Early Nov</strong>
+					<span>2026</span>
+				</p>
+			</div>
+			<p class="poster-dek">
+				MT Supermarket is bringing international ingredients, fresh foods, everyday staples
+				and unexpected finds to San Antonio.
+			</p>
+			<div class="poster-actions">
+				<a class="button button-primary" href="#departments">Explore MT</a>
+				<a class="hire-link" href="/careers">We're hiring <span class="arrow" aria-hidden="true">→</span></a>
+			</div>
+		</div>
+	</section>
+
+	<section class="departments" id="departments" aria-labelledby="departments-heading">
+		<div class="container">
+			<h2 id="departments-heading" class="section-rule"><span>Departments</span></h2>
+			<DepartmentGrid />
+		</div>
+	</section>
+
+	<section class="find-red">
+		<div class="container">
+			<h2>
+				Find something<br />
+				you didn't come<br />
+				looking for.
+			</h2>
+			<ul class="find-line">
+				{findItems.map((item) => <li>{item}</li>)}
+			</ul>
+			<a class="find-cta" href="/contact">Visit MT <span class="arrow" aria-hidden="true">→</span></a>
+		</div>
+	</section>
+
+	<section class="wholesale" aria-labelledby="wholesale-heading">
+		<div class="container wholesale-wrap">
+			<figure class="wholesale-photo">
+				<div class="wholesale-frame">
+					<Photo
+						src={photos.wholesale.src}
+						alt={photos.wholesale.alt}
+						sizes="(min-width: 56rem) 36rem, 100vw"
+					/>
+				</div>
+				<figcaption>San Antonio</figcaption>
+			</figure>
+			<div class="wholesale-copy">
+				<p class="wholesale-label">Cash &amp; carry</p>
+				<h2 id="wholesale-heading">Buying for a business?</h2>
+				<p>
+					MT serves restaurants and businesses through its cash-and-carry wholesale operation.
+				</p>
+				<a href="/wholesale">Explore wholesale <span class="arrow" aria-hidden="true">→</span></a>
+			</div>
+		</div>
+	</section>
+
+	<CTASection
+		eyebrow="Now hiring · San Antonio"
+		title={'Join the MT\nSupermarket Team'}
+		text={openRoles > 0
+			? `Hiring for the San Antonio store is open before the expected ${site.opening.toLowerCase()} opening. ${openRoles} positions are listed.`
+			: 'Hiring for the San Antonio store begins before the store opens.'}
+		cta={{ href: '/careers', label: 'View open\npositions' }}
+	/>
+</Layout>
+
+<style>
+	.poster {
+		padding: clamp(1.75rem, 4vw, 3rem) 0 clamp(2.25rem, 5vw, 3.5rem);
+	}
+
+	.poster-grid {
+		display: grid;
+		align-items: start;
+	}
+
+	.poster-grid > *,
+	.wholesale-wrap > * {
+		min-width: 0;
+	}
+
+	.poster-kicker,
+	.wholesale-label,
+	.find-line {
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.poster-kicker {
+		font-size: 0.78rem;
+		letter-spacing: 0.16em;
+	}
+
+	h1 {
+		max-width: min(12ch, 100%);
+		margin-top: 0.7rem;
+		font-size: clamp(2.55rem, 6.2vw, 5.6rem);
+		line-height: 0.86;
+	}
+
+	.poster-photo {
+		position: relative;
+		width: min(78vw, 22rem);
+		margin-top: 1.35rem;
+	}
+
+	.blob {
+		margin: 0;
+		overflow: hidden;
+		aspect-ratio: 1;
+		border-radius: 72% 28% 63% 37% / 41% 67% 33% 59%;
+		background: var(--color-paper-deep);
+	}
+
+	.blob :global(img),
+	.wholesale-frame :global(img) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+	}
+
+	.stamp {
+		position: absolute;
+		left: -0.35rem;
+		bottom: 0.85rem;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		width: 6.6rem;
+		height: 6.6rem;
+		border: 2px solid var(--color-ink);
+		background: var(--color-marigold);
+		color: var(--color-ink);
+		text-align: center;
+		font-size: 0.66rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		line-height: 1.15;
+		text-transform: uppercase;
+		transform: rotate(-8deg);
+	}
+
+	.stamp strong {
+		display: block;
+		margin: 0.12rem 0;
+		font-family: var(--font-display-stack);
+		font-size: 1.05rem;
+		letter-spacing: -0.03em;
+	}
+
+	.poster-dek {
+		max-width: 28rem;
+		margin-top: 1.2rem;
+		font-size: 1.15rem;
+		line-height: 1.45;
+	}
+
+	.poster-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.85rem 1.35rem;
+		margin-top: 1.35rem;
+	}
+
+	.poster-actions .button,
+	.hire-link {
+		font-size: 0.82rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.hire-link,
+	.wholesale-copy a,
+	.find-cta {
+		font-weight: 800;
+		text-decoration: none;
+	}
+
+	.wholesale-copy a {
+		letter-spacing: 0.04em;
+	}
+
+	.arrow {
+		display: inline-block;
+		transition: transform 0.2s ease;
+	}
+
+	.hire-link:hover .arrow,
+	.wholesale-copy a:hover .arrow,
+	.find-cta:hover .arrow {
+		transform: translateX(0.3rem);
+	}
+
+	.hire-link:hover,
+	.wholesale-copy a:hover {
+		color: var(--color-accent);
+	}
+
+	.departments {
+		padding-bottom: clamp(2.5rem, 6vw, 4.25rem);
+	}
+
+	.section-rule {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
+		font-family: var(--font-body-stack);
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.18em;
+		line-height: 1;
+		text-transform: uppercase;
+	}
+
+	.section-rule::before,
+	.section-rule::after {
+		content: '';
+		height: 2px;
+		flex: 1;
+		background: var(--color-ink);
+	}
+
+	.find-red {
+		background: var(--color-accent);
+		color: var(--color-paper);
+		padding: clamp(2.75rem, 6vw, 4.75rem) 0;
+	}
+
+	.find-red h2 {
+		max-width: 14ch;
+		font-size: clamp(2.8rem, 6.2vw, 5.2rem);
+		line-height: 0.88;
+	}
+
+	.find-line {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		margin: 1.5rem 0 0;
+		padding: 0;
+		list-style: none;
+		font-size: 0.82rem;
+		line-height: 1.2;
+	}
+
+	.find-line li {
+		display: inline-flex;
+		align-items: center;
+	}
+
+	.find-line li:not(:last-child)::after {
+		content: '·';
+		margin: 0 0.7rem;
+		color: var(--color-marigold);
+		font-size: 1.15rem;
+		line-height: 1;
+	}
+
+	.find-cta {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.55rem;
+		margin-top: 1.6rem;
+		padding: 0.75rem 0.95rem;
+		background: var(--color-marigold);
+		color: var(--color-ink);
+		font-size: 0.82rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.find-cta:hover {
+		background: var(--color-paper);
+	}
+
+	.wholesale {
+		padding: clamp(2.5rem, 6vw, 4.25rem) 0;
+	}
+
+	.wholesale-wrap {
+		display: grid;
+		gap: 1.5rem;
+		align-items: center;
+	}
+
+	.wholesale-photo {
+		position: relative;
+		margin: 0;
+	}
+
+	.wholesale-frame {
+		overflow: hidden;
+		aspect-ratio: 4 / 5;
+		background: var(--color-paper-deep);
+	}
+
+	.wholesale-photo figcaption {
+		position: absolute;
+		left: 0.75rem;
+		bottom: 0.75rem;
+		padding: 0.35rem 0.5rem;
+		border: 2px solid var(--color-ink);
+		background: var(--color-paper);
+		color: var(--color-ink);
+		font-size: 0.68rem;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		line-height: 1;
+		text-transform: uppercase;
+	}
+
+	.wholesale-label {
+		font-size: 0.78rem;
+		letter-spacing: 0.16em;
+	}
+
+	.wholesale h2 {
+		max-width: 12ch;
+		margin-top: 0.45rem;
+		font-size: clamp(2.3rem, 4vw, 3.4rem);
+		line-height: 0.92;
+	}
+
+	.wholesale-copy p:last-of-type {
+		max-width: 28rem;
+		margin-top: 0.85rem;
+		font-size: 1.08rem;
+		line-height: 1.45;
+	}
+
+	.wholesale-copy a {
+		display: inline-block;
+		margin-top: 1.1rem;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		font-size: 0.82rem;
+	}
+
+	@media (min-width: 64rem) {
+		.poster-grid {
+			grid-template-columns: 1.15fr 0.85fr;
+			column-gap: 2.5rem;
+			align-items: center;
+		}
+
+		.poster-kicker,
+		h1,
+		.poster-dek,
+		.poster-actions {
+			grid-column: 1;
+		}
+
+		.poster-photo {
+			grid-column: 2;
+			grid-row: 1 / span 4;
+			width: min(100%, 28rem);
+			margin-top: 0;
+			justify-self: end;
+		}
+
+		.find-line {
+			font-size: 0.78rem;
+		}
+
+		.wholesale-wrap {
+			grid-template-columns: 1.05fr 0.95fr;
+			column-gap: 3rem;
+		}
+
+		.wholesale-photo {
+			margin-left: -1.75rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.arrow {
+			transition: none;
+		}
+
+		.hire-link:hover .arrow,
+		.wholesale-copy a:hover .arrow,
+		.find-cta:hover .arrow {
+			transform: none;
+		}
+	}
+</style>
