@@ -4,27 +4,23 @@ import Photo from './Photo.astro';
 
 interface Props {
 	department: Department;
-	number: string;
-	tag?: string;
 }
 
-const { department, number, tag } = Astro.props;
+const { department } = Astro.props;
+const isFresh = department.slug === 'produce' || department.slug === 'seafood';
 ---
 
-<a class="dept-tile" href={`/departments/${department.slug}`} aria-label={`Explore ${department.name}`}>
-	<span class="dept-num">{number}</span>
-	<span class="dept-name">{department.name}</span>
-	<span class="dept-text">{department.summary}</span>
+<a class:list={['dept-tile', { 'is-fresh': isFresh }]} href={`/departments/${department.slug}`}>
 	<span class="dept-media">
 		<Photo
 			src={department.image}
 			alt=""
-			sizes="(min-width: 48rem) 42vw, 86vw"
+			sizes="(min-width: 48rem) 36vw, 100vw"
 			widths={[480, 720, 960, 1200]}
 		/>
-		{tag && <span class="dept-tag">{tag}</span>}
 	</span>
-	<span class="dept-go">Explore <span class="arrow" aria-hidden="true">→</span></span>
+	<span class="dept-name">{department.name}</span>
+	<span class="dept-go">{department.cardLine} <span class="arrow" aria-hidden="true">→</span></span>
 </a>
 
 <style>
@@ -34,79 +30,43 @@ const { department, number, tag } = Astro.props;
 		text-decoration: none;
 	}
 
-	.dept-num {
-		display: block;
-		color: var(--color-accent);
-		font-size: 0.75rem;
-		font-weight: 800;
-		letter-spacing: 0.16em;
-		line-height: 1;
-	}
-
-	.dept-name {
-		display: block;
-		margin-top: 0.35rem;
-		font-family: var(--font-display-stack);
-		font-size: clamp(2.15rem, 3.2vw, 3.15rem);
-		font-weight: 800;
-		letter-spacing: 0.04em;
-		line-height: 0.9;
-		text-transform: uppercase;
-	}
-
-	.dept-text {
-		display: block;
-		max-width: 22rem;
-		margin-top: 0.55rem;
-		color: var(--color-muted);
-		font-size: 1.02rem;
-		line-height: 1.35;
-	}
-
 	.dept-media {
 		position: relative;
 		display: block;
 		overflow: hidden;
-		margin-top: 0.85rem;
-		aspect-ratio: 4 / 5;
+		aspect-ratio: 3 / 2;
 		background: var(--color-paper-deep);
 	}
 
 	.dept-media :global(img) {
+		position: absolute;
+		inset: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 		transition: transform 0.45s ease;
 	}
 
-	.dept-tag {
-		position: absolute;
-		z-index: 1;
-		left: 0.7rem;
-		bottom: 0.7rem;
-		padding: 0.35rem 0.5rem;
-		border: 2px solid var(--color-ink);
-		background: var(--color-marigold);
-		color: var(--color-ink);
-		font-size: 0.68rem;
+	.dept-name {
+		display: block;
+		margin-top: 0.85rem;
+		font-family: var(--font-display-stack);
+		font-size: clamp(1.55rem, 2vw, 2rem);
 		font-weight: 800;
-		letter-spacing: 0.14em;
+		letter-spacing: -0.03em;
 		line-height: 1;
-		text-transform: uppercase;
 	}
 
 	.dept-go {
 		display: inline-block;
-		margin-top: 0.8rem;
-		background-image: linear-gradient(currentColor, currentColor);
-		background-position: 0 100%;
-		background-repeat: no-repeat;
-		background-size: 0 1px;
-		font-size: 0.78rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-		transition: background-size 0.25s ease, color 0.2s ease;
+		margin-top: 0.4rem;
+		color: var(--color-muted);
+		font-size: 0.95rem;
+		font-weight: 700;
+	}
+
+	.is-fresh .dept-go {
+		color: var(--color-green);
 	}
 
 	.arrow {
@@ -121,18 +81,16 @@ const { department, number, tag } = Astro.props;
 
 	.dept-tile:hover .dept-go,
 	.dept-tile:focus-visible .dept-go {
-		background-size: 100% 1px;
-		color: var(--color-accent);
+		color: var(--color-red);
 	}
 
 	.dept-tile:hover .arrow,
 	.dept-tile:focus-visible .arrow {
-		transform: translateX(0.3rem);
+		transform: translateX(0.28rem);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
 		.dept-media :global(img),
-		.dept-go,
 		.arrow {
 			transition: none;
 		}

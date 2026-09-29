@@ -1,6 +1,7 @@
 ---
 import CTASection from '../components/CTASection.astro';
 import DepartmentGrid from '../components/DepartmentGrid.astro';
+import FeatureStrip from '../components/FeatureStrip.astro';
 import Photo from '../components/Photo.astro';
 import { getActiveJobs } from '../data/jobs';
 import { photos } from '../data/images';
@@ -8,13 +9,25 @@ import { site } from '../data/site';
 import Layout from '../layouts/Layout.astro';
 
 const openRoles = getActiveJobs().length;
-const findItems = [
-	'Asian staples',
-	'Fresh seafood',
-	'Specialty cuts',
-	'International snacks',
-	'Produce',
-	'Frozen foods',
+const quickLinks = [
+	{ kicker: 'Visit us', label: site.address.street, href: site.mapsUrl },
+	{ kicker: 'Store hours', label: `${site.hoursLabel} daily`, href: '/contact' },
+	{ kicker: 'Explore', label: 'Departments', href: '/departments' },
+	{ kicker: 'Careers', label: 'Now hiring', href: '/careers' },
+];
+const finds: {
+	title: string;
+	href: string;
+	image?: (typeof photos)[keyof typeof photos]['src'];
+	tone?: 'yellow' | 'green';
+	mark?: string;
+}[] = [
+	{ title: 'Fresh Produce', href: '/departments/produce', image: photos.produce.src },
+	{ title: 'Live & Fresh Seafood', href: '/departments/seafood', image: photos.seafood.src },
+	{ title: 'Specialty Meat Cuts', href: '/departments/meat', image: photos.meat.src },
+	{ title: 'Asian Pantry Staples', href: '/departments/grocery', image: photos.grocery.src },
+	{ title: 'Frozen Foods', href: '/departments/grocery', tone: 'yellow', mark: 'Frozen' },
+	{ title: 'Snacks & Beverages', href: '/departments/grocery', tone: 'green', mark: 'Snacks' },
 ];
 ---
 
@@ -24,77 +37,115 @@ const findItems = [
 	fullTitle
 	schema
 >
-	<section class="poster">
-		<div class="container poster-grid">
-			<p class="poster-kicker">Fresh · Global · Local</p>
-			<h1>
-				A world of food<br />
-				under one roof.
-			</h1>
-			<div class="poster-photo">
-				<figure class="blob">
-					<Photo
-						src={photos.hero.src}
-						alt={photos.hero.alt}
-						sizes="(min-width: 64rem) 28rem, 80vw"
-						loading="eager"
-						fetchpriority="high"
-						widths={[480, 720, 960, 1200]}
-					/>
-				</figure>
-				<p class="stamp">
-					<span>San Antonio</span>
-					<strong>Early Nov</strong>
-					<span>2026</span>
+	<section class="launch" aria-labelledby="home-heading">
+		<figure class="launch-photo">
+			<Photo
+				src={photos.hero.src}
+				alt={photos.hero.alt}
+				sizes="(min-width: 64rem) 58vw, 100vw"
+				loading="eager"
+				fetchpriority="high"
+				widths={[640, 960, 1200, 1600]}
+			/>
+		</figure>
+		<div class="launch-copy">
+			<div class="launch-inner">
+				<p class="launch-kicker">Now coming to San Antonio</p>
+				<h1 id="home-heading">
+					A world of flavor,<br />
+					all in one place.
+				</h1>
+				<p class="launch-dek">
+					MT Supermarket brings international ingredients, fresh foods, everyday staples, and
+					specialty products to San Antonio.
 				</p>
-			</div>
-			<p class="poster-dek">
-				MT Supermarket is bringing international ingredients, fresh foods, everyday staples
-				and unexpected finds to San Antonio.
-			</p>
-			<div class="poster-actions">
-				<a class="button button-primary" href="#departments">Explore MT</a>
-				<a class="hire-link" href="/careers">We're hiring <span class="arrow" aria-hidden="true">→</span></a>
+				<p class="opening">Opening {site.opening}</p>
+				<div class="launch-actions">
+					<a class="button button-primary" href="#departments">Explore MT</a>
+					<a class="button button-secondary" href="/careers">We're hiring</a>
+				</div>
 			</div>
 		</div>
 	</section>
 
+	<nav class="quick" aria-label="Store">
+		<ul class="container">
+			{
+				quickLinks.map((item) => (
+					<li>
+						<a href={item.href}>
+							<span class="quick-kicker">{item.kicker}</span>
+							<span class="quick-label">{item.label}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</nav>
+
 	<section class="departments" id="departments" aria-labelledby="departments-heading">
 		<div class="container">
-			<h2 id="departments-heading" class="section-rule"><span>Departments</span></h2>
+			<h2 id="departments-heading">Explore our departments</h2>
 			<DepartmentGrid />
 		</div>
 	</section>
 
-	<section class="find-red">
+	<section class="welcome" aria-labelledby="welcome-heading">
+		<div class="container welcome-wrap">
+			<figure>
+				<Photo
+					src={photos.intro.src}
+					alt={photos.intro.alt}
+					sizes="(min-width: 56rem) 36rem, 100vw"
+				/>
+			</figure>
+			<div>
+				<p class="welcome-kicker">Welcome to MT</p>
+				<h2 id="welcome-heading">More to discover in every aisle.</h2>
+				<p>
+					MT Supermarket is an established Asian and international supermarket, bringing variety
+					and specialty products to San Antonio.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="find" aria-labelledby="find-heading">
 		<div class="container">
-			<h2>
-				Find something<br />
-				you didn't come<br />
-				looking for.
-			</h2>
-			<ul class="find-line">
-				{findItems.map((item) => <li>{item}</li>)}
+			<p class="find-kicker">Find something you didn't come looking for.</p>
+			<h2 id="find-heading">What you'll find at MT</h2>
+			<ul class="find-grid">
+				{
+					finds.map((item) => (
+						<li>
+							<a href={item.href}>
+								<span class:list={['find-media', item.tone]}>
+									{item.image && (
+										<Photo src={item.image} alt="" sizes="(min-width: 64rem) 16vw, 50vw" widths={[320, 480, 720]} />
+									)}
+									{item.mark && <span class="find-mark">{item.mark}</span>}
+								</span>
+								<span class="find-name">{item.title}</span>
+							</a>
+						</li>
+					))
+				}
 			</ul>
-			<a class="find-cta" href="/contact">Visit MT <span class="arrow" aria-hidden="true">→</span></a>
 		</div>
 	</section>
 
 	<section class="wholesale" aria-labelledby="wholesale-heading">
 		<div class="container wholesale-wrap">
-			<figure class="wholesale-photo">
-				<div class="wholesale-frame">
-					<Photo
-						src={photos.wholesale.src}
-						alt={photos.wholesale.alt}
-						sizes="(min-width: 56rem) 36rem, 100vw"
-					/>
-				</div>
-				<figcaption>San Antonio</figcaption>
+			<figure>
+				<Photo
+					src={photos.wholesale.src}
+					alt={photos.wholesale.alt}
+					sizes="(min-width: 56rem) 36rem, 100vw"
+				/>
 			</figure>
 			<div class="wholesale-copy">
-				<p class="wholesale-label">Cash &amp; carry</p>
-				<h2 id="wholesale-heading">Buying for a business?</h2>
+				<p class="wholesale-kicker">Cash &amp; carry</p>
+				<h2 id="wholesale-heading">Wholesale for restaurants &amp; businesses.</h2>
 				<p>
 					MT serves restaurants and businesses through its cash-and-carry wholesale operation.
 				</p>
@@ -103,135 +154,301 @@ const findItems = [
 		</div>
 	</section>
 
+	<FeatureStrip />
+
 	<CTASection
 		eyebrow="Now hiring · San Antonio"
 		title={'Join the MT\nSupermarket Team'}
 		text={openRoles > 0
 			? `Hiring for the San Antonio store is open before the expected ${site.opening.toLowerCase()} opening. ${openRoles} positions are listed.`
 			: 'Hiring for the San Antonio store begins before the store opens.'}
-		cta={{ href: '/careers', label: 'View open\npositions' }}
+		cta={{ href: '/careers', label: 'View open positions' }}
 	/>
 </Layout>
 
 <style>
-	.poster {
-		padding: clamp(1.75rem, 4vw, 3rem) 0 clamp(2.25rem, 5vw, 3.5rem);
-	}
-
-	.poster-grid {
+	.launch,
+	.welcome-wrap,
+	.wholesale-wrap,
+	.find-grid {
 		display: grid;
-		align-items: start;
+		min-width: 0;
 	}
 
-	.poster-grid > *,
+	.launch > *,
+	.welcome-wrap > *,
 	.wholesale-wrap > * {
 		min-width: 0;
 	}
 
-	.poster-kicker,
-	.wholesale-label,
-	.find-line {
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-	}
-
-	.poster-kicker {
-		font-size: 0.78rem;
-		letter-spacing: 0.16em;
-	}
-
-	h1 {
-		max-width: min(12ch, 100%);
-		margin-top: 0.7rem;
-		font-size: clamp(2.55rem, 6.2vw, 5.6rem);
-		line-height: 0.86;
-	}
-
-	.poster-photo {
+	.launch-photo {
 		position: relative;
-		width: min(78vw, 22rem);
-		margin-top: 1.35rem;
-	}
-
-	.blob {
 		margin: 0;
+		min-height: 16rem;
 		overflow: hidden;
-		aspect-ratio: 1;
-		border-radius: 72% 28% 63% 37% / 41% 67% 33% 59%;
+		aspect-ratio: 16 / 10;
 		background: var(--color-paper-deep);
 	}
 
-	.blob :global(img),
-	.wholesale-frame :global(img) {
+	.launch-photo :global(img),
+	.welcome figure :global(img),
+	.wholesale figure :global(img),
+	.find-media :global(img) {
+		position: absolute;
+		inset: 0;
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
 	}
 
-	.stamp {
-		position: absolute;
-		left: -0.35rem;
-		bottom: 0.85rem;
-		z-index: 1;
+	.launch-copy {
 		display: flex;
-		flex-direction: column;
 		align-items: center;
-		justify-content: center;
-		width: 6.6rem;
-		height: 6.6rem;
-		border: 2px solid var(--color-ink);
-		background: var(--color-marigold);
-		color: var(--color-ink);
-		text-align: center;
-		font-size: 0.66rem;
+		padding: clamp(1.75rem, 4vw, 2.5rem) 0;
+	}
+
+	.launch-inner {
+		width: min(34rem, calc(100% - 2rem));
+		margin-inline: auto;
+	}
+
+	.launch-kicker,
+	.welcome-kicker,
+	.wholesale-kicker,
+	.find-kicker,
+	.opening,
+	.launch-actions .button {
 		font-weight: 800;
-		letter-spacing: 0.08em;
-		line-height: 1.15;
+		letter-spacing: 0.12em;
 		text-transform: uppercase;
-		transform: rotate(-8deg);
 	}
 
-	.stamp strong {
-		display: block;
-		margin: 0.12rem 0;
-		font-family: var(--font-display-stack);
-		font-size: 1.05rem;
-		letter-spacing: -0.03em;
+	.launch-kicker,
+	.welcome-kicker,
+	.wholesale-kicker {
+		color: var(--color-red);
+		font-size: 0.75rem;
 	}
 
-	.poster-dek {
-		max-width: 28rem;
-		margin-top: 1.2rem;
-		font-size: 1.15rem;
-		line-height: 1.45;
+	h1 {
+		max-width: 12ch;
+		margin-top: 0.7rem;
+		font-size: clamp(2.6rem, 4.8vw, 4.35rem);
+		line-height: 0.96;
 	}
 
-	.poster-actions {
+	.launch-dek,
+	.welcome p,
+	.wholesale-copy p {
+		max-width: 34rem;
+		margin-top: 1rem;
+		font-size: 1.08rem;
+		line-height: 1.5;
+	}
+
+	.opening {
+		display: inline-block;
+		margin-top: 1.15rem;
+		padding-bottom: 0.2rem;
+		border-bottom: 3px solid var(--color-yellow);
+		font-size: 0.78rem;
+	}
+
+	.launch-actions {
 		display: flex;
 		flex-wrap: wrap;
-		align-items: center;
-		gap: 0.85rem 1.35rem;
+		gap: 0.75rem;
 		margin-top: 1.35rem;
 	}
 
-	.poster-actions .button,
-	.hire-link {
+	.launch-actions .button {
 		font-size: 0.82rem;
-		font-weight: 800;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
 	}
 
-	.hire-link,
-	.wholesale-copy a,
-	.find-cta {
-		font-weight: 800;
+	.quick {
+		background: var(--color-surface);
+		border-block: 1px solid var(--color-line);
+	}
+
+	.quick ul {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		margin: 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.quick li {
+		min-width: 0;
+	}
+
+	.quick li:nth-child(even) {
+		border-left: 1px solid var(--color-line);
+	}
+
+	.quick li:nth-child(n + 3) {
+		border-top: 1px solid var(--color-line);
+	}
+
+	.quick a {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		min-height: 4.75rem;
+		padding: 0.85rem 1rem;
 		text-decoration: none;
 	}
 
+	.quick-kicker {
+		color: var(--color-red);
+		font-size: 0.72rem;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.quick-label {
+		margin-top: 0.15rem;
+		font-weight: 700;
+	}
+
+	.quick a:hover .quick-label,
+	.quick a:focus-visible .quick-label {
+		color: var(--color-red);
+	}
+
+	.departments,
+	.wholesale {
+		padding: clamp(2.5rem, 5vw, 4rem) 0;
+	}
+
+	.departments h2,
+	.welcome h2,
+	.find h2,
+	.wholesale h2 {
+		max-width: 16ch;
+		font-size: clamp(1.9rem, 3.2vw, 2.65rem);
+		line-height: 1.02;
+	}
+
+	.departments h2 {
+		margin-bottom: 1.5rem;
+	}
+
+	.welcome {
+		background: var(--color-warm);
+		padding: clamp(2.5rem, 5vw, 4rem) 0;
+	}
+
+	.welcome-wrap,
+	.wholesale-wrap {
+		display: grid;
+		gap: 1.5rem;
+		align-items: center;
+	}
+
+	.welcome figure,
+	.wholesale figure,
+	.find-media {
+		position: relative;
+	}
+
+	.welcome figure,
+	.wholesale figure {
+		margin: 0;
+		overflow: hidden;
+		aspect-ratio: 4 / 3;
+		background: var(--color-paper-deep);
+	}
+
+	.welcome h2,
+	.wholesale h2 {
+		margin-top: 0.55rem;
+	}
+
+	.find {
+		background: var(--color-red);
+		color: var(--color-bg);
+		padding: clamp(2.5rem, 5vw, 4rem) 0;
+	}
+
+	.find-kicker {
+		max-width: 22rem;
+		font-size: 0.78rem;
+		line-height: 1.4;
+	}
+
+	.find h2 {
+		max-width: none;
+		margin-top: 0.7rem;
+	}
+
+	.find-grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.15rem 0.85rem;
+		margin: 1.5rem 0 0;
+		padding: 0;
+		list-style: none;
+	}
+
+	.find-grid a {
+		display: block;
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.find-media {
+		display: block;
+		overflow: hidden;
+		aspect-ratio: 1;
+		background: rgb(255 255 255 / 12%);
+	}
+
+	.find-media.yellow {
+		background: var(--color-yellow);
+		color: var(--color-ink);
+	}
+
+	.find-media.green {
+		background: var(--color-green);
+		color: var(--color-bg);
+	}
+
+	.find-mark {
+		display: flex;
+		align-items: flex-end;
+		height: 100%;
+		padding: 0.7rem;
+		font-size: 0.72rem;
+		font-weight: 800;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.find-name {
+		display: block;
+		margin-top: 0.55rem;
+		font-size: 0.95rem;
+		font-weight: 800;
+		line-height: 1.25;
+	}
+
+	.find-grid a:hover .find-name,
+	.find-grid a:focus-visible .find-name {
+		color: var(--color-yellow);
+	}
+
 	.wholesale-copy a {
-		letter-spacing: 0.04em;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		margin-top: 1.1rem;
+		font-size: 0.82rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-decoration: none;
+		text-transform: uppercase;
 	}
 
 	.arrow {
@@ -239,191 +456,67 @@ const findItems = [
 		transition: transform 0.2s ease;
 	}
 
-	.hire-link:hover .arrow,
+	.wholesale-copy a:hover,
+	.wholesale-copy a:focus-visible {
+		color: var(--color-red);
+	}
+
 	.wholesale-copy a:hover .arrow,
-	.find-cta:hover .arrow {
-		transform: translateX(0.3rem);
+	.wholesale-copy a:focus-visible .arrow {
+		transform: translateX(0.28rem);
 	}
 
-	.hire-link:hover,
-	.wholesale-copy a:hover {
-		color: var(--color-accent);
-	}
+	@media (min-width: 48rem) {
+		.quick ul {
+			grid-template-columns: repeat(4, 1fr);
+		}
 
-	.departments {
-		padding-bottom: clamp(2.5rem, 6vw, 4.25rem);
-	}
+		.quick li {
+			border-top: 0;
+			border-left: 1px solid var(--color-line);
+		}
 
-	.section-rule {
-		display: flex;
-		align-items: center;
-		gap: 1rem;
-		margin-bottom: clamp(1.5rem, 3.5vw, 2.5rem);
-		font-family: var(--font-body-stack);
-		font-size: 0.78rem;
-		font-weight: 800;
-		letter-spacing: 0.18em;
-		line-height: 1;
-		text-transform: uppercase;
-	}
+		.quick li:first-child {
+			border-left: 0;
+		}
 
-	.section-rule::before,
-	.section-rule::after {
-		content: '';
-		height: 2px;
-		flex: 1;
-		background: var(--color-ink);
-	}
-
-	.find-red {
-		background: var(--color-accent);
-		color: var(--color-paper);
-		padding: clamp(2.75rem, 6vw, 4.75rem) 0;
-	}
-
-	.find-red h2 {
-		max-width: 14ch;
-		font-size: clamp(2.8rem, 6.2vw, 5.2rem);
-		line-height: 0.88;
-	}
-
-	.find-line {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		margin: 1.5rem 0 0;
-		padding: 0;
-		list-style: none;
-		font-size: 0.82rem;
-		line-height: 1.2;
-	}
-
-	.find-line li {
-		display: inline-flex;
-		align-items: center;
-	}
-
-	.find-line li:not(:last-child)::after {
-		content: '·';
-		margin: 0 0.7rem;
-		color: var(--color-marigold);
-		font-size: 1.15rem;
-		line-height: 1;
-	}
-
-	.find-cta {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.55rem;
-		margin-top: 1.6rem;
-		padding: 0.75rem 0.95rem;
-		background: var(--color-marigold);
-		color: var(--color-ink);
-		font-size: 0.82rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-	}
-
-	.find-cta:hover {
-		background: var(--color-paper);
-	}
-
-	.wholesale {
-		padding: clamp(2.5rem, 6vw, 4.25rem) 0;
-	}
-
-	.wholesale-wrap {
-		display: grid;
-		gap: 1.5rem;
-		align-items: center;
-	}
-
-	.wholesale-photo {
-		position: relative;
-		margin: 0;
-	}
-
-	.wholesale-frame {
-		overflow: hidden;
-		aspect-ratio: 4 / 5;
-		background: var(--color-paper-deep);
-	}
-
-	.wholesale-photo figcaption {
-		position: absolute;
-		left: 0.75rem;
-		bottom: 0.75rem;
-		padding: 0.35rem 0.5rem;
-		border: 2px solid var(--color-ink);
-		background: var(--color-paper);
-		color: var(--color-ink);
-		font-size: 0.68rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		line-height: 1;
-		text-transform: uppercase;
-	}
-
-	.wholesale-label {
-		font-size: 0.78rem;
-		letter-spacing: 0.16em;
-	}
-
-	.wholesale h2 {
-		max-width: 12ch;
-		margin-top: 0.45rem;
-		font-size: clamp(2.3rem, 4vw, 3.4rem);
-		line-height: 0.92;
-	}
-
-	.wholesale-copy p:last-of-type {
-		max-width: 28rem;
-		margin-top: 0.85rem;
-		font-size: 1.08rem;
-		line-height: 1.45;
-	}
-
-	.wholesale-copy a {
-		display: inline-block;
-		margin-top: 1.1rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		font-size: 0.82rem;
+		.find-grid {
+			grid-template-columns: repeat(3, 1fr);
+		}
 	}
 
 	@media (min-width: 64rem) {
-		.poster-grid {
-			grid-template-columns: 1.15fr 0.85fr;
-			column-gap: 2.5rem;
-			align-items: center;
+		.launch {
+			grid-template-columns: minmax(20rem, 0.86fr) 1.14fr;
+			min-height: 34rem;
 		}
 
-		.poster-kicker,
-		h1,
-		.poster-dek,
-		.poster-actions {
-			grid-column: 1;
+		.launch-photo {
+			order: 2;
+			aspect-ratio: auto;
+			height: 100%;
+			min-height: 34rem;
 		}
 
-		.poster-photo {
-			grid-column: 2;
-			grid-row: 1 / span 4;
-			width: min(100%, 28rem);
-			margin-top: 0;
-			justify-self: end;
+		.launch-copy {
+			padding: 2.5rem 0;
 		}
 
-		.find-line {
-			font-size: 0.78rem;
+		.launch-inner {
+			width: min(32rem, 100%);
+			margin-left: max(1rem, calc((100vw - 72rem) / 2));
+			margin-right: 2rem;
 		}
 
+		.welcome-wrap,
 		.wholesale-wrap {
 			grid-template-columns: 1.05fr 0.95fr;
-			column-gap: 3rem;
+			gap: 3rem;
 		}
 
-		.wholesale-photo {
-			margin-left: -1.75rem;
+		.find-grid {
+			grid-template-columns: repeat(6, 1fr);
+			gap: 1rem 0.85rem;
 		}
 	}
 
@@ -432,9 +525,8 @@ const findItems = [
 			transition: none;
 		}
 
-		.hire-link:hover .arrow,
 		.wholesale-copy a:hover .arrow,
-		.find-cta:hover .arrow {
+		.wholesale-copy a:focus-visible .arrow {
 			transform: none;
 		}
 	}

@@ -1,17 +1,22 @@
-/* Chili, ink, and warm paper. Photography carries most of the color. */
+/* Off-white page, warm cream for alternate sections, MT red and yellow as accents. */
 
 :root {
-	--color-paper: #f3eee4;
-	--color-paper-deep: #e6ddd0;
-	--color-surface: #fffaf4;
+	--color-bg: #fbfaf7;
+	--color-warm: #f3eee4;
+	--color-red: #8f2d1c;
+	--color-yellow: #f0b429;
+	--color-green: #1c5c3c;
 	--color-ink: #1c1612;
+	--color-paper: var(--color-bg);
+	--color-paper-deep: #e7e2d8;
+	--color-surface: #ffffff;
 	--color-ink-soft: #2a221c;
 	--color-muted: #5c534c;
-	--color-line: #ddd4c6;
-	--color-accent: #8f2d1c;
+	--color-line: #e4ddd2;
+	--color-accent: var(--color-red);
 	--color-accent-deep: #6f2114;
-	--color-marigold: #f0b429;
-	--color-leaf: #1c5c3c;
+	--color-marigold: var(--color-yellow);
+	--color-leaf: var(--color-green);
 	--color-focus: #1c1612;
 	--header-height: 6.6rem;
 	--font-display-stack: var(--font-display, Arial), sans-serif;

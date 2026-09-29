@@ -1,85 +1,45 @@
 ---
-import { departments } from '../data/departments';
+import { departments, type Department } from '../data/departments';
 import DepartmentCard from './DepartmentCard.astro';
+
+const order: Department['slug'][] = ['produce', 'seafood', 'meat', 'grocery'];
+const tiles = [...departments].sort((a, b) => order.indexOf(a.slug) - order.indexOf(b.slug));
 ---
 
-<ul class="dept-mosaic">
+<ul class="dept-grid">
 	{
-		departments.map((department, index) => (
-			<li class={department.slug}>
-				<DepartmentCard
-					department={department}
-					number={String(index + 1).padStart(2, '0')}
-					tag={department.slug === 'produce' ? 'Fresh daily' : undefined}
-				/>
+		tiles.map((department) => (
+			<li>
+				<DepartmentCard department={department} />
 			</li>
 		))
 	}
 </ul>
 
 <style>
-	.dept-mosaic {
+	/* Even retail grid. */
+	.dept-grid {
 		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 2.5rem 2rem;
-		align-items: start;
+		grid-template-columns: 1fr;
+		gap: 1.75rem 1.25rem;
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
 
-	.dept-mosaic > li {
+	.dept-grid > li {
 		min-width: 0;
 		list-style: none;
 	}
 
-	.dept-mosaic > li::marker {
+	.dept-grid > li::marker {
 		content: none;
 	}
 
-	.grocery {
-		width: 94%;
-	}
-
-	.produce {
-		width: 86%;
-		margin-left: auto;
-		margin-top: 2.75rem;
-	}
-
-	.meat {
-		width: 74%;
-		margin-left: 10%;
-	}
-
-	.seafood {
-		width: 82%;
-		margin-left: auto;
-		margin-top: 1.5rem;
-	}
-
-	@media (max-width: 47.99rem) {
-		.dept-mosaic {
-			grid-template-columns: 1fr;
-			gap: 2.75rem;
-		}
-
-		.grocery,
-		.produce,
-		.meat,
-		.seafood {
-			width: auto;
-			margin: 0;
-		}
-
-		.produce,
-		.seafood {
-			margin-left: 12%;
-		}
-
-		.grocery,
-		.meat {
-			margin-right: 4%;
+	@media (min-width: 40rem) {
+		.dept-grid {
+			grid-template-columns: 1fr 1fr;
+			gap: 2rem 1.5rem;
 		}
 	}
 </style>

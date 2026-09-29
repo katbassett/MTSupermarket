@@ -61,10 +61,10 @@ const ctaLines = cta.label.split('\n');
 	}
 
 	h2 {
-		max-width: 16ch;
+		max-width: 14ch;
 		color: var(--color-accent);
-		font-size: clamp(2.8rem, 5.6vw, 4.8rem);
-		line-height: 0.88;
+		font-size: clamp(2.35rem, 4vw, 3.5rem);
+		line-height: 0.95;
 	}
 
 	.cta-main > p:last-child {
@@ -80,7 +80,7 @@ const ctaLines = cta.label.split('\n');
 		color: var(--color-paper);
 		padding: 1.6rem max(1.25rem, calc((100vw - 72rem) / 2)) 1.85rem;
 		font-family: var(--font-display-stack);
-		font-size: clamp(2rem, 3.6vw, 3rem);
+		font-size: clamp(1.7rem, 2.6vw, 2.35rem);
 		font-weight: 800;
 		letter-spacing: -0.045em;
 		line-height: 0.92;
@@ -103,7 +103,7 @@ const ctaLines = cta.label.split('\n');
 	@media (min-width: 56rem) {
 		.cta-band {
 			grid-template-columns: 1.45fr 0.7fr;
-			min-height: 20rem;
+			min-height: 16rem;
 		}
 
 		.cta-main {
@@ -111,7 +111,7 @@ const ctaLines = cta.label.split('\n');
 		}
 
 		.cta-go {
-			align-items: flex-end;
+			align-items: center;
 			padding: 2rem;
 		}
 	}

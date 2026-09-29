@@ -5,6 +5,8 @@ export interface Department {
 	name: string;
 	/** Short line for cards and meta descriptions. */
 	summary: string;
+	/** Short retail line on the department tile. */
+	cardLine: string;
 	/** Longer introduction for the department page. Uses the provided brief. */
 	description: string;
 	highlights: string[];
@@ -17,6 +19,7 @@ export const departments: Department[] = [
 		slug: 'grocery',
 		name: 'Grocery',
 		summary: 'International staples, snacks, noodles, sauces & more.',
+		cardLine: 'Global pantry',
 		description:
 			'International and Asian grocery, including rice, noodles, sauces, seasonings, snacks, beverages, frozen foods, and specialty products that may be difficult to find at conventional supermarkets.',
 		highlights: [
@@ -33,6 +36,7 @@ export const departments: Department[] = [
 		slug: 'produce',
 		name: 'Produce',
 		summary: 'Fresh produce for many cuisines.',
+		cardLine: 'Fresh daily',
 		description:
 			'Fresh produce, with an emphasis on variety and products used across different cuisines.',
 		highlights: ['Fresh produce', 'Variety across different cuisines'],
@@ -43,6 +47,7 @@ export const departments: Department[] = [
 		slug: 'meat',
 		name: 'Meat',
 		summary: 'Fresh meat and specialty cuts.',
+		cardLine: 'Specialty cuts',
 		description: 'Fresh meat and specialty cuts.',
 		highlights: ['Fresh meat', 'Specialty cuts'],
 		image: photos.meat.src,
@@ -52,6 +57,7 @@ export const departments: Department[] = [
 		slug: 'seafood',
 		name: 'Seafood',
 		summary: 'Fresh, frozen, packaged, and live seafood.',
+		cardLine: 'Fresh & live',
 		description: 'Fresh, frozen, packaged, and live seafood.',
 		highlights: ['Fresh seafood', 'Frozen and packaged seafood', 'Live seafood'],
 		image: photos.seafood.src,
