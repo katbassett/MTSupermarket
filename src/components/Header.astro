@@ -5,90 +5,212 @@ import MobileMenu from './MobileMenu.astro';
 const pathname = Astro.url.pathname;
 ---
 
-<header class="site-header">
-	<div class="awning">
-		<div class="container awning-inner">
+<header class="site-header" data-site-header>
+	<div class="utility">
+		<div class="container utility-inner">
 			<p><a href={site.mapsUrl}>{formatAddressLine()}</a></p>
-			<p>Open daily · {site.hoursLabel}</p>
+			<p class="utility-hours">Open daily · {site.hoursLabel}</p>
 			<p><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
 		</div>
 	</div>
-	<div class="container header-bar">
-		<a class="wordmark" href="/" aria-label="MT Supermarket, home">
-			<span class="mark" aria-hidden="true">MT</span>
-			<span class="word" aria-hidden="true">Supermarket</span>
-		</a>
-		<nav class="desktop-nav" aria-label="Primary">
-			<ul>
-				{
-					nav.map((item) => (
-						<li>
-							<a
-								href={item.href}
-								aria-current={isCurrentPath(pathname, item.href) ? 'page' : undefined}
-							>
-								{item.label}
-								{item.hint && <span class="nav-hint"> · {item.hint}</span>}
-							</a>
-						</li>
-					))
-				}
-			</ul>
-		</nav>
-		<MobileMenu />
+	<div class="masthead">
+		<div class="container masthead-inner">
+			<a class="wordmark" href="/" aria-label="MT Supermarket, home">
+				<span class="mark" aria-hidden="true">MT</span>
+				<span class="word" aria-hidden="true">Supermarket</span>
+			</a>
+			<p class="masthead-meta">
+				<span>San Antonio</span>
+				<span>Opening {site.opening}</span>
+			</p>
+		</div>
+	</div>
+	<div class="nav-bar">
+		<div class="container nav-inner">
+			<a class="compact-wordmark" href="/" aria-label="MT Supermarket, home">
+				<span class="compact-mark" aria-hidden="true">MT</span>
+				<span class="compact-word" aria-hidden="true">Supermarket</span>
+			</a>
+			<nav class="desktop-nav" aria-label="Primary">
+				<ul>
+					{
+						nav.map((item) => (
+							<li>
+								<a
+									href={item.href}
+									aria-current={isCurrentPath(pathname, item.href) ? 'page' : undefined}
+								>
+									{item.label}
+									{item.hint && <span class="nav-hint"> · {item.hint}</span>}
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</nav>
+			<MobileMenu />
+		</div>
 	</div>
 </header>
 
+<script>
+	const header = document.querySelector('[data-site-header]');
+	if (header) {
+		const threshold = 48;
+		let ticking = false;
+
+		const sync = () => {
+			header.classList.toggle('is-compact', window.scrollY > threshold);
+			ticking = false;
+		};
+
+		const onScroll = () => {
+			if (!ticking) {
+				ticking = true;
+				requestAnimationFrame(sync);
+			}
+		};
+
+		sync();
+		window.addEventListener('scroll', onScroll, { passive: true });
+	}
+</script>
+
 <style>
+	:global(html:has(.site-header.is-compact)) {
+		--header-height: 2.875rem;
+	}
+
 	.site-header {
 		position: sticky;
 		top: 0;
 		z-index: 30;
-		background: var(--color-surface);
-		border-bottom: 1px solid var(--color-line);
 	}
 
-	.awning {
-		background: var(--color-marigold);
-		color: var(--color-ink);
+	.utility,
+	.masthead {
+		overflow: hidden;
+		max-height: 6rem;
+		opacity: 1;
+		transition:
+			max-height 0.35s ease,
+			opacity 0.28s ease;
 	}
 
-	.awning-inner {
+	.masthead {
+		max-height: 5.5rem;
+	}
+
+	.site-header.is-compact .utility,
+	.site-header.is-compact .masthead {
+		max-height: 0;
+		opacity: 0;
+		pointer-events: none;
+	}
+
+	.compact-wordmark {
+		display: none;
+		flex: 0 0 auto;
+		align-items: baseline;
+		gap: 0.28rem;
+		color: var(--color-bg);
+		text-decoration: none;
+	}
+
+	.compact-mark,
+	.compact-word {
+		font-family: var(--font-display-stack);
+		font-weight: 800;
+		letter-spacing: -0.05em;
+		line-height: 1;
+	}
+
+	.compact-mark {
+		font-size: 1.05rem;
+	}
+
+	.compact-word {
+		font-size: 0.88rem;
+	}
+
+	.site-header.is-compact .compact-wordmark {
 		display: flex;
-		flex-wrap: wrap;
-		gap: 0.2rem 1.25rem;
-		padding: 0.4rem 0;
-		font-size: 0.8rem;
-		font-weight: 700;
-		letter-spacing: 0.01em;
 	}
 
-	@media (max-width: 40rem) {
-		.awning-inner {
-			display: grid;
-			gap: 0.1rem;
-			padding: 0.55rem 0;
-			font-size: 0.85rem;
+	.site-header.is-compact .nav-inner {
+		gap: clamp(0.85rem, 2vw, 1.75rem);
+		min-height: 2.875rem;
+	}
+
+	.site-header.is-compact .desktop-nav {
+		flex: 1;
+		width: auto;
+	}
+
+	.site-header.is-compact .desktop-nav ul {
+		justify-content: flex-start;
+		gap: clamp(0.85rem, 1.6vw, 1.65rem);
+		width: auto;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.utility,
+		.masthead {
+			transition: none;
 		}
 	}
 
-	.awning a {
+	.utility {
+		background: var(--color-yellow);
+		color: var(--color-ink);
+	}
+
+	.utility-inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: 0.15rem 1.25rem;
+		min-height: 2rem;
+		padding: 0.2rem 0;
+		font-size: 0.72rem;
+		font-weight: 700;
+		line-height: 1.2;
+	}
+
+	.utility-hours {
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.utility a {
 		color: inherit;
+		text-decoration: none;
+	}
+
+	.utility a:hover,
+	.utility a:focus-visible {
+		text-decoration: underline;
 		text-underline-offset: 0.15em;
 	}
 
-	.header-bar {
+	.masthead {
+		background: var(--color-bg);
+		color: var(--color-ink);
+	}
+
+	.masthead-inner {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		min-height: 4.6rem;
 		gap: 1rem;
+		min-height: 4.15rem;
 	}
 
 	.wordmark {
 		display: flex;
 		align-items: baseline;
-		gap: 0.45rem;
+		gap: 0.42rem;
 		color: inherit;
 		text-decoration: none;
 	}
@@ -98,49 +220,116 @@ const pathname = Astro.url.pathname;
 		font-family: var(--font-display-stack);
 		font-weight: 800;
 		letter-spacing: -0.05em;
-		line-height: 1;
+		line-height: 0.9;
 	}
 
 	.mark {
-		color: var(--color-accent);
-		font-size: 1.85rem;
+		color: var(--color-red);
+		font-size: clamp(1.85rem, 2.5vw, 2.55rem);
 	}
 
 	.word {
-		font-size: 1.35rem;
+		font-size: clamp(1.45rem, 2.1vw, 2.15rem);
+	}
+
+	.masthead-meta {
+		display: grid;
+		justify-items: end;
+		gap: 0.18rem;
+		color: var(--color-red);
+		font-size: 0.68rem;
+		font-weight: 800;
+		letter-spacing: 0.12em;
+		line-height: 1.25;
+		text-align: right;
+		text-transform: uppercase;
+	}
+
+	.nav-bar {
+		background: var(--color-red);
+		color: var(--color-bg);
+	}
+
+	.nav-inner {
+		display: flex;
+		align-items: center;
+		min-height: 2.875rem;
+	}
+
+	@media (max-width: 61.99rem) {
+		.nav-inner :global(.mobile-nav) {
+			margin-left: auto;
+		}
+
+		.site-header.is-compact .nav-inner {
+			justify-content: space-between;
+		}
+
+		.site-header.is-compact .nav-inner :global(.mobile-nav) {
+			margin-left: 0;
+		}
 	}
 
 	.desktop-nav {
 		display: none;
+		width: 100%;
 	}
 
 	.desktop-nav ul {
 		display: flex;
-		flex-wrap: wrap;
-		justify-content: flex-end;
-		gap: 0.35rem 1.35rem;
+		align-items: center;
+		justify-content: space-between;
+		width: 100%;
 		list-style: none;
 		padding: 0;
 	}
 
 	.desktop-nav a {
 		display: inline-block;
-		padding: 0.35rem 0;
+		padding: 0.35rem 0 0.2rem;
 		border-bottom: 2px solid transparent;
-		font-weight: 700;
+		color: var(--color-bg);
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.11em;
+		line-height: 1;
 		text-decoration: none;
+		text-transform: uppercase;
 	}
 
 	.desktop-nav a:hover,
+	.desktop-nav a:focus-visible,
 	.desktop-nav a[aria-current='page'] {
-		border-bottom-color: var(--color-accent);
+		border-bottom-color: var(--color-yellow);
 	}
 
 	.nav-hint {
-		color: var(--color-accent);
-		font-size: 0.72rem;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
+		color: var(--color-yellow);
+	}
+
+	@media (min-width: 48rem) {
+		.utility-inner {
+			flex-wrap: nowrap;
+			justify-content: space-between;
+			min-height: 2rem;
+			padding: 0;
+			font-size: 0.75rem;
+		}
+
+		.utility-inner p {
+			white-space: nowrap;
+		}
+
+		.masthead-inner {
+			min-height: 4.5rem;
+		}
+	}
+
+	@media (max-width: 40rem) {
+		.masthead-meta {
+			font-size: 0.6rem;
+			letter-spacing: 0.08em;
+		}
 	}
 
 	@media (min-width: 62rem) {

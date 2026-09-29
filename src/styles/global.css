@@ -18,7 +18,7 @@
 	--color-marigold: var(--color-yellow);
 	--color-leaf: var(--color-green);
 	--color-focus: #1c1612;
-	--header-height: 6.6rem;
+	--header-height: 9.4rem;
 	--font-display-stack: var(--font-display, Arial), sans-serif;
 	--font-body-stack: var(--font-body, system-ui), sans-serif;
 	color-scheme: light;
@@ -179,9 +179,12 @@ a {
 }
 
 .button {
+	position: relative;
+	isolation: isolate;
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
+	overflow: hidden;
 	min-height: 3rem;
 	padding: 0.7rem 1.15rem;
 	border: 2px solid transparent;
@@ -189,15 +192,33 @@ a {
 	line-height: 1.1;
 	text-align: center;
 	text-decoration: none;
+	transition: color 0.35s ease;
+}
+
+.button::before {
+	content: '';
+	position: absolute;
+	z-index: -1;
+	inset: 0;
+	background: var(--button-slide, var(--color-yellow));
+	transform: translateX(-105%);
+	transition: transform 0.45s ease;
+}
+
+.button:hover::before,
+.button:focus-visible::before {
+	transform: translateX(0);
 }
 
 .button-primary {
+	--button-slide: var(--color-yellow);
 	background: var(--color-accent);
 	color: var(--color-paper);
 }
 
-.button-primary:hover {
-	background: var(--color-accent-deep);
+.button-primary:hover,
+.button-primary:focus-visible {
+	color: var(--color-ink);
 }
 
 .button-stamp {
@@ -217,33 +238,32 @@ a {
 }
 
 .button-secondary {
+	--button-slide: var(--color-ink);
 	background: transparent;
 	color: var(--color-ink);
 	border-color: var(--color-ink);
 }
 
-.button-secondary:hover {
-	background: var(--color-ink);
+.button-secondary:hover,
+.button-secondary:focus-visible {
 	color: var(--color-paper);
 }
 
 .button-light {
+	--button-slide: var(--color-yellow);
 	background: var(--color-paper);
 	color: var(--color-ink);
 }
 
-.button-light:hover {
-	background: #fff;
-}
-
 .button-outline-light {
+	--button-slide: var(--color-paper);
 	background: transparent;
 	color: var(--color-paper);
 	border-color: var(--color-paper);
 }
 
-.button-outline-light:hover {
-	background: var(--color-paper);
+.button-outline-light:hover,
+.button-outline-light:focus-visible {
 	color: var(--color-ink);
 }
 

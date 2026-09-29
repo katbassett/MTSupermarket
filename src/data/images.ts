@@ -1,9 +1,14 @@
+import aisle from '../assets/images/aisle.jpg';
 import discovery from '../assets/images/discovery.jpg';
-import grocery from '../assets/images/grocery.jpg';
+import drinks from '../assets/images/drinks.jpg';
 import hero from '../assets/images/hero.jpg';
 import intro from '../assets/images/intro.jpg';
 import meat from '../assets/images/meat.jpg';
+import noodles from '../assets/images/noodles.jpg';
+import packs from '../assets/images/packs.jpg';
 import produce from '../assets/images/produce.jpg';
+import rice from '../assets/images/rice.jpg';
+import sauces from '../assets/images/sauces.jpg';
 import seafood from '../assets/images/seafood.jpg';
 import wholesale from '../assets/images/wholesale.jpg';
 
@@ -22,8 +27,8 @@ export const photos = {
 		alt: 'A refrigerated produce wall with lettuce, peppers, citrus, and herbs.',
 	},
 	grocery: {
-		src: grocery,
-		alt: 'A bowl of noodle soup with shrimp, egg, and snow peas.',
+		src: aisle,
+		alt: 'Shelves of packaged soups, sauces, jars, and snacks.',
 	},
 	produce: {
 		src: produce,
@@ -40,6 +45,26 @@ export const photos = {
 	discovery: {
 		src: discovery,
 		alt: 'Ginger, garlic, dried chilies, and ground spices arranged on a white table.',
+	},
+	noodles: {
+		src: noodles,
+		alt: 'Shelves of packaged instant noodles and noodle cups.',
+	},
+	snacks: {
+		src: packs,
+		alt: 'Shelves of bagged chips, crackers, and snack packages.',
+	},
+	drinks: {
+		src: drinks,
+		alt: 'Refrigerated shelves filled with canned and bottled drinks.',
+	},
+	sauces: {
+		src: sauces,
+		alt: 'Jars and bottles of sauces, pastes, and condiments on grocery shelves.',
+	},
+	rice: {
+		src: rice,
+		alt: 'Boxes of pad thai noodles and rice vermicelli on a shelf.',
 	},
 	wholesale: {
 		src: wholesale,

@@ -7,10 +7,9 @@ interface Props {
 }
 
 const { department } = Astro.props;
-const isFresh = department.slug === 'produce' || department.slug === 'seafood';
 ---
 
-<a class:list={['dept-tile', { 'is-fresh': isFresh }]} href={`/departments/${department.slug}`}>
+<a class:list={['dept-tile', department.slug]} href={`/departments/${department.slug}`}>
 	<span class="dept-media">
 		<Photo
 			src={department.image}
@@ -20,7 +19,8 @@ const isFresh = department.slug === 'produce' || department.slug === 'seafood';
 		/>
 	</span>
 	<span class="dept-name">{department.name}</span>
-	<span class="dept-go">{department.cardLine} <span class="arrow" aria-hidden="true">→</span></span>
+	<span class="dept-summary">{department.summary}</span>
+	<span class="dept-go">Explore <span class="arrow" aria-hidden="true">→</span></span>
 </a>
 
 <style>
@@ -47,26 +47,56 @@ const isFresh = department.slug === 'produce' || department.slug === 'seafood';
 		transition: transform 0.45s ease;
 	}
 
+	.produce :global(img) {
+		object-position: center 30%;
+	}
+
+	.seafood :global(img) {
+		object-position: center 70%;
+	}
+
+	.meat :global(img) {
+		object-position: center 40%;
+	}
+
+	.grocery :global(img) {
+		object-position: center 45%;
+	}
+
 	.dept-name {
-		display: block;
-		margin-top: 0.85rem;
+		display: inline-block;
+		margin-top: 0.8rem;
+		background-image: linear-gradient(currentColor, currentColor);
+		background-position: 0 100%;
+		background-repeat: no-repeat;
+		background-size: 0 1px;
 		font-family: var(--font-display-stack);
-		font-size: clamp(1.55rem, 2vw, 2rem);
+		font-size: clamp(1.45rem, 1.8vw, 1.85rem);
 		font-weight: 800;
 		letter-spacing: -0.03em;
-		line-height: 1;
+		line-height: 1.05;
+		transition: background-size 0.25s ease;
+	}
+
+	.dept-summary {
+		display: block;
+		max-width: 36rem;
+		margin-top: 0.35rem;
+		color: var(--color-ink-soft);
+		font-size: 1rem;
+		line-height: 1.4;
 	}
 
 	.dept-go {
-		display: inline-block;
-		margin-top: 0.4rem;
-		color: var(--color-muted);
-		font-size: 0.95rem;
-		font-weight: 700;
-	}
-
-	.is-fresh .dept-go {
-		color: var(--color-green);
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		margin-top: 0.55rem;
+		color: var(--color-red);
+		font-size: 0.82rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
 	}
 
 	.arrow {
@@ -76,21 +106,22 @@ const isFresh = department.slug === 'produce' || department.slug === 'seafood';
 
 	.dept-tile:hover .dept-media :global(img),
 	.dept-tile:focus-visible .dept-media :global(img) {
-		transform: scale(1.03);
+		transform: scale(1.04);
 	}
 
-	.dept-tile:hover .dept-go,
-	.dept-tile:focus-visible .dept-go {
-		color: var(--color-red);
+	.dept-tile:hover .dept-name,
+	.dept-tile:focus-visible .dept-name {
+		background-size: 100% 1px;
 	}
 
 	.dept-tile:hover .arrow,
 	.dept-tile:focus-visible .arrow {
-		transform: translateX(0.28rem);
+		transform: translateX(0.3rem);
 	}
 
 	@media (prefers-reduced-motion: reduce) {
 		.dept-media :global(img),
+		.dept-name,
 		.arrow {
 			transition: none;
 		}

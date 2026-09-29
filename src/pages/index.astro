@@ -5,29 +5,17 @@ import FeatureStrip from '../components/FeatureStrip.astro';
 import Photo from '../components/Photo.astro';
 import { getActiveJobs } from '../data/jobs';
 import { photos } from '../data/images';
+import { aisleLinks, discoveries } from '../data/market';
 import { site } from '../data/site';
 import Layout from '../layouts/Layout.astro';
 
 const openRoles = getActiveJobs().length;
-const quickLinks = [
-	{ kicker: 'Visit us', label: site.address.street, href: site.mapsUrl },
-	{ kicker: 'Store hours', label: `${site.hoursLabel} daily`, href: '/contact' },
-	{ kicker: 'Explore', label: 'Departments', href: '/departments' },
-	{ kicker: 'Careers', label: 'Now hiring', href: '/careers' },
-];
-const finds: {
-	title: string;
-	href: string;
-	image?: (typeof photos)[keyof typeof photos]['src'];
-	tone?: 'yellow' | 'green';
-	mark?: string;
-}[] = [
-	{ title: 'Fresh Produce', href: '/departments/produce', image: photos.produce.src },
-	{ title: 'Live & Fresh Seafood', href: '/departments/seafood', image: photos.seafood.src },
-	{ title: 'Specialty Meat Cuts', href: '/departments/meat', image: photos.meat.src },
-	{ title: 'Asian Pantry Staples', href: '/departments/grocery', image: photos.grocery.src },
-	{ title: 'Frozen Foods', href: '/departments/grocery', tone: 'yellow', mark: 'Frozen' },
-	{ title: 'Snacks & Beverages', href: '/departments/grocery', tone: 'green', mark: 'Snacks' },
+const signageItems = [
+	'International groceries',
+	'Fresh produce',
+	'Seafood',
+	'Meat',
+	'Specialty foods',
 ];
 ---
 
@@ -38,57 +26,69 @@ const finds: {
 	schema
 >
 	<section class="launch" aria-labelledby="home-heading">
-		<figure class="launch-photo">
-			<Photo
-				src={photos.hero.src}
-				alt={photos.hero.alt}
-				sizes="(min-width: 64rem) 58vw, 100vw"
-				loading="eager"
-				fetchpriority="high"
-				widths={[640, 960, 1200, 1600]}
-			/>
-		</figure>
-		<div class="launch-copy">
-			<div class="launch-inner">
+		<div class="launch-frame">
+			<figure class="launch-photo">
+				<Photo
+					src={photos.hero.src}
+					alt={photos.hero.alt}
+					sizes="(min-width: 64rem) 72vw, calc(100vw - 1.25rem)"
+					loading="eager"
+					fetchpriority="high"
+					widths={[640, 960, 1200, 1600]}
+				/>
+			</figure>
+			<div class="launch-panel">
 				<p class="launch-kicker">Now coming to San Antonio</p>
 				<h1 id="home-heading">
 					A world of flavor,<br />
 					all in one place.
 				</h1>
-				<p class="launch-dek">
+				<p class="dek">
 					MT Supermarket brings international ingredients, fresh foods, everyday staples, and
 					specialty products to San Antonio.
 				</p>
-				<p class="opening">Opening {site.opening}</p>
+				<p class="launch-opening">Opening {site.opening}</p>
 				<div class="launch-actions">
-					<a class="button button-primary" href="#departments">Explore MT</a>
-					<a class="button button-secondary" href="/careers">We're hiring</a>
+					<a class="launch-cta" href="#departments">Explore MT</a>
+					<a class="hire-link" href="/careers">
+						We're hiring
+						<span class="arrow" aria-hidden="true">→</span>
+					</a>
 				</div>
 			</div>
 		</div>
 	</section>
 
-	<nav class="quick" aria-label="Store">
+	<div class="signage">
 		<ul class="container">
-			{
-				quickLinks.map((item) => (
-					<li>
-						<a href={item.href}>
-							<span class="quick-kicker">{item.kicker}</span>
-							<span class="quick-label">{item.label}</span>
-						</a>
-					</li>
-				))
-			}
+			{signageItems.map((item) => (
+				<li>{item}</li>
+			))}
 		</ul>
-	</nav>
+	</div>
 
 	<section class="departments" id="departments" aria-labelledby="departments-heading">
 		<div class="container">
+			<p class="kicker">Shop the market</p>
 			<h2 id="departments-heading">Explore our departments</h2>
 			<DepartmentGrid />
 		</div>
 	</section>
+
+	<nav class="aisles" aria-label="More to shop">
+		<div class="container aisles-inner">
+			<p>Also in the aisles</p>
+			<ul>
+				{
+					aisleLinks.map((item) => (
+						<li>
+							<a href={item.href}>{item.label}</a>
+						</li>
+					))
+				}
+			</ul>
+		</div>
+	</nav>
 
 	<section class="welcome" aria-labelledby="welcome-heading">
 		<div class="container welcome-wrap">
@@ -100,7 +100,7 @@ const finds: {
 				/>
 			</figure>
 			<div>
-				<p class="welcome-kicker">Welcome to MT</p>
+				<p class="kicker">Welcome to MT</p>
 				<h2 id="welcome-heading">More to discover in every aisle.</h2>
 				<p>
 					MT Supermarket is an established Asian and international supermarket, bringing variety
@@ -110,22 +110,28 @@ const finds: {
 		</div>
 	</section>
 
-	<section class="find" aria-labelledby="find-heading">
+	<section class="discover" aria-labelledby="discover-heading">
 		<div class="container">
-			<p class="find-kicker">Find something you didn't come looking for.</p>
-			<h2 id="find-heading">What you'll find at MT</h2>
-			<ul class="find-grid">
+			<h2 id="discover-heading">What you'll find at MT</h2>
+			<p class="discover-lead">Find something you didn't come looking for.</p>
+			<ul class="discover-grid">
 				{
-					finds.map((item) => (
-						<li>
+					discoveries.map((item) => (
+						<li class={item.area}>
 							<a href={item.href}>
-								<span class:list={['find-media', item.tone]}>
-									{item.image && (
-										<Photo src={item.image} alt="" sizes="(min-width: 64rem) 16vw, 50vw" widths={[320, 480, 720]} />
-									)}
-									{item.mark && <span class="find-mark">{item.mark}</span>}
+								<span class="discover-media">
+									<Photo
+										src={item.image}
+										alt=""
+										sizes={
+											item.area === 'noodles' || item.area === 'rice'
+												? '(min-width: 64rem) 40vw, 100vw'
+												: '(min-width: 64rem) 22vw, 50vw'
+										}
+										widths={[480, 800, 1200]}
+									/>
 								</span>
-								<span class="find-name">{item.title}</span>
+								<span class="discover-name">{item.title}</span>
 							</a>
 						</li>
 					))
@@ -136,21 +142,21 @@ const finds: {
 
 	<section class="wholesale" aria-labelledby="wholesale-heading">
 		<div class="container wholesale-wrap">
-			<figure>
-				<Photo
-					src={photos.wholesale.src}
-					alt={photos.wholesale.alt}
-					sizes="(min-width: 56rem) 36rem, 100vw"
-				/>
-			</figure>
 			<div class="wholesale-copy">
-				<p class="wholesale-kicker">Cash &amp; carry</p>
+				<p class="kicker">Cash &amp; carry</p>
 				<h2 id="wholesale-heading">Wholesale for restaurants &amp; businesses.</h2>
 				<p>
 					MT serves restaurants and businesses through its cash-and-carry wholesale operation.
 				</p>
 				<a href="/wholesale">Explore wholesale <span class="arrow" aria-hidden="true">→</span></a>
 			</div>
+			<figure>
+				<Photo
+					src={photos.wholesale.src}
+					alt={photos.wholesale.alt}
+					sizes="(min-width: 56rem) 40rem, 100vw"
+				/>
+			</figure>
 		</div>
 	</section>
 
@@ -167,33 +173,137 @@ const finds: {
 </Layout>
 
 <style>
-	.launch,
 	.welcome-wrap,
 	.wholesale-wrap,
-	.find-grid {
+	.discover-grid {
 		display: grid;
 		min-width: 0;
 	}
 
-	.launch > *,
 	.welcome-wrap > *,
 	.wholesale-wrap > * {
 		min-width: 0;
 	}
 
+	.kicker,
+	.opening {
+		color: var(--color-red);
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.launch {
+		padding: 0;
+	}
+
+	.launch-frame {
+		position: relative;
+		width: min(92rem, calc(100% - 1.25rem));
+		margin-inline: auto;
+	}
+
 	.launch-photo {
 		position: relative;
+		width: 100%;
 		margin: 0;
-		min-height: 16rem;
 		overflow: hidden;
-		aspect-ratio: 16 / 10;
+		aspect-ratio: 5 / 4;
 		background: var(--color-paper-deep);
+	}
+
+	.launch-photo :global(img) {
+		object-position: 68% 42%;
+	}
+
+	.launch-panel {
+		position: relative;
+		z-index: 1;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		width: calc(100% - 1rem);
+		margin-top: -2.75rem;
+		padding: clamp(1.75rem, 4vw, 2.5rem) clamp(1.35rem, 3vw, 2rem);
+		background: var(--color-red);
+		color: var(--color-bg);
+		text-align: center;
+	}
+
+	.launch-kicker,
+	.launch-opening {
+		color: var(--color-bg);
+		font-size: 0.75rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.launch-panel h1 {
+		max-width: 12em;
+		margin-top: 0.65rem;
+		margin-inline: auto;
+		color: var(--color-bg);
+		font-size: clamp(2.15rem, 4.5vw, 2.7rem);
+		line-height: 1.02;
+	}
+
+	.launch-panel .dek {
+		max-width: 28rem;
+		margin-top: 0.85rem;
+		margin-inline: auto;
+		color: var(--color-bg);
+		font-size: 1.02rem;
+	}
+
+	.launch-opening {
+		margin-top: 1rem;
+	}
+
+	.launch-cta {
+		position: relative;
+		isolation: isolate;
+		display: inline-flex;
+		align-items: center;
+		overflow: hidden;
+		min-height: 2.85rem;
+		padding: 0.65rem 1.05rem;
+		background: var(--color-bg);
+		color: var(--color-red);
+		font-size: 0.82rem;
+		font-weight: 800;
+		letter-spacing: 0.06em;
+		text-decoration: none;
+		text-transform: uppercase;
+		transition: color 0.35s ease;
+	}
+
+	.launch-cta::before {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		inset: 0;
+		background: var(--color-yellow);
+		transform: translateX(-105%);
+		transition: transform 0.45s ease;
+	}
+
+	.launch-cta:hover::before,
+	.launch-cta:focus-visible::before {
+		transform: translateX(0);
+	}
+
+	.launch-cta:hover,
+	.launch-cta:focus-visible {
+		color: var(--color-ink);
 	}
 
 	.launch-photo :global(img),
 	.welcome figure :global(img),
 	.wholesale figure :global(img),
-	.find-media :global(img) {
+	.discover-media :global(img) {
 		position: absolute;
 		inset: 0;
 		width: 100%;
@@ -201,249 +311,344 @@ const finds: {
 		object-fit: cover;
 	}
 
-	.launch-copy {
-		display: flex;
-		align-items: center;
-		padding: clamp(1.75rem, 4vw, 2.5rem) 0;
-	}
-
-	.launch-inner {
-		width: min(34rem, calc(100% - 2rem));
-		margin-inline: auto;
-	}
-
-	.launch-kicker,
-	.welcome-kicker,
-	.wholesale-kicker,
-	.find-kicker,
-	.opening,
-	.launch-actions .button {
-		font-weight: 800;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-	}
-
-	.launch-kicker,
-	.welcome-kicker,
-	.wholesale-kicker {
-		color: var(--color-red);
-		font-size: 0.75rem;
-	}
-
-	h1 {
-		max-width: 12ch;
-		margin-top: 0.7rem;
-		font-size: clamp(2.6rem, 4.8vw, 4.35rem);
-		line-height: 0.96;
-	}
-
-	.launch-dek,
+	.dek,
 	.welcome p,
 	.wholesale-copy p {
-		max-width: 34rem;
-		margin-top: 1rem;
-		font-size: 1.08rem;
+		max-width: 38rem;
+		margin-top: 0.9rem;
+		font-size: 1.05rem;
 		line-height: 1.5;
-	}
-
-	.opening {
-		display: inline-block;
-		margin-top: 1.15rem;
-		padding-bottom: 0.2rem;
-		border-bottom: 3px solid var(--color-yellow);
-		font-size: 0.78rem;
 	}
 
 	.launch-actions {
 		display: flex;
 		flex-wrap: wrap;
-		gap: 0.75rem;
+		align-items: center;
+		justify-content: center;
+		gap: 0.85rem 1.5rem;
 		margin-top: 1.35rem;
 	}
 
-	.launch-actions .button {
+	.hire-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		color: var(--color-bg);
 		font-size: 0.82rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-decoration: none;
+		text-transform: uppercase;
 	}
 
-	.quick {
+	.hire-link:hover,
+	.hire-link:focus-visible {
+		color: #fff;
+	}
+
+	.signage {
+		background: var(--color-yellow);
+		color: var(--color-ink);
+	}
+
+	.signage ul {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: 0.35rem 1rem;
+		min-height: 2.75rem;
+		padding: 0.45rem 0;
+		list-style: none;
+		font-size: 0.7rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		line-height: 1.2;
+		text-transform: uppercase;
+	}
+
+	@media (min-width: 52rem) {
+		.signage ul {
+			flex-wrap: nowrap;
+			justify-content: space-between;
+			gap: 1rem;
+			padding: 0;
+			font-size: 0.78rem;
+			letter-spacing: 0.11em;
+		}
+	}
+
+	@media (max-width: 63.99rem) {
+		.launch-photo {
+			aspect-ratio: 3 / 4;
+		}
+
+		.launch-panel {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			width: min(88%, 22rem);
+			margin-top: 0;
+			padding: 1.35rem 1.15rem;
+			transform: translate(-50%, -50%);
+		}
+
+		.launch-panel h1 {
+			font-size: 1.9rem;
+		}
+	}
+
+	.launch-photo {
+		animation: hero-photo-in 2.2s ease both;
+	}
+
+	.launch-panel > * {
+		animation: hero-line-in 1.25s ease both;
+	}
+
+	.launch-kicker {
+		animation-delay: 0.45s;
+	}
+
+	.launch-panel h1 {
+		animation-delay: 0.75s;
+	}
+
+	.launch-panel .dek {
+		animation-delay: 1.05s;
+	}
+
+	.launch-opening {
+		animation-delay: 1.3s;
+	}
+
+	.launch-actions {
+		animation-delay: 1.55s;
+	}
+
+	@keyframes hero-photo-in {
+		from {
+			opacity: 0;
+			transform: scale(1.035);
+		}
+
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	@keyframes hero-line-in {
+		from {
+			opacity: 0;
+			transform: translateY(0.7rem);
+		}
+
+		to {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
+	.departments {
+		padding: clamp(2.75rem, 5.5vw, 4.25rem) 0 1.5rem;
+	}
+
+	.departments h2 {
+		margin-top: 0.4rem;
+		margin-bottom: 1.35rem;
+		font-size: clamp(1.8rem, 2.6vw, 2.35rem);
+		line-height: 1.05;
+	}
+
+	.aisles {
 		background: var(--color-surface);
 		border-block: 1px solid var(--color-line);
+		padding: 0.85rem 0;
 	}
 
-	.quick ul {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
+	.aisles-inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.45rem 0.25rem;
+	}
+
+	.aisles p {
+		margin: 0;
+		color: var(--color-red);
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.aisles ul {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.35rem 0;
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
 
-	.quick li {
-		min-width: 0;
-	}
-
-	.quick li:nth-child(even) {
-		border-left: 1px solid var(--color-line);
-	}
-
-	.quick li:nth-child(n + 3) {
-		border-top: 1px solid var(--color-line);
-	}
-
-	.quick a {
+	.aisles li {
 		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		min-height: 4.75rem;
-		padding: 0.85rem 1rem;
+		align-items: center;
+	}
+
+	.aisles li:not(:last-child)::after {
+		content: '';
+		width: 1px;
+		height: 0.8rem;
+		margin-inline: 0.7rem;
+		background: var(--color-line);
+	}
+
+	.aisles a {
+		font-size: 0.98rem;
+		font-weight: 800;
 		text-decoration: none;
 	}
 
-	.quick-kicker {
+	.aisles a:hover,
+	.aisles a:focus-visible {
 		color: var(--color-red);
-		font-size: 0.72rem;
-		font-weight: 800;
-		letter-spacing: 0.12em;
-		text-transform: uppercase;
-	}
-
-	.quick-label {
-		margin-top: 0.15rem;
-		font-weight: 700;
-	}
-
-	.quick a:hover .quick-label,
-	.quick a:focus-visible .quick-label {
-		color: var(--color-red);
-	}
-
-	.departments,
-	.wholesale {
-		padding: clamp(2.5rem, 5vw, 4rem) 0;
-	}
-
-	.departments h2,
-	.welcome h2,
-	.find h2,
-	.wholesale h2 {
-		max-width: 16ch;
-		font-size: clamp(1.9rem, 3.2vw, 2.65rem);
-		line-height: 1.02;
-	}
-
-	.departments h2 {
-		margin-bottom: 1.5rem;
 	}
 
 	.welcome {
 		background: var(--color-warm);
-		padding: clamp(2.5rem, 5vw, 4rem) 0;
+		padding: clamp(2.25rem, 4.5vw, 3.75rem) 0;
 	}
 
 	.welcome-wrap,
 	.wholesale-wrap {
-		display: grid;
-		gap: 1.5rem;
+		gap: 1.35rem;
 		align-items: center;
 	}
 
 	.welcome figure,
 	.wholesale figure,
-	.find-media {
+	.discover-media {
 		position: relative;
+		margin: 0;
+		overflow: hidden;
+		background: var(--color-paper-deep);
 	}
 
 	.welcome figure,
 	.wholesale figure {
-		margin: 0;
-		overflow: hidden;
 		aspect-ratio: 4 / 3;
-		background: var(--color-paper-deep);
 	}
 
 	.welcome h2,
+	.discover h2,
 	.wholesale h2 {
+		margin-top: 0.4rem;
+		font-size: clamp(1.75rem, 2.4vw, 2.2rem);
+		line-height: 1.08;
+	}
+
+	.welcome h2 {
+		max-width: 16ch;
+	}
+
+	.discover {
+		padding: clamp(2.25rem, 4.5vw, 3.5rem) 0 clamp(2rem, 4vw, 3rem);
+	}
+
+	.discover-lead {
+		max-width: 36rem;
 		margin-top: 0.55rem;
+		font-size: 1.08rem;
 	}
 
-	.find {
-		background: var(--color-red);
-		color: var(--color-bg);
-		padding: clamp(2.5rem, 5vw, 4rem) 0;
-	}
-
-	.find-kicker {
-		max-width: 22rem;
-		font-size: 0.78rem;
-		line-height: 1.4;
-	}
-
-	.find h2 {
-		max-width: none;
-		margin-top: 0.7rem;
-	}
-
-	.find-grid {
-		display: grid;
+	.discover-grid {
 		grid-template-columns: 1fr 1fr;
-		gap: 1.15rem 0.85rem;
-		margin: 1.5rem 0 0;
+		gap: 0.85rem 0.7rem;
+		margin: 1.25rem 0 0;
 		padding: 0;
 		list-style: none;
 	}
 
-	.find-grid a {
+	.discover-grid li {
+		min-width: 0;
+	}
+
+	.noodles {
+		grid-column: 1 / -1;
+	}
+
+	.discover-grid a {
 		display: block;
 		color: inherit;
 		text-decoration: none;
 	}
 
-	.find-media {
+	.discover-media {
 		display: block;
-		overflow: hidden;
-		aspect-ratio: 1;
-		background: rgb(255 255 255 / 12%);
+		aspect-ratio: 4 / 3;
 	}
 
-	.find-media.yellow {
-		background: var(--color-yellow);
-		color: var(--color-ink);
+	.noodles .discover-media {
+		aspect-ratio: 16 / 10;
 	}
 
-	.find-media.green {
-		background: var(--color-green);
-		color: var(--color-bg);
-	}
-
-	.find-mark {
-		display: flex;
-		align-items: flex-end;
-		height: 100%;
-		padding: 0.7rem;
-		font-size: 0.72rem;
-		font-weight: 800;
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-	}
-
-	.find-name {
-		display: block;
-		margin-top: 0.55rem;
-		font-size: 0.95rem;
+	.discover-name {
+		display: inline-block;
+		margin-top: 0.45rem;
+		background-image: linear-gradient(currentColor, currentColor);
+		background-position: 0 100%;
+		background-repeat: no-repeat;
+		background-size: 0 1px;
+		font-size: 1rem;
 		font-weight: 800;
 		line-height: 1.25;
+		transition: background-size 0.25s ease;
 	}
 
-	.find-grid a:hover .find-name,
-	.find-grid a:focus-visible .find-name {
-		color: var(--color-yellow);
+	.discover-media :global(img) {
+		transition: transform 0.45s ease;
+	}
+
+	.noodles .discover-media :global(img) {
+		object-position: center 62%;
+	}
+
+	.snacks .discover-media :global(img) {
+		object-position: center 58%;
+	}
+
+	.drinks .discover-media :global(img) {
+		object-position: center 42%;
+	}
+
+	.discover-grid a:hover .discover-media :global(img),
+	.discover-grid a:focus-visible .discover-media :global(img) {
+		transform: scale(1.04);
+	}
+
+	.discover-grid a:hover .discover-name,
+	.discover-grid a:focus-visible .discover-name {
+		background-size: 100% 1px;
+	}
+
+	.wholesale {
+		padding: clamp(1.75rem, 4vw, 3rem) 0 clamp(2rem, 4vw, 3.25rem);
+		border-top: 1px solid var(--color-line);
+	}
+
+	.wholesale h2 {
+		max-width: 18ch;
 	}
 
 	.wholesale-copy a {
 		display: inline-flex;
 		align-items: center;
 		gap: 0.35rem;
-		margin-top: 1.1rem;
+		margin-top: 1rem;
+		color: var(--color-red);
 		font-size: 0.82rem;
 		font-weight: 800;
 		letter-spacing: 0.08em;
@@ -456,77 +661,110 @@ const finds: {
 		transition: transform 0.2s ease;
 	}
 
-	.wholesale-copy a:hover,
-	.wholesale-copy a:focus-visible {
-		color: var(--color-red);
-	}
-
+	.hire-link:hover .arrow,
+	.hire-link:focus-visible .arrow,
 	.wholesale-copy a:hover .arrow,
 	.wholesale-copy a:focus-visible .arrow {
 		transform: translateX(0.28rem);
 	}
 
-	@media (min-width: 48rem) {
-		.quick ul {
-			grid-template-columns: repeat(4, 1fr);
-		}
-
-		.quick li {
-			border-top: 0;
-			border-left: 1px solid var(--color-line);
-		}
-
-		.quick li:first-child {
-			border-left: 0;
-		}
-
-		.find-grid {
-			grid-template-columns: repeat(3, 1fr);
-		}
-	}
-
 	@media (min-width: 64rem) {
-		.launch {
-			grid-template-columns: minmax(20rem, 0.86fr) 1.14fr;
-			min-height: 34rem;
+		.launch-frame {
+			--panel: 40%;
+			--overlap: clamp(4rem, 5.5vw, 7.5rem);
 		}
 
 		.launch-photo {
-			order: 2;
-			aspect-ratio: auto;
-			height: 100%;
-			min-height: 34rem;
+			width: calc(100% - var(--panel) + var(--overlap));
+			margin-left: auto;
+			aspect-ratio: 16 / 9;
 		}
 
-		.launch-copy {
-			padding: 2.5rem 0;
+		.launch-panel {
+			position: absolute;
+			top: 1.35rem;
+			bottom: 1.35rem;
+			left: 0;
+			width: var(--panel);
+			max-width: 42%;
+			margin-top: 0;
+			padding: clamp(1.5rem, 2vw, 2.35rem) clamp(1.5rem, 2.2vw, 2.4rem);
+			transform: none;
 		}
 
-		.launch-inner {
-			width: min(32rem, 100%);
-			margin-left: max(1rem, calc((100vw - 72rem) / 2));
-			margin-right: 2rem;
+		.launch-panel h1 {
+			font-size: clamp(2.2rem, 2.35vw, 2.75rem);
 		}
 
-		.welcome-wrap,
-		.wholesale-wrap {
+		.welcome-wrap {
 			grid-template-columns: 1.05fr 0.95fr;
-			gap: 3rem;
+			gap: 2.75rem;
 		}
 
-		.find-grid {
-			grid-template-columns: repeat(6, 1fr);
-			gap: 1rem 0.85rem;
+		.discover-grid {
+			grid-template-columns: 1.4fr 0.8fr 0.8fr;
+			grid-template-rows: 14.5rem 14.5rem 13rem;
+			grid-template-areas:
+				'noodles noodles snacks'
+				'noodles noodles drinks'
+				'sauces rice rice';
+			gap: 1.15rem 0.85rem;
+		}
+
+		.discover-grid a {
+			display: flex;
+			flex-direction: column;
+			height: 100%;
+		}
+
+		.noodles {
+			grid-area: noodles;
+		}
+
+		.snacks {
+			grid-area: snacks;
+		}
+
+		.drinks {
+			grid-area: drinks;
+		}
+
+		.sauces {
+			grid-area: sauces;
+		}
+
+		.rice {
+			grid-area: rice;
+		}
+
+		.discover-media {
+			flex: 1;
+			aspect-ratio: auto;
+			min-height: 0;
+		}
+
+		.wholesale-wrap {
+			grid-template-columns: 0.9fr 1.1fr;
+			gap: 2.5rem;
 		}
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.arrow {
+		.arrow,
+		.discover-media :global(img),
+		.discover-name,
+		.launch-photo,
+		.launch-panel > * {
 			transition: none;
+			animation: none;
 		}
 
+		.hire-link:hover .arrow,
+		.hire-link:focus-visible .arrow,
 		.wholesale-copy a:hover .arrow,
-		.wholesale-copy a:focus-visible .arrow {
+		.wholesale-copy a:focus-visible .arrow,
+		.discover-grid a:hover .discover-media :global(img),
+		.discover-grid a:focus-visible .discover-media :global(img) {
 			transform: none;
 		}
 	}
