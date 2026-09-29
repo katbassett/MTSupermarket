@@ -1,13 +1,12 @@
 ---
-import JobCard from '../components/JobCard.astro';
-import SectionHeader from '../components/SectionHeader.astro';
-import StoreInfo from '../components/StoreInfo.astro';
-import { getActiveJobs, getJobsByCategory } from '../data/jobs';
-import { site } from '../data/site';
-import Layout from '../layouts/Layout.astro';
+import SectionHeader from '../components/SectionHeader.astro'
+import StoreInfo from '../components/StoreInfo.astro'
+import {getActiveJobs, getJobsByDepartment} from '../lib/jobs'
+import {site} from '../data/site'
+import Layout from '../layouts/Layout.astro'
 
-const groups = getJobsByCategory();
-const activeJobs = getActiveJobs();
+const groups = await getJobsByDepartment()
+const activeJobs = await getActiveJobs()
 ---
 
 <Layout
@@ -25,25 +24,46 @@ const activeJobs = getActiveJobs();
 		</div>
 	</header>
 
-	<section class="section" style="padding-top: 1.5rem;">
+	<section class="section openings" style="padding-top: 1.5rem;">
 		<div class="container">
 			{
 				activeJobs.length === 0 ? (
-					<p class="lede">There are no open positions listed right now.</p>
+					<p class="empty">
+						There are currently no open positions. Check back soon for new opportunities at MT
+						Supermarket.
+					</p>
 				) : (
 					<>
-						{
-							groups.map((group) => (
-								<section class="job-group" aria-labelledby={`jobs-${group.category.toLowerCase().replace(/\s+/g, '-')}`}>
-									<h2 id={`jobs-${group.category.toLowerCase().replace(/\s+/g, '-')}`}>{group.category}</h2>
-									<div>
-										{group.jobs.map((job) => (
-											<JobCard job={job} />
-										))}
-									</div>
-								</section>
-							))
-						}
+						<p class="openings-kicker">Current openings</p>
+						{groups.map((group) => (
+							<section
+								class="job-group"
+								aria-labelledby={`jobs-${group.department.toLowerCase().replace(/\s+/g, '-')}`}
+							>
+								<h2 id={`jobs-${group.department.toLowerCase().replace(/\s+/g, '-')}`}>
+									{group.department}
+								</h2>
+								<ul class="job-list">
+									{group.jobs.map((job) => (
+										<li class="job-row">
+											<div class="job-copy">
+												<h3>
+													<a href={`/careers/${job.slug}`}>{job.title}</a>
+												</h3>
+												<p class="job-meta">
+													{[job.location, job.employmentType].filter(Boolean).join(' · ')}
+												</p>
+												{job.summary && <p class="job-summary">{job.summary}</p>}
+											</div>
+											<a class="view-link" href={`/careers/${job.slug}`}>
+												View position
+												<span class="arrow" aria-hidden="true">→</span>
+											</a>
+										</li>
+									))}
+								</ul>
+							</section>
+						))}
 					</>
 				)
 			}
@@ -53,12 +73,119 @@ const activeJobs = getActiveJobs();
 </Layout>
 
 <style>
+	.openings-kicker {
+		margin-bottom: 1.5rem;
+		color: var(--color-red);
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.empty {
+		max-width: 36rem;
+		font-size: 1.1rem;
+		line-height: 1.6;
+	}
+
 	.job-group + .job-group {
 		margin-top: 2.75rem;
 	}
 
-	h2 {
-		margin-bottom: 0.75rem;
-		font-size: clamp(1.8rem, 3vw, 2.4rem);
+	.job-group h2 {
+		margin-bottom: 0;
+		padding-bottom: 0.75rem;
+		border-bottom: 1px solid var(--color-line);
+		font-size: clamp(1.35rem, 2.4vw, 1.7rem);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.job-list {
+		list-style: none;
+		padding: 0;
+	}
+
+	.job-row {
+		display: grid;
+		gap: 1rem;
+		padding: 1.35rem 0;
+		border-bottom: 1px solid var(--color-line);
+	}
+
+	.job-copy h3 {
+		font-size: clamp(1.55rem, 2.8vw, 2.05rem);
+		line-height: 1.05;
+	}
+
+	.job-copy h3 a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.job-copy h3 a:hover,
+	.job-copy h3 a:focus-visible {
+		color: var(--color-red);
+	}
+
+	.job-meta {
+		margin-top: 0.4rem;
+		font-size: 0.92rem;
+		font-weight: 700;
+	}
+
+	.job-summary {
+		max-width: 40rem;
+		margin-top: 0.65rem;
+		color: var(--color-muted);
+		font-size: 1.02rem;
+		line-height: 1.55;
+	}
+
+	.view-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		align-self: start;
+		color: var(--color-red);
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.arrow {
+		display: inline-block;
+		transition: transform 0.2s ease;
+	}
+
+	.view-link:hover .arrow,
+	.view-link:focus-visible .arrow {
+		transform: translateX(0.28rem);
+	}
+
+	@media (min-width: 48rem) {
+		.job-row {
+			grid-template-columns: 1fr auto;
+			align-items: end;
+			gap: 2rem;
+		}
+
+		.view-link {
+			align-self: end;
+			margin-bottom: 0.15rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.arrow {
+			transition: none;
+		}
+
+		.view-link:hover .arrow,
+		.view-link:focus-visible .arrow {
+			transform: none;
+		}
 	}
 </style>

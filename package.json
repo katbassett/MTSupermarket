@@ -12,7 +12,10 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.3.4"
+    "@sanity/client": "^8.9.0",
+    "astro": "^7.3.4",
+    "astro-portabletext": "^1.0.1",
+    "groq": "^6.17.0"
   },
   "allowScripts": {
     "esbuild": true

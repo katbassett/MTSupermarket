@@ -1,23 +1,41 @@
-/* Off-white page, warm cream for alternate sections, MT red and yellow as accents. */
+/*
+ * Brand note: --brand-red and --brand-yellow are provisional site colors from
+ * the design pass — not confirmed official MT logo colors. Change those two
+ * (and --brand-red-deep) when final brand colors arrive; aliases below keep
+ * the rest of the stylesheet in sync. Do not add extra brand hues here.
+ */
 
 :root {
+	/* —— Brand (swap these later) —— */
+	--brand-red: #8f2d1c;
+	--brand-red-deep: #6f2114;
+	--brand-yellow: #f0b429;
+
+	/* —— Surfaces —— */
 	--color-bg: #fbfaf7;
 	--color-warm: #f3eee4;
-	--color-red: #8f2d1c;
-	--color-yellow: #f0b429;
-	--color-green: #1c5c3c;
-	--color-ink: #1c1612;
 	--color-paper: var(--color-bg);
 	--color-paper-deep: #e7e2d8;
 	--color-surface: #ffffff;
+	--color-line: #e4ddd2;
+
+	/* —— Ink —— */
+	--color-ink: #1c1612;
 	--color-ink-soft: #2a221c;
 	--color-muted: #5c534c;
-	--color-line: #e4ddd2;
-	--color-accent: var(--color-red);
-	--color-accent-deep: #6f2114;
-	--color-marigold: var(--color-yellow);
+	--color-focus: var(--color-ink);
+
+	/* —— Semantic aliases —— */
+	--color-red: var(--brand-red);
+	--color-yellow: var(--brand-yellow);
+	--color-accent: var(--brand-red);
+	--color-accent-deep: var(--brand-red-deep);
+	--color-marigold: var(--brand-yellow);
+
+	/* Utility (not a brand accent) */
+	--color-green: #1c5c3c;
 	--color-leaf: var(--color-green);
-	--color-focus: #1c1612;
+
 	--header-height: 9.4rem;
 	--font-display-stack: var(--font-display, Arial), sans-serif;
 	--font-body-stack: var(--font-body, system-ui), sans-serif;

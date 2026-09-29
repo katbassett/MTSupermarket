@@ -7,7 +7,7 @@ export interface Department {
 	summary: string;
 	/** Short retail line on the department tile. */
 	cardLine: string;
-	/** Longer introduction for the department page. Uses the provided brief. */
+	/** Longer introduction for the department page. */
 	description: string;
 	highlights: string[];
 	image: (typeof photos)[keyof typeof photos]['src'];
@@ -18,16 +18,15 @@ export const departments: Department[] = [
 	{
 		slug: 'grocery',
 		name: 'Grocery',
-		summary: 'International staples, snacks, noodles, sauces & more.',
-		cardLine: 'Global pantry',
+		summary: 'Asian and international pantry staples, snacks, drinks, and specialty ingredients.',
+		cardLine: 'Asian & international pantry',
 		description:
-			'International and Asian grocery, including rice, noodles, sauces, seasonings, snacks, beverages, frozen foods, and specialty products that may be difficult to find at conventional supermarkets.',
+			'Asian and international pantry staples, everyday essentials, snacks, drinks, frozen foods, sauces, seasonings, rice, noodles, and specialty ingredients.',
 		highlights: [
-			'Rice, noodles, and sauces',
-			'Seasonings',
-			'Snacks and beverages',
-			'Frozen foods',
-			'Specialty products that may be difficult to find at conventional supermarkets',
+			'Asian and international pantry staples',
+			'Rice, noodles, sauces, and seasonings',
+			'Snacks, drinks, and frozen foods',
+			'Specialty ingredients beyond a conventional supermarket',
 		],
 		image: photos.grocery.src,
 		imageAlt: photos.grocery.alt,
@@ -35,21 +34,26 @@ export const departments: Department[] = [
 	{
 		slug: 'produce',
 		name: 'Produce',
-		summary: 'Fresh produce for many cuisines.',
+		summary: 'Fresh produce for everyday cooking and Asian and international cuisines.',
 		cardLine: 'Fresh daily',
 		description:
-			'Fresh produce, with an emphasis on variety and products used across different cuisines.',
-		highlights: ['Fresh produce', 'Variety across different cuisines'],
+			'Fresh produce with a wide selection of everyday favorites and ingredients used across Asian and international cuisines.',
+		highlights: [
+			'Everyday favorites',
+			'Ingredients used across Asian and international cuisines',
+			'Wide selection for home cooking',
+		],
 		image: photos.produce.src,
 		imageAlt: photos.produce.alt,
 	},
 	{
 		slug: 'meat',
 		name: 'Meat',
-		summary: 'Fresh meat and specialty cuts.',
+		summary: 'Fresh meat and specialty cuts from the MT meat department.',
 		cardLine: 'Specialty cuts',
-		description: 'Fresh meat and specialty cuts.',
-		highlights: ['Fresh meat', 'Specialty cuts'],
+		description:
+			'Fresh meat and specialty cuts with quality, selection, and service from the MT meat department.',
+		highlights: ['Fresh meat', 'Specialty cuts', 'Quality, selection, and service'],
 		image: photos.meat.src,
 		imageAlt: photos.meat.alt,
 	},
@@ -57,9 +61,15 @@ export const departments: Department[] = [
 		slug: 'seafood',
 		name: 'Seafood',
 		summary: 'Fresh, frozen, packaged, and live seafood.',
-		cardLine: 'Fresh & live',
-		description: 'Fresh, frozen, packaged, and live seafood.',
-		highlights: ['Fresh seafood', 'Frozen and packaged seafood', 'Live seafood'],
+		cardLine: 'Fresh · frozen · live',
+		description:
+			'Fresh, frozen, packaged, and live seafood with a wide selection for everyday cooking and specialty dishes.',
+		highlights: [
+			'Live seafood',
+			'Fresh seafood',
+			'Frozen seafood',
+			'Packaged seafood',
+		],
 		image: photos.seafood.src,
 		imageAlt: photos.seafood.alt,
 	},

@@ -1,0 +1,232 @@
+---
+import PortableText from '../../components/PortableText.astro'
+import SectionHeader from '../../components/SectionHeader.astro'
+import StoreInfo from '../../components/StoreInfo.astro'
+import {formatPostedDate, getJobBySlug, getActiveJobs} from '../../lib/jobs'
+import Layout from '../../layouts/Layout.astro'
+
+export async function getStaticPaths() {
+	const jobs = await getActiveJobs()
+	return jobs
+		.filter((job) => Boolean(job.slug))
+		.map((job) => ({
+			params: {slug: job.slug},
+		}))
+}
+
+const {slug} = Astro.params
+if (!slug) {
+	return Astro.redirect('/careers')
+}
+
+const job = await getJobBySlug(slug)
+if (!job) {
+	return Astro.redirect('/404')
+}
+
+const posted = formatPostedDate(job.postedDate)
+const external = job.applicationUrl?.startsWith('http') ?? false
+const metaBits = [job.department, job.location, job.employmentType].filter(Boolean)
+---
+
+<Layout
+	title={job.title}
+	description={job.summary || `${job.title} at MT Supermarket in ${job.location || 'San Antonio'}.`}
+>
+	<header class="page-header">
+		<div class="container">
+			<p class="kicker"><a href="/careers">Careers</a></p>
+			<SectionHeader level="h1" title={job.title} text={job.summary || undefined} />
+			<p class="job-meta">{metaBits.join(' · ')}</p>
+			{
+				(posted || job.compensation) && (
+					<p class="job-meta secondary">
+						{[posted && `Posted ${posted}`, job.compensation].filter(Boolean).join(' · ')}
+					</p>
+				)
+			}
+		</div>
+	</header>
+
+	<section class="section job-detail" style="padding-top: 0.5rem;">
+		<div class="container">
+			{
+				job.description && (
+					<section class="detail-block" aria-labelledby="description-heading">
+						<h2 id="description-heading">About the role</h2>
+						<PortableText value={job.description} />
+					</section>
+				)
+			}
+
+			{
+				job.responsibilities && job.responsibilities.length > 0 && (
+					<section class="detail-block" aria-labelledby="responsibilities-heading">
+						<h2 id="responsibilities-heading">Responsibilities</h2>
+						<ul>
+							{job.responsibilities.map((item) => (
+								<li>{item}</li>
+							))}
+						</ul>
+					</section>
+				)
+			}
+
+			{
+				job.qualifications && job.qualifications.length > 0 && (
+					<section class="detail-block" aria-labelledby="qualifications-heading">
+						<h2 id="qualifications-heading">Qualifications</h2>
+						<ul>
+							{job.qualifications.map((item) => (
+								<li>{item}</li>
+							))}
+						</ul>
+					</section>
+				)
+			}
+
+			{
+				job.applicationUrl && (
+					<div class="apply">
+						<a
+							class="apply-link"
+							href={job.applicationUrl}
+							target={external ? '_blank' : undefined}
+							rel={external ? 'noopener noreferrer' : undefined}
+						>
+							Apply for this position
+							<span class="arrow" aria-hidden="true">→</span>
+						</a>
+						{job.applicationSource && (
+							<p class="apply-source">via {job.applicationSource}</p>
+						)}
+					</div>
+				)
+			}
+
+			<p class="back">
+				<a href="/careers">
+					← Back to careers
+				</a>
+			</p>
+		</div>
+	</section>
+
+	<StoreInfo />
+</Layout>
+
+<style>
+	.kicker {
+		margin-bottom: 0.65rem;
+		color: var(--color-red);
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.kicker a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.kicker a:hover,
+	.kicker a:focus-visible {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+
+	.job-meta {
+		margin-top: 0.85rem;
+		font-size: 0.95rem;
+		font-weight: 700;
+	}
+
+	.job-meta.secondary {
+		margin-top: 0.35rem;
+		color: var(--color-muted);
+		font-weight: 600;
+	}
+
+	.detail-block + .detail-block {
+		margin-top: 2.25rem;
+	}
+
+	.detail-block h2 {
+		margin-bottom: 0.75rem;
+		color: var(--color-red);
+		font-size: 0.78rem;
+		font-weight: 800;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.detail-block ul {
+		max-width: 42rem;
+		padding-left: 1.2rem;
+	}
+
+	.detail-block li + li {
+		margin-top: 0.45rem;
+	}
+
+	.apply {
+		margin-top: 2.75rem;
+		padding-top: 1.5rem;
+		border-top: 1px solid var(--color-line);
+	}
+
+	.apply-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.45rem;
+		color: var(--color-red);
+		font-size: 0.92rem;
+		font-weight: 800;
+		letter-spacing: 0.08em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.arrow {
+		display: inline-block;
+		transition: transform 0.2s ease;
+	}
+
+	.apply-link:hover .arrow,
+	.apply-link:focus-visible .arrow {
+		transform: translateX(0.28rem);
+	}
+
+	.apply-source {
+		margin-top: 0.45rem;
+		color: var(--color-muted);
+		font-size: 0.9rem;
+	}
+
+	.back {
+		margin-top: 2rem;
+	}
+
+	.back a {
+		color: var(--color-ink);
+		font-weight: 700;
+		text-decoration: none;
+	}
+
+	.back a:hover,
+	.back a:focus-visible {
+		color: var(--color-red);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.arrow {
+			transition: none;
+		}
+
+		.apply-link:hover .arrow,
+		.apply-link:focus-visible .arrow {
+			transform: none;
+		}
+	}
+</style>

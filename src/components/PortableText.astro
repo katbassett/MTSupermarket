@@ -1,0 +1,57 @@
+---
+import {PortableText} from 'astro-portabletext'
+
+interface Props {
+	value: unknown
+}
+
+const {value} = Astro.props
+const blocks = Array.isArray(value) ? value : []
+---
+
+{
+	blocks.length > 0 && (
+		<div class="portable-text">
+			<PortableText value={blocks} />
+		</div>
+	)
+}
+
+<style>
+	.portable-text :global(p) {
+		max-width: 42rem;
+		font-size: 1.05rem;
+		line-height: 1.65;
+	}
+
+	.portable-text :global(p + p) {
+		margin-top: 0.9rem;
+	}
+
+	.portable-text :global(h3) {
+		margin-top: 1.5rem;
+		margin-bottom: 0.55rem;
+		font-size: clamp(1.25rem, 2vw, 1.55rem);
+		line-height: 1.1;
+	}
+
+	.portable-text :global(ul),
+	.portable-text :global(ol) {
+		max-width: 42rem;
+		margin-top: 0.85rem;
+		padding-left: 1.25rem;
+	}
+
+	.portable-text :global(li + li) {
+		margin-top: 0.4rem;
+	}
+
+	.portable-text :global(a) {
+		color: var(--color-red);
+		text-underline-offset: 0.15em;
+	}
+
+	.portable-text :global(strong) {
+		font-weight: 700;
+	}
+</style>

@@ -1,8 +1,10 @@
 import { photos } from './images';
 
 /**
- * Homepage feature tiles. This is the slot for seasonal highlights and,
- * later, weekly specials. Do not add a price until MT provides one.
+ * Homepage feature tiles. Reserved slot for seasonal highlights and, later,
+ * Weekly Specials (possibly Sanity-managed). Do not add prices until MT
+ * provides them. Keep this list empty or soft until specials are ready —
+ * architecture stays so a Weekly Specials section can drop in here.
  */
 export interface StoreFeature {
 	id: string;
@@ -14,29 +16,30 @@ export interface StoreFeature {
 	priceLabel?: string;
 }
 
+/** Soft department teasers until Weekly Specials content is provided. */
 export const freshThisWeek: StoreFeature[] = [
 	{
-		id: 'seasonal-produce',
-		title: 'Seasonal Produce',
-		summary: 'Fruit and vegetables in the produce department, as the season changes.',
+		id: 'produce',
+		title: 'Fresh Produce',
+		summary: 'Everyday favorites and ingredients used across Asian and international cuisines.',
 		href: '/departments/produce',
 		image: photos.produce.src,
 		imageAlt: photos.produce.alt,
 	},
 	{
-		id: 'new-arrivals',
-		title: 'New Arrivals',
-		summary: 'Specialty products as they reach the shelves.',
-		href: '/departments/grocery',
-		image: photos.discovery.src,
-		imageAlt: photos.discovery.alt,
+		id: 'seafood',
+		title: 'Seafood',
+		summary: 'Fresh, frozen, packaged, and live seafood for everyday cooking and specialty dishes.',
+		href: '/departments/seafood',
+		image: photos.seafood.src,
+		imageAlt: photos.seafood.alt,
 	},
 	{
-		id: 'featured-brands',
-		title: 'Featured Brands',
-		summary: 'International brands from the grocery aisles.',
+		id: 'grocery',
+		title: 'Asian Pantry',
+		summary: 'Rice, noodles, sauces, snacks, drinks, and specialty ingredients from the grocery aisles.',
 		href: '/departments/grocery',
-		image: photos.snacks.src,
-		imageAlt: photos.snacks.alt,
+		image: photos.grocery.src,
+		imageAlt: photos.grocery.alt,
 	},
 ];

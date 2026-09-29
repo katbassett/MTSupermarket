@@ -7,7 +7,7 @@
 export const site = {
 	name: 'MT Supermarket',
 	description:
-		'MT Supermarket is an Asian and international supermarket opening at 5428 Walzem Rd. in San Antonio, Texas. Expected opening: early November. Planned hours are 9 AM–8 PM daily.',
+		'MT Supermarket is an established Asian and international supermarket opening at 5428 Walzem Rd. in San Antonio, Texas. Expected opening: early November. Planned hours are 9 AM–8 PM daily.',
 	address: {
 		street: '5428 Walzem Rd.',
 		city: 'San Antonio',
@@ -72,6 +72,6 @@ export function businessJsonLd() {
 			opens: '09:00',
 			closes: '20:00',
 		},
-		description: `${site.name} is expected to open in ${site.opening}. Planned hours are ${site.hoursLabel} daily.`,
+	description: `${site.name} is an established Asian and international supermarket expected to open in ${site.opening}. Planned hours are ${site.hoursLabel} daily.`,
 	};
 }

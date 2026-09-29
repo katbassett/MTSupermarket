@@ -3,15 +3,15 @@ import CTASection from '../components/CTASection.astro';
 import DepartmentGrid from '../components/DepartmentGrid.astro';
 import FeatureStrip from '../components/FeatureStrip.astro';
 import Photo from '../components/Photo.astro';
-import { getActiveJobs } from '../data/jobs';
+import { getActiveJobs } from '../lib/jobs';
 import { photos } from '../data/images';
 import { aisleLinks, discoveries } from '../data/market';
 import { site } from '../data/site';
 import Layout from '../layouts/Layout.astro';
 
-const openRoles = getActiveJobs().length;
+const openRoles = (await getActiveJobs()).length;
 const signageItems = [
-	'International groceries',
+	'Asian & international groceries',
 	'Fresh produce',
 	'Seafood',
 	'Meat',
@@ -44,8 +44,8 @@ const signageItems = [
 					all in one place.
 				</h1>
 				<p class="dek">
-					MT Supermarket brings international ingredients, fresh foods, everyday staples, and
-					specialty products to San Antonio.
+					Discover Asian and international groceries, fresh foods, everyday staples, and specialty
+					ingredients—all under one roof.
 				</p>
 				<p class="launch-opening">Opening {site.opening}</p>
 				<div class="launch-actions">
@@ -103,8 +103,8 @@ const signageItems = [
 				<p class="kicker">Welcome to MT</p>
 				<h2 id="welcome-heading">More to discover in every aisle.</h2>
 				<p>
-					MT Supermarket is an established Asian and international supermarket, bringing variety
-					and specialty products to San Antonio.
+					MT Supermarket is an established Asian and international supermarket, bringing grocery,
+					produce, meat, seafood, and specialty ingredients to San Antonio.
 				</p>
 			</div>
 		</div>
@@ -112,8 +112,12 @@ const signageItems = [
 
 	<section class="discover" aria-labelledby="discover-heading">
 		<div class="container">
-			<h2 id="discover-heading">What you'll find at MT</h2>
-			<p class="discover-lead">Find something you didn't come looking for.</p>
+			<p class="kicker">Discover something new</p>
+			<h2 id="discover-heading">Find something you didn't come looking for.</h2>
+			<p class="discover-lead">
+				Asian pantry staples, specialty ingredients, and products you won't necessarily find at a
+				conventional supermarket.
+			</p>
 			<ul class="discover-grid">
 				{
 					discoveries.map((item) => (
@@ -124,7 +128,7 @@ const signageItems = [
 										src={item.image}
 										alt=""
 										sizes={
-											item.area === 'noodles' || item.area === 'rice'
+											item.area === 'noodles'
 												? '(min-width: 64rem) 40vw, 100vw'
 												: '(min-width: 64rem) 22vw, 50vw'
 										}
@@ -146,7 +150,7 @@ const signageItems = [
 				<p class="kicker">Cash &amp; carry</p>
 				<h2 id="wholesale-heading">Wholesale for restaurants &amp; businesses.</h2>
 				<p>
-					MT serves restaurants and businesses through its cash-and-carry wholesale operation.
+					A separate cash-and-carry wholesale operation serving restaurants and business customers.
 				</p>
 				<a href="/wholesale">Explore wholesale <span class="arrow" aria-hidden="true">→</span></a>
 			</div>
@@ -226,7 +230,7 @@ const signageItems = [
 		align-items: center;
 		width: calc(100% - 1rem);
 		margin-top: -2.75rem;
-		padding: clamp(1.75rem, 4vw, 2.5rem) clamp(1.35rem, 3vw, 2rem);
+		padding: clamp(1.25rem, 3.2vw, 1.75rem) clamp(0.85rem, 2vw, 1rem);
 		background: var(--color-red);
 		color: var(--color-bg);
 		text-align: center;
@@ -242,8 +246,8 @@ const signageItems = [
 	}
 
 	.launch-panel h1 {
-		max-width: 12em;
-		margin-top: 0.65rem;
+		max-width: 10.5em;
+		margin-top: 0.45rem;
 		margin-inline: auto;
 		color: var(--color-bg);
 		font-size: clamp(2.15rem, 4.5vw, 2.7rem);
@@ -251,15 +255,15 @@ const signageItems = [
 	}
 
 	.launch-panel .dek {
-		max-width: 28rem;
-		margin-top: 0.85rem;
+		max-width: 22rem;
+		margin-top: 0.6rem;
 		margin-inline: auto;
 		color: var(--color-bg);
 		font-size: 1.02rem;
 	}
 
 	.launch-opening {
-		margin-top: 1rem;
+		margin-top: 0.75rem;
 	}
 
 	.launch-cta {
@@ -325,8 +329,8 @@ const signageItems = [
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
-		gap: 0.85rem 1.5rem;
-		margin-top: 1.35rem;
+		gap: 0.65rem 1.15rem;
+		margin-top: 0.95rem;
 	}
 
 	.hire-link {
@@ -387,9 +391,9 @@ const signageItems = [
 			position: absolute;
 			top: 50%;
 			left: 50%;
-			width: min(88%, 22rem);
+			width: min(78%, 17.25rem);
 			margin-top: 0;
-			padding: 1.35rem 1.15rem;
+			padding: 1.2rem 0.72rem;
 			transform: translate(-50%, -50%);
 		}
 
@@ -580,6 +584,10 @@ const signageItems = [
 		grid-column: 1 / -1;
 	}
 
+	.specialty {
+		grid-column: 1 / -1;
+	}
+
 	.discover-grid a {
 		display: block;
 		color: inherit;
@@ -622,6 +630,18 @@ const signageItems = [
 
 	.drinks .discover-media :global(img) {
 		object-position: center 42%;
+	}
+
+	.pantry .discover-media :global(img) {
+		object-position: center 45%;
+	}
+
+	.frozen .discover-media :global(img) {
+		object-position: center 50%;
+	}
+
+	.specialty .discover-media :global(img) {
+		object-position: center 40%;
 	}
 
 	.discover-grid a:hover .discover-media :global(img),
@@ -670,7 +690,7 @@ const signageItems = [
 
 	@media (min-width: 64rem) {
 		.launch-frame {
-			--panel: 40%;
+			--panel: 36%;
 			--overlap: clamp(4rem, 5.5vw, 7.5rem);
 		}
 
@@ -682,14 +702,14 @@ const signageItems = [
 
 		.launch-panel {
 			position: absolute;
-			top: 1.35rem;
-			bottom: 1.35rem;
+			top: 50%;
+			bottom: auto;
 			left: 0;
 			width: var(--panel);
-			max-width: 42%;
+			max-width: 36%;
 			margin-top: 0;
-			padding: clamp(1.5rem, 2vw, 2.35rem) clamp(1.5rem, 2.2vw, 2.4rem);
-			transform: none;
+			padding: clamp(1.35rem, 1.65vw, 1.85rem) clamp(0.85rem, 1vw, 1rem);
+			transform: translateY(-50%);
 		}
 
 		.launch-panel h1 {
@@ -703,11 +723,12 @@ const signageItems = [
 
 		.discover-grid {
 			grid-template-columns: 1.4fr 0.8fr 0.8fr;
-			grid-template-rows: 14.5rem 14.5rem 13rem;
+			grid-template-rows: 13.5rem 13.5rem 11.5rem 11.5rem;
 			grid-template-areas:
 				'noodles noodles snacks'
 				'noodles noodles drinks'
-				'sauces rice rice';
+				'pantry sauces frozen'
+				'specialty specialty specialty';
 			gap: 1.15rem 0.85rem;
 		}
 
@@ -729,12 +750,20 @@ const signageItems = [
 			grid-area: drinks;
 		}
 
+		.pantry {
+			grid-area: pantry;
+		}
+
 		.sauces {
 			grid-area: sauces;
 		}
 
-		.rice {
-			grid-area: rice;
+		.frozen {
+			grid-area: frozen;
+		}
+
+		.specialty {
+			grid-area: specialty;
 		}
 
 		.discover-media {
