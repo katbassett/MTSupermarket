@@ -47,7 +47,7 @@ const signageItems = [
 					Discover Asian and international groceries, fresh foods, everyday staples, and specialty
 					ingredients—all under one roof.
 				</p>
-				<p class="launch-opening">Opening {site.opening}</p>
+				<p class="launch-opening sign-label sign-label-yellow">Opening {site.opening}</p>
 				<div class="launch-actions">
 					<a class="launch-cta" href="#departments">Explore MT</a>
 					<a class="hire-link" href="/careers">
@@ -61,21 +61,21 @@ const signageItems = [
 
 	<div class="signage">
 		<ul class="container">
-			{signageItems.map((item) => (
-				<li>{item}</li>
+			{signageItems.map((item, index) => (
+				<li data-reveal style={`--reveal-delay: ${index * 60}ms`}>{item}</li>
 			))}
 		</ul>
 	</div>
 
 	<section class="departments" id="departments" aria-labelledby="departments-heading">
 		<div class="container">
-			<p class="kicker">Shop the market</p>
-			<h2 id="departments-heading">Explore our departments</h2>
+			<p class="kicker" data-reveal>Shop the market</p>
+			<h2 id="departments-heading" data-reveal style="--reveal-delay: 80ms">Explore our departments</h2>
 			<DepartmentGrid />
 		</div>
 	</section>
 
-	<nav class="aisles" aria-label="More to shop">
+	<nav class="aisles" aria-label="More to shop" data-reveal>
 		<div class="container aisles-inner">
 			<p>Also in the aisles</p>
 			<ul>
@@ -92,14 +92,14 @@ const signageItems = [
 
 	<section class="welcome" aria-labelledby="welcome-heading">
 		<div class="container welcome-wrap">
-			<figure>
+			<figure data-reveal="left">
 				<Photo
 					src={photos.intro.src}
 					alt={photos.intro.alt}
 					sizes="(min-width: 56rem) 36rem, 100vw"
 				/>
 			</figure>
-			<div>
+			<div data-reveal="right" style="--reveal-delay: 100ms">
 				<p class="kicker">Welcome to MT</p>
 				<h2 id="welcome-heading">More to discover in every aisle.</h2>
 				<p>
@@ -112,16 +112,18 @@ const signageItems = [
 
 	<section class="discover" aria-labelledby="discover-heading">
 		<div class="container">
-			<p class="kicker">Discover something new</p>
-			<h2 id="discover-heading">Find something you didn't come looking for.</h2>
-			<p class="discover-lead">
+			<p class="kicker" data-reveal>Discover something new</p>
+			<h2 id="discover-heading" data-reveal style="--reveal-delay: 70ms">
+				Find something you didn't come looking for.
+			</h2>
+			<p class="discover-lead" data-reveal style="--reveal-delay: 120ms">
 				Asian pantry staples, specialty ingredients, and products you won't necessarily find at a
 				conventional supermarket.
 			</p>
 			<ul class="discover-grid">
 				{
-					discoveries.map((item) => (
-						<li class={item.area}>
+					discoveries.map((item, index) => (
+						<li class={item.area} data-reveal style={`--reveal-delay: ${index * 70}ms`}>
 							<a href={item.href}>
 								<span class="discover-media">
 									<Photo
@@ -146,15 +148,15 @@ const signageItems = [
 
 	<section class="wholesale" aria-labelledby="wholesale-heading">
 		<div class="container wholesale-wrap">
-			<div class="wholesale-copy">
-				<p class="kicker">Cash &amp; carry</p>
+			<div class="wholesale-copy" data-reveal="left">
+				<p class="sign-label sign-label-yellow">Cash &amp; carry</p>
 				<h2 id="wholesale-heading">Wholesale for restaurants &amp; businesses.</h2>
 				<p>
 					A separate cash-and-carry wholesale operation serving restaurants and business customers.
 				</p>
 				<a href="/wholesale">Explore wholesale <span class="arrow" aria-hidden="true">→</span></a>
 			</div>
-			<figure>
+			<figure data-reveal="right" style="--reveal-delay: 100ms">
 				<Photo
 					src={photos.wholesale.src}
 					alt={photos.wholesale.alt}
@@ -232,13 +234,12 @@ const signageItems = [
 		margin-top: -2.75rem;
 		padding: clamp(1.25rem, 3.2vw, 1.75rem) clamp(0.85rem, 2vw, 1rem);
 		background: var(--color-red);
-		color: var(--color-bg);
+		color: var(--color-cream);
 		text-align: center;
 	}
 
-	.launch-kicker,
-	.launch-opening {
-		color: var(--color-bg);
+	.launch-kicker {
+		color: var(--color-cream);
 		font-size: 0.75rem;
 		font-weight: 800;
 		letter-spacing: 0.1em;
@@ -249,7 +250,7 @@ const signageItems = [
 		max-width: 10.5em;
 		margin-top: 0.45rem;
 		margin-inline: auto;
-		color: var(--color-bg);
+		color: var(--color-cream);
 		font-size: clamp(2.15rem, 4.5vw, 2.7rem);
 		line-height: 1.02;
 	}
@@ -258,12 +259,12 @@ const signageItems = [
 		max-width: 22rem;
 		margin-top: 0.6rem;
 		margin-inline: auto;
-		color: var(--color-bg);
+		color: var(--color-cream);
 		font-size: 1.02rem;
 	}
 
 	.launch-opening {
-		margin-top: 0.75rem;
+		margin-top: 0.85rem;
 	}
 
 	.launch-cta {
@@ -337,7 +338,7 @@ const signageItems = [
 		display: inline-flex;
 		align-items: center;
 		gap: 0.35rem;
-		color: var(--color-bg);
+		color: var(--color-cream);
 		font-size: 0.82rem;
 		font-weight: 800;
 		letter-spacing: 0.08em;
@@ -559,19 +560,19 @@ const signageItems = [
 	}
 
 	.discover {
-		padding: clamp(2.25rem, 4.5vw, 3.5rem) 0 clamp(2rem, 4vw, 3rem);
+		padding: clamp(1.75rem, 3.5vw, 2.75rem) 0 clamp(1.5rem, 3vw, 2.35rem);
 	}
 
 	.discover-lead {
 		max-width: 36rem;
-		margin-top: 0.55rem;
-		font-size: 1.08rem;
+		margin-top: 0.4rem;
+		font-size: 1.02rem;
 	}
 
 	.discover-grid {
 		grid-template-columns: 1fr 1fr;
-		gap: 0.85rem 0.7rem;
-		margin: 1.25rem 0 0;
+		gap: 0.55rem 0.5rem;
+		margin: 0.95rem 0 0;
 		padding: 0;
 		list-style: none;
 	}
@@ -584,10 +585,6 @@ const signageItems = [
 		grid-column: 1 / -1;
 	}
 
-	.specialty {
-		grid-column: 1 / -1;
-	}
-
 	.discover-grid a {
 		display: block;
 		color: inherit;
@@ -596,23 +593,23 @@ const signageItems = [
 
 	.discover-media {
 		display: block;
-		aspect-ratio: 4 / 3;
+		aspect-ratio: 5 / 4;
 	}
 
 	.noodles .discover-media {
-		aspect-ratio: 16 / 10;
+		aspect-ratio: 16 / 9;
 	}
 
 	.discover-name {
 		display: inline-block;
-		margin-top: 0.45rem;
+		margin-top: 0.3rem;
 		background-image: linear-gradient(currentColor, currentColor);
 		background-position: 0 100%;
 		background-repeat: no-repeat;
 		background-size: 0 1px;
-		font-size: 1rem;
+		font-size: 0.92rem;
 		font-weight: 800;
-		line-height: 1.25;
+		line-height: 1.2;
 		transition: background-size 0.25s ease;
 	}
 
@@ -659,8 +656,13 @@ const signageItems = [
 		border-top: 1px solid var(--color-line);
 	}
 
-	.wholesale h2 {
+	.wholesale-copy .sign-label {
+		margin-bottom: 0.75rem;
+	}
+
+	.wholesale-copy h2 {
 		max-width: 18ch;
+		margin-top: 0;
 	}
 
 	.wholesale-copy a {
@@ -722,14 +724,13 @@ const signageItems = [
 		}
 
 		.discover-grid {
-			grid-template-columns: 1.4fr 0.8fr 0.8fr;
-			grid-template-rows: 13.5rem 13.5rem 11.5rem 11.5rem;
+			grid-template-columns: 1.25fr 0.75fr 0.75fr 0.75fr;
+			grid-template-rows: 12.5rem 12.5rem 11rem;
 			grid-template-areas:
-				'noodles noodles snacks'
-				'noodles noodles drinks'
-				'pantry sauces frozen'
-				'specialty specialty specialty';
-			gap: 1.15rem 0.85rem;
+				'noodles noodles snacks drinks'
+				'noodles noodles sauces pantry'
+				'frozen specialty specialty specialty';
+			gap: 0.7rem 0.55rem;
 		}
 
 		.discover-grid a {

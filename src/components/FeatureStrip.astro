@@ -7,10 +7,12 @@ import Photo from './Photo.astro';
 	freshThisWeek.length > 0 && (
 		<section class="fresh" aria-labelledby="fresh-heading">
 			<div class="container">
-				<h2 id="fresh-heading">Around the market</h2>
+				<h2 id="fresh-heading" data-reveal>
+					Around the market
+				</h2>
 				<ul>
-					{freshThisWeek.map((feature) => (
-						<li>
+					{freshThisWeek.map((feature, index) => (
+						<li data-reveal style={`--reveal-delay: ${index * 90}ms`}>
 							<a href={feature.href}>
 								<span class="fresh-media">
 									<Photo
@@ -34,7 +36,7 @@ import Photo from './Photo.astro';
 
 <style>
 	.fresh {
-		padding: clamp(1.75rem, 3.5vw, 2.75rem) 0 clamp(2.25rem, 4vw, 3.25rem);
+		padding: clamp(1.35rem, 2.75vw, 2.15rem) 0 clamp(1.75rem, 3.25vw, 2.6rem);
 		border-top: 1px solid var(--color-line);
 	}
 
@@ -45,8 +47,8 @@ import Photo from './Photo.astro';
 
 	ul {
 		display: grid;
-		gap: 1.5rem;
-		margin: 1.5rem 0 0;
+		gap: 1.1rem;
+		margin: 1.15rem 0 0;
 		padding: 0;
 		list-style: none;
 	}

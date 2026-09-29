@@ -16,8 +16,13 @@ export const site = {
 	},
 	phoneDisplay: '210-251-3728',
 	phoneHref: 'tel:+12102513728',
-	/** Not provided yet. */
-	email: null as string | null,
+	/**
+	 * Temporary form destination until MT provides the store email.
+	 * Override with PUBLIC_CONTACT_EMAIL in `.env` when needed.
+	 */
+	email:
+		(import.meta.env.PUBLIC_CONTACT_EMAIL as string | undefined) ||
+		'kat@lionheartgraphix.com',
 	hoursLabel: '9 AM–8 PM',
 	opening: 'Early November',
 	mapsUrl:

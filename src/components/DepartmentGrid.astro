@@ -8,8 +8,8 @@ const tiles = [...departments].sort((a, b) => order.indexOf(a.slug) - order.inde
 
 <ul class="dept-grid">
 	{
-		tiles.map((department) => (
-			<li>
+		tiles.map((department, index) => (
+			<li data-reveal style={`--reveal-delay: ${index * 90}ms`}>
 				<DepartmentCard department={department} />
 			</li>
 		))

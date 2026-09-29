@@ -7,6 +7,9 @@ export interface Department {
 	summary: string;
 	/** Short retail line on the department tile. */
 	cardLine: string;
+	/** Optional rectangular signage label on the department tile. */
+	signLabel?: string;
+	signTone?: 'yellow' | 'red';
 	/** Longer introduction for the department page. */
 	description: string;
 	highlights: string[];
@@ -36,6 +39,8 @@ export const departments: Department[] = [
 		name: 'Produce',
 		summary: 'Fresh produce for everyday cooking and Asian and international cuisines.',
 		cardLine: 'Fresh daily',
+		signLabel: 'Fresh daily',
+		signTone: 'yellow',
 		description:
 			'Fresh produce with a wide selection of everyday favorites and ingredients used across Asian and international cuisines.',
 		highlights: [
@@ -62,6 +67,8 @@ export const departments: Department[] = [
 		name: 'Seafood',
 		summary: 'Fresh, frozen, packaged, and live seafood.',
 		cardLine: 'Fresh · frozen · live',
+		signLabel: 'Live seafood',
+		signTone: 'red',
 		description:
 			'Fresh, frozen, packaged, and live seafood with a wide selection for everyday cooking and specialty dishes.',
 		highlights: [

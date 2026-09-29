@@ -1,39 +1,41 @@
 /*
- * Brand note: --brand-red and --brand-yellow are provisional site colors from
- * the design pass — not confirmed official MT logo colors. Change those two
- * (and --brand-red-deep) when final brand colors arrive; aliases below keep
- * the rest of the stylesheet in sync. Do not add extra brand hues here.
+ * Brand note: these colors are provisional site colors from the design pass —
+ * not confirmed official MT logo colors. Change the --brand-* tokens (and
+ * surfaces below) when final brand colors arrive. Red + yellow stay dominant;
+ * green is utility only. Do not add extra brand hues.
  */
 
 :root {
 	/* —— Brand (swap these later) —— */
-	--brand-red: #8f2d1c;
-	--brand-red-deep: #6f2114;
-	--brand-yellow: #f0b429;
+	--brand-red: #b52b1f;
+	--brand-red-deep: #8f2018;
+	--brand-yellow: #f2b51d;
 
 	/* —— Surfaces —— */
-	--color-bg: #fbfaf7;
-	--color-warm: #f3eee4;
-	--color-paper: var(--color-bg);
-	--color-paper-deep: #e7e2d8;
+	--color-cream: #faf7ef;
+	--color-bg: var(--color-cream);
+	--color-warm: #f1eadc;
+	--color-paper: var(--color-cream);
+	--color-paper-deep: #e8dfd0;
 	--color-surface: #ffffff;
-	--color-line: #e4ddd2;
+	--color-line: #e2d8c8;
 
 	/* —— Ink —— */
-	--color-ink: #1c1612;
-	--color-ink-soft: #2a221c;
-	--color-muted: #5c534c;
+	--color-ink: #201914;
+	--color-ink-soft: #322820;
+	--color-muted: #5f564c;
 	--color-focus: var(--color-ink);
 
 	/* —— Semantic aliases —— */
 	--color-red: var(--brand-red);
+	--color-red-dark: var(--brand-red-deep);
 	--color-yellow: var(--brand-yellow);
 	--color-accent: var(--brand-red);
 	--color-accent-deep: var(--brand-red-deep);
 	--color-marigold: var(--brand-yellow);
 
-	/* Utility (not a brand accent) */
-	--color-green: #1c5c3c;
+	/* Utility (use sparingly; not a brand accent) */
+	--color-green: #315b3b;
 	--color-leaf: var(--color-green);
 
 	--header-height: 9.4rem;
@@ -151,6 +153,30 @@ a {
 	font-weight: 800;
 	letter-spacing: 0.08em;
 	text-transform: uppercase;
+}
+
+/* Clean rectangular supermarket signage — not pills or stickers. */
+.sign-label {
+	display: inline-block;
+	margin: 0;
+	padding: 0.38rem 0.55rem;
+	border-radius: 0;
+	font-family: var(--font-body-stack);
+	font-size: 0.72rem;
+	font-weight: 800;
+	letter-spacing: 0.11em;
+	line-height: 1.15;
+	text-transform: uppercase;
+}
+
+.sign-label-yellow {
+	background: var(--color-yellow);
+	color: var(--color-ink);
+}
+
+.sign-label-red {
+	background: var(--color-red);
+	color: var(--color-cream);
 }
 
 .lede,
@@ -409,6 +435,35 @@ a {
 	}
 }
 
+/* Scroll reveals — only active when JS adds .js-reveal (content stays visible without JS). */
+.js-reveal [data-reveal] {
+	opacity: 0;
+	transform: translate3d(0, 1.15rem, 0);
+	transition:
+		opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+		transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+	transition-delay: var(--reveal-delay, 0ms);
+	will-change: opacity, transform;
+}
+
+.js-reveal [data-reveal='left'] {
+	transform: translate3d(-1.1rem, 0, 0);
+}
+
+.js-reveal [data-reveal='right'] {
+	transform: translate3d(1.1rem, 0, 0);
+}
+
+.js-reveal [data-reveal='fade'] {
+	transform: none;
+}
+
+.js-reveal [data-reveal].is-in {
+	opacity: 1;
+	transform: none;
+	will-change: auto;
+}
+
 @media (prefers-reduced-motion: reduce) {
 	html {
 		scroll-behavior: auto;
@@ -419,5 +474,11 @@ a {
 	*::after {
 		animation: none !important;
 		transition: none !important;
+	}
+
+	.js-reveal [data-reveal] {
+		opacity: 1;
+		transform: none;
+		will-change: auto;
 	}
 }

@@ -17,6 +17,19 @@ const { department } = Astro.props;
 			sizes="(min-width: 48rem) 36vw, 100vw"
 			widths={[480, 720, 960, 1200]}
 		/>
+		{
+			department.signLabel && (
+				<span
+					class:list={[
+						'sign-label',
+						department.signTone === 'red' ? 'sign-label-red' : 'sign-label-yellow',
+						'dept-sign',
+					]}
+				>
+					{department.signLabel}
+				</span>
+			)
+		}
 	</span>
 	<span class="dept-name">{department.name}</span>
 	<span class="dept-summary">{department.summary}</span>
@@ -36,6 +49,13 @@ const { department } = Astro.props;
 		overflow: hidden;
 		aspect-ratio: 3 / 2;
 		background: var(--color-paper-deep);
+	}
+
+	.dept-sign {
+		position: absolute;
+		left: 0.65rem;
+		bottom: 0.65rem;
+		z-index: 1;
 	}
 
 	.dept-media :global(img) {
