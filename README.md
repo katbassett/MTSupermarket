@@ -8,8 +8,10 @@ npm run build
 npm run preview
 ```
 
-Store facts live in `src/data/site.ts`. Departments live in `src/data/departments.ts`. Jobs live in `src/data/jobs.ts`.
+Store facts live in `src/data/site.ts`. Departments live in `src/data/departments.ts`. Careers jobs are managed in Sanity (`studio/`).
 
-Set a job's `active` field to `false` to hide it. Add `description` and `applicationUrl` when that copy exists.
+Internal checklist for remaining MT assets and future CMS fields: `CONTENT-TODO.md` (not part of the public site).
+
+Contact form delivery uses `PUBLIC_CONTACT_FORM_EMAIL` in `.env` (form destination only). Public display email is separate (`site.email`) and stays unset until MT provides an official address.
 
 Replace `site` in `astro.config.mjs` with the production domain before launch. The current value, `https://example.com`, is a placeholder for canonical and Open Graph URLs.

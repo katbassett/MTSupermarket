@@ -2,6 +2,13 @@
  * Confirmed store facts and shared site copy.
  * Replace nulls and placeholder notes when MT provides the missing details.
  * Do not treat the prose in this file as final marketing copy.
+ *
+ * Staff-editable candidates (future Sanity / CMS — see CONTENT-TODO.md):
+ * - hoursLabel / hoursPhrase
+ * - opening
+ * - phone / address
+ * - publicEmail
+ * - store announcements
  */
 
 export const site = {
@@ -17,13 +24,28 @@ export const site = {
 	phoneDisplay: '210-251-3728',
 	phoneHref: 'tel:+12102513728',
 	/**
-	 * Temporary form destination until MT provides the store email.
-	 * Override with PUBLIC_CONTACT_EMAIL in `.env` when needed.
+	 * Public-facing contact email shown in the footer / store info.
+	 * Official MT address is TBD — keep null until MT provides one.
+	 * Do NOT put the form destination email here.
 	 */
-	email:
+	email: null as string | null,
+	/**
+	 * FormSubmit destination only — never rendered as visible site copy.
+	 * Set via PUBLIC_CONTACT_FORM_EMAIL in `.env` (see .env.example).
+	 * When MT provides an official inbox, point this env var there (or to a
+	 * shared mailbox) without requiring a public mailto on the site.
+	 */
+	formDestinationEmail:
+		(import.meta.env.PUBLIC_CONTACT_FORM_EMAIL as string | undefined) ||
 		(import.meta.env.PUBLIC_CONTACT_EMAIL as string | undefined) ||
-		'kat@lionheartgraphix.com',
+		null,
+	/** Clock range only; pair with hoursPhrase for pre-opening language. */
 	hoursLabel: '9 AM–8 PM',
+	/**
+	 * Public hours line before the store opens.
+	 * Prefer "Planned hours…" / "Hours upon opening…" — do not imply open now.
+	 */
+	hoursPhrase: 'Planned hours: 9 AM–8 PM daily',
 	opening: 'Early November',
 	mapsUrl:
 		'https://www.google.com/maps/search/?api=1&query=5428+Walzem+Rd,+San+Antonio,+TX',
@@ -35,6 +57,7 @@ export const nav: { href: string; label: string; hint?: string }[] = [
 	{ href: '/careers', label: 'Careers', hint: 'Hiring' },
 	{ href: '/about', label: 'About' },
 	{ href: '/contact', label: 'Contact' },
+	// Weekly Specials: add a nav item only when Sanity-powered specials ship.
 ];
 
 export function formatAddressLine() {
@@ -63,6 +86,7 @@ export function businessJsonLd() {
 			addressRegion: site.address.region,
 			addressCountry: site.address.country,
 		},
+		// Planned hours upon opening — store is not open yet.
 		openingHoursSpecification: {
 			'@type': 'OpeningHoursSpecification',
 			dayOfWeek: [
@@ -77,6 +101,6 @@ export function businessJsonLd() {
 			opens: '09:00',
 			closes: '20:00',
 		},
-	description: `${site.name} is an established Asian and international supermarket expected to open in ${site.opening}. Planned hours are ${site.hoursLabel} daily.`,
+		description: `${site.name} is an established Asian and international supermarket expected to open in ${site.opening}. ${site.hoursPhrase}.`,
 	};
 }

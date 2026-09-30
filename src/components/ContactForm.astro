@@ -2,10 +2,11 @@
 import { site } from '../data/site';
 
 /**
- * Posts to FormSubmit → site.email (kat@lionheartgraphix.com for now).
- * Override with PUBLIC_CONTACT_EMAIL in `.env` when the store address is ready.
+ * Contact form posts to FormSubmit using `site.formDestinationEmail` only.
+ * That address is never shown as public site copy — use `site.email` for display
+ * once MT provides an official address (currently null).
  */
-const contactEmail = site.email;
+const formEmail = site.formDestinationEmail;
 const sent = Astro.url.searchParams.get('sent') === '1';
 const siteBase =
 	(import.meta.env.PUBLIC_SITE_URL as string | undefined) ||
@@ -23,10 +24,10 @@ const nextUrl = new URL('/contact?sent=1', siteBase).href;
 				<a href="/contact">Send another message</a>
 			</p>
 		</div>
-	) : contactEmail ? (
+	) : formEmail ? (
 		<form
 			class="contact-form"
-			action={`https://formsubmit.co/${contactEmail}`}
+			action={`https://formsubmit.co/${formEmail}`}
 			method="POST"
 		>
 			<input type="hidden" name="_subject" value="MT Supermarket website inquiry" />
@@ -77,7 +78,7 @@ const nextUrl = new URL('/contact?sent=1', siteBase).href;
 		<div class="form-status" role="status">
 			<p class="sign-label sign-label-red">Form setup needed</p>
 			<p>
-				Add <code>PUBLIC_CONTACT_EMAIL</code> to the project <code>.env</code> so messages can be
+				Add <code>PUBLIC_CONTACT_FORM_EMAIL</code> to the project <code>.env</code> so messages can be
 				delivered. Until then, call the store for questions.
 			</p>
 		</div>

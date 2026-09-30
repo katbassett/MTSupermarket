@@ -21,7 +21,7 @@ const { id, variant = 'strip' } = Astro.props;
 				<p>
 					<span class="strip-label">Hours</span>
 					<span class="strip-value">{site.hoursLabel}</span>
-					<span class="strip-sub">Open daily</span>
+					<span class="strip-sub">Planned · daily upon opening</span>
 				</p>
 				<p>
 					<span class="strip-label">Opening</span>
@@ -47,7 +47,7 @@ const { id, variant = 'strip' } = Astro.props;
 					</div>
 					<div>
 						<dt>Hours</dt>
-						<dd>Open daily, {site.hoursLabel}</dd>
+						<dd>{site.hoursPhrase}</dd>
 					</div>
 					<div>
 						<dt>Expected opening</dt>
@@ -60,14 +60,14 @@ const { id, variant = 'strip' } = Astro.props;
 						</dd>
 					</div>
 					{
-						site.email && (
+						site.email ? (
 							<div>
 								<dt>Email</dt>
 								<dd>
 									<a href={`mailto:${site.email}`}>{site.email}</a>
 								</dd>
 							</div>
-						)
+						) : null
 					}
 					<div>
 						<dt>Directions</dt>

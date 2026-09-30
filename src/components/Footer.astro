@@ -15,13 +15,13 @@ const year = new Date().getFullYear();
 			<p>
 				<a href={site.mapsUrl}>{formatAddress()}</a>
 			</p>
-			<p>Open daily, {site.hoursLabel}</p>
+			<p>{site.hoursPhrase}</p>
 			<p>Expected opening: {site.opening}</p>
 		</div>
 		<div>
 			<h2>Contact</h2>
 			<p><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
-			{site.email && <p><a href={`mailto:${site.email}`}>{site.email}</a></p>}
+			{site.email ? <p><a href={`mailto:${site.email}`}>{site.email}</a></p> : null}
 		</div>
 		<nav aria-label="Footer">
 			<h2>Explore</h2>

@@ -13,14 +13,22 @@ import Layout from '../layouts/Layout.astro';
 			<SectionHeader level="h1" eyebrow="About" title="About MT Supermarket" />
 		</div>
 	</header>
-	<section class="section" style="padding-top: 1.25rem;">
+
+	{/*
+	  FUTURE: Company history / established Austin identity / business story.
+	  Do not invent history. When MT provides approved copy, add a section here
+	  (e.g. "Our story") above or beside the San Antonio store facts.
+	  Candidate fields for CMS later: companyHistory, austinIdentity, foundingNotes.
+	*/}
+
+	<section class="section about-store" style="padding-top: 1.25rem;" aria-labelledby="about-sa-heading">
 		<div class="container prose">
-			<h2>San Antonio</h2>
+			<h2 id="about-sa-heading">San Antonio</h2>
 			<ul class="highlight-list">
 				<li>MT Supermarket is an established Asian and international supermarket.</li>
 				<li>A San Antonio location is planned at {formatAddress()}.</li>
 				<li>Expected opening: {site.opening}.</li>
-				<li>Planned hours: {site.hoursLabel} daily.</li>
+				<li>{site.hoursPhrase}.</li>
 				<li>Phone: {site.phoneDisplay}.</li>
 			</ul>
 			<div class="button-row">

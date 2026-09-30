@@ -1,11 +1,17 @@
 import { photos } from './images';
 
 /**
- * Homepage feature tiles. Reserved slot for seasonal highlights and, later,
- * Weekly Specials (possibly Sanity-managed). Do not add prices until MT
- * provides them. Keep this list empty or soft until specials are ready —
- * architecture stays so a Weekly Specials section can drop in here.
+ * Homepage soft market highlights ("Around the market").
+ * These are department teasers — NOT Weekly Specials.
+ *
+ * WEEKLY SPECIALS (future, Sanity-powered):
+ * - Use `weeklySpecials` below (keep empty until MT supplies real specials).
+ * - Mount via FeatureStrip / a dedicated WeeklySpecials component on the homepage
+ *   (see the reserved slot comment in `src/pages/index.astro`).
+ * - Do not add Specials to primary nav until content is live.
+ * - Do not invent prices or placeholder specials for public display.
  */
+
 export interface StoreFeature {
 	id: string;
 	title: string;
@@ -16,7 +22,7 @@ export interface StoreFeature {
 	priceLabel?: string;
 }
 
-/** Soft department teasers until Weekly Specials content is provided. */
+/** Soft department teasers — not priced specials. */
 export const freshThisWeek: StoreFeature[] = [
 	{
 		id: 'produce',
@@ -43,3 +49,10 @@ export const freshThisWeek: StoreFeature[] = [
 		imageAlt: photos.grocery.alt,
 	},
 ];
+
+/**
+ * Future Weekly Specials feed (Sanity or similar).
+ * Keep empty so nothing public renders until real specials exist.
+ * Shape mirrors StoreFeature so FeatureStrip (or a sibling) can reuse it.
+ */
+export const weeklySpecials: StoreFeature[] = [];

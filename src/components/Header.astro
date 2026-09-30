@@ -9,7 +9,7 @@ const pathname = Astro.url.pathname;
 	<div class="utility">
 		<div class="container utility-inner">
 			<p><a href={site.mapsUrl}>{formatAddressLine()}</a></p>
-			<p class="utility-hours">Open daily · {site.hoursLabel}</p>
+			<p class="utility-hours">{site.hoursPhrase}</p>
 			<p><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
 		</div>
 	</div>
