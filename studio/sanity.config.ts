@@ -11,6 +11,8 @@ export default defineConfig({
   title: 'MT Supermarket',
   projectId,
   dataset,
+  // Match Vercel public rewrite: /studio → studio service
+  basePath: '/studio',
   plugins: [structureTool(), visionTool()],
   schema: {
     types: schemaTypes,
