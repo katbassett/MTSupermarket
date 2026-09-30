@@ -37,7 +37,8 @@ const pathname = Astro.url.pathname;
 <style>
 	.mobile-nav {
 		flex: 0 0 auto;
-		color: var(--color-bg);
+		align-self: center;
+		color: var(--color-ink);
 	}
 
 	.mobile-nav nav {
@@ -51,10 +52,12 @@ const pathname = Astro.url.pathname;
 	}
 
 	.menu-toggle {
-		display: block;
-		min-height: 2.875rem;
-		padding: 0.7rem 0;
-		color: var(--color-bg);
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 2.5rem;
+		padding: 0;
+		color: var(--color-red);
 		list-style: none;
 		cursor: pointer;
 		font-size: 0.78rem;

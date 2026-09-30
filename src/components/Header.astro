@@ -23,6 +23,8 @@ const pathname = Astro.url.pathname;
 				<span>San Antonio</span>
 				<span>Opening {site.opening}</span>
 			</p>
+			{/* Mobile: Menu sits on the same row as the logo */}
+			<MobileMenu />
 		</div>
 	</div>
 	<div class="nav-bar">
@@ -48,7 +50,6 @@ const pathname = Astro.url.pathname;
 					}
 				</ul>
 			</nav>
-			<MobileMenu />
 		</div>
 	</div>
 </header>
@@ -202,9 +203,13 @@ const pathname = Astro.url.pathname;
 	.masthead-inner {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-		gap: 1rem;
+		gap: 0.75rem 1rem;
 		min-height: 4.15rem;
+	}
+
+	.masthead-inner :global(.mobile-nav) {
+		flex: 0 0 auto;
+		margin-left: auto;
 	}
 
 	.wordmark {
@@ -245,6 +250,16 @@ const pathname = Astro.url.pathname;
 		text-transform: uppercase;
 	}
 
+	@media (min-width: 62rem) {
+		.masthead-inner {
+			justify-content: space-between;
+		}
+
+		.masthead-meta {
+			margin-left: auto;
+		}
+	}
+
 	.nav-bar {
 		background: var(--color-red);
 		color: var(--color-bg);
@@ -257,16 +272,23 @@ const pathname = Astro.url.pathname;
 	}
 
 	@media (max-width: 61.99rem) {
-		.nav-inner :global(.mobile-nav) {
-			margin-left: auto;
+		/* Logo + Menu share the masthead row; red nav bar is desktop-only here */
+		.nav-bar {
+			display: none;
 		}
 
-		.site-header.is-compact .nav-inner {
-			justify-content: space-between;
+		.masthead-meta {
+			display: none;
 		}
 
-		.site-header.is-compact .nav-inner :global(.mobile-nav) {
-			margin-left: 0;
+		.site-header.is-compact .masthead {
+			max-height: 4.15rem;
+			opacity: 1;
+			pointer-events: auto;
+		}
+
+		:global(html:has(.site-header.is-compact)) {
+			--header-height: 4.15rem;
 		}
 	}
 
