@@ -1,4 +1,7 @@
 ---
+import { Image } from 'astro:assets';
+import logoIcon from '../assets/images/logos/mt-icon.png';
+import logoWordmark from '../assets/images/logos/mt-wordmark.png';
 import { formatAddressLine, isCurrentPath, nav, site } from '../data/site';
 import MobileMenu from './MobileMenu.astro';
 
@@ -16,8 +19,22 @@ const pathname = Astro.url.pathname;
 	<div class="masthead">
 		<div class="container masthead-inner">
 			<a class="wordmark" href="/" aria-label="MT Supermarket, home">
-				<span class="mark" aria-hidden="true">MT</span>
-				<span class="word" aria-hidden="true">Supermarket</span>
+				<Image
+					class="logo-icon"
+					src={logoIcon}
+					alt=""
+					width={72}
+					height={73}
+					densities={[1, 2]}
+				/>
+				<Image
+					class="logo-wordmark"
+					src={logoWordmark}
+					alt=""
+					width={220}
+					height={42}
+					densities={[1, 2]}
+				/>
 			</a>
 			<p class="masthead-meta">
 				<span>San Antonio</span>
@@ -30,8 +47,14 @@ const pathname = Astro.url.pathname;
 	<div class="nav-bar">
 		<div class="container nav-inner">
 			<a class="compact-wordmark" href="/" aria-label="MT Supermarket, home">
-				<span class="compact-mark" aria-hidden="true">MT</span>
-				<span class="compact-word" aria-hidden="true">Supermarket</span>
+				<Image
+					class="compact-logo-icon"
+					src={logoIcon}
+					alt=""
+					width={34}
+					height={35}
+					densities={[1, 2]}
+				/>
 			</a>
 			<nav class="desktop-nav" aria-label="Primary">
 				<ul>
@@ -91,7 +114,7 @@ const pathname = Astro.url.pathname;
 	.utility,
 	.masthead {
 		overflow: hidden;
-		max-height: 6rem;
+		max-height: 7rem;
 		opacity: 1;
 		transition:
 			max-height 0.35s ease,
@@ -99,7 +122,7 @@ const pathname = Astro.url.pathname;
 	}
 
 	.masthead {
-		max-height: 5.5rem;
+		max-height: 6rem;
 	}
 
 	.site-header.is-compact .utility,
@@ -112,26 +135,15 @@ const pathname = Astro.url.pathname;
 	.compact-wordmark {
 		display: none;
 		flex: 0 0 auto;
-		align-items: baseline;
-		gap: 0.28rem;
-		color: var(--color-bg);
+		align-items: center;
+		line-height: 0;
 		text-decoration: none;
 	}
 
-	.compact-mark,
-	.compact-word {
-		font-family: var(--font-display-stack);
-		font-weight: 800;
-		letter-spacing: -0.05em;
-		line-height: 1;
-	}
-
-	.compact-mark {
-		font-size: 1.05rem;
-	}
-
-	.compact-word {
-		font-size: 0.88rem;
+	.compact-logo-icon {
+		display: block;
+		width: 2.05rem;
+		height: auto;
 	}
 
 	.site-header.is-compact .compact-wordmark {
@@ -162,8 +174,9 @@ const pathname = Astro.url.pathname;
 	}
 
 	.utility {
-		background: var(--color-yellow);
+		background: var(--color-cream);
 		color: var(--color-ink);
+		border-bottom: 1px solid var(--color-line);
 	}
 
 	.utility-inner {
@@ -175,12 +188,13 @@ const pathname = Astro.url.pathname;
 		min-height: 2rem;
 		padding: 0.2rem 0;
 		font-size: 0.72rem;
-		font-weight: 700;
+		font-weight: 600;
 		line-height: 1.2;
 	}
 
 	.utility-hours {
-		letter-spacing: 0.06em;
+		color: var(--color-blue);
+		letter-spacing: 0.04em;
 		text-transform: uppercase;
 	}
 
@@ -191,6 +205,7 @@ const pathname = Astro.url.pathname;
 
 	.utility a:hover,
 	.utility a:focus-visible {
+		color: var(--color-blue);
 		text-decoration: underline;
 		text-underline-offset: 0.15em;
 	}
@@ -203,8 +218,9 @@ const pathname = Astro.url.pathname;
 	.masthead-inner {
 		display: flex;
 		align-items: center;
-		gap: 0.75rem 1rem;
-		min-height: 4.15rem;
+		gap: 0.85rem 1.15rem;
+		min-height: 5rem;
+		padding-block: 0.55rem;
 	}
 
 	.masthead-inner :global(.mobile-nav) {
@@ -214,37 +230,35 @@ const pathname = Astro.url.pathname;
 
 	.wordmark {
 		display: flex;
-		align-items: baseline;
-		gap: 0.42rem;
+		align-items: center;
+		gap: 0.55rem;
+		min-width: 0;
 		color: inherit;
 		text-decoration: none;
 	}
 
-	.mark,
-	.word {
-		font-family: var(--font-display-stack);
-		font-weight: 800;
-		letter-spacing: -0.05em;
-		line-height: 0.9;
+	.logo-icon {
+		display: block;
+		flex: 0 0 auto;
+		width: clamp(2.6rem, 7vw, 3.55rem);
+		height: auto;
 	}
 
-	.mark {
-		color: var(--color-red);
-		font-size: clamp(1.85rem, 2.5vw, 2.55rem);
-	}
-
-	.word {
-		font-size: clamp(1.45rem, 2.1vw, 2.15rem);
+	.logo-wordmark {
+		display: block;
+		flex: 0 1 auto;
+		width: clamp(8.5rem, 28vw, 13.75rem);
+		height: auto;
 	}
 
 	.masthead-meta {
 		display: grid;
 		justify-items: end;
 		gap: 0.18rem;
-		color: var(--color-red);
+		color: var(--color-muted);
 		font-size: 0.68rem;
-		font-weight: 800;
-		letter-spacing: 0.12em;
+		font-weight: 700;
+		letter-spacing: 0.08em;
 		line-height: 1.25;
 		text-align: right;
 		text-transform: uppercase;
@@ -282,13 +296,17 @@ const pathname = Astro.url.pathname;
 		}
 
 		.site-header.is-compact .masthead {
-			max-height: 4.15rem;
+			max-height: 4.75rem;
 			opacity: 1;
 			pointer-events: auto;
 		}
 
 		:global(html:has(.site-header.is-compact)) {
-			--header-height: 4.15rem;
+			--header-height: 4.75rem;
+		}
+
+		.logo-wordmark {
+			width: clamp(7.5rem, 42vw, 11rem);
 		}
 	}
 
@@ -310,10 +328,10 @@ const pathname = Astro.url.pathname;
 		display: inline-block;
 		padding: 0.35rem 0 0.2rem;
 		border-bottom: 2px solid transparent;
-		color: var(--color-bg);
+		color: var(--color-cream);
 		font-size: 0.78rem;
-		font-weight: 800;
-		letter-spacing: 0.11em;
+		font-weight: 700;
+		letter-spacing: 0.08em;
 		line-height: 1;
 		text-decoration: none;
 		text-transform: uppercase;
@@ -343,7 +361,7 @@ const pathname = Astro.url.pathname;
 		}
 
 		.masthead-inner {
-			min-height: 4.5rem;
+			min-height: 5rem;
 		}
 	}
 

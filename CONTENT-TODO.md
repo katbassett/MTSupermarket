@@ -14,7 +14,7 @@ Last audit: brief gap pass (Weekly Specials architecture, About structure, email
 - [ ] Final Careers application links / process notes (per role or shared apply URL)
 - [ ] Specific featured products / brands to highlight (if desired)
 - [ ] Additional wholesale information (hours, account process, categories, etc.)
-- [ ] Cleaned / optimized MT logo (wordmark for header)
+- [x] MT logo assets (icon + wordmark in header; full lockup in `src/assets/images/logos/`)
 - [ ] Final San Antonio photography (store, departments, product — replace stock as available)
 
 ---

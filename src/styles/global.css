@@ -1,38 +1,42 @@
 /*
- * Brand note: these colors are provisional site colors from the design pass —
- * not confirmed official MT logo colors. Change the --brand-* tokens (and
- * surfaces below) when final brand colors arrive. Red + yellow stay dominant;
- * green is utility only. Do not add extra brand hues.
+ * MT brand colors.
+ * --brand-* = saturated logo references (do not recolor the logo assets).
+ * --color-* = softer website surfaces so the logo can stand out.
+ * Cream / neutrals dominate; red primary; blue secondary; yellow accent only.
  */
 
 :root {
-	/* —— Brand (swap these later) —— */
-	--brand-red: #b52b1f;
-	--brand-red-deep: #8f2018;
-	--brand-yellow: #f2b51d;
+	/* —— Logo references (bright) —— */
+	--brand-red: #e5251d;
+	--brand-blue: #123cc1;
 
-	/* —— Surfaces —— */
-	--color-cream: #faf7ef;
+	/* —— Website surfaces (softer) —— */
+	--color-red: #c9342b;
+	--color-red-dark: #a92c25;
+	--color-blue: #294b9b;
+	--color-blue-dark: #213d7d;
+	--color-yellow: #f2bd3d;
+
+	/* —— Neutrals —— */
+	--color-cream: #fbf7ef;
+	--color-warm: #f3ecdf;
+	--color-white: #ffffff;
+	--color-ink: #211d1a;
+
+	/* —— Surfaces / derived —— */
 	--color-bg: var(--color-cream);
-	--color-warm: #f1eadc;
 	--color-paper: var(--color-cream);
-	--color-paper-deep: #e8dfd0;
-	--color-surface: #ffffff;
+	--color-paper-deep: #ebe3d4;
+	--color-surface: var(--color-white);
 	--color-line: #e2d8c8;
-
-	/* —— Ink —— */
-	--color-ink: #201914;
 	--color-ink-soft: #322820;
 	--color-muted: #5f564c;
 	--color-focus: var(--color-ink);
 
 	/* —— Semantic aliases —— */
-	--color-red: var(--brand-red);
-	--color-red-dark: var(--brand-red-deep);
-	--color-yellow: var(--brand-yellow);
-	--color-accent: var(--brand-red);
-	--color-accent-deep: var(--brand-red-deep);
-	--color-marigold: var(--brand-yellow);
+	--color-accent: var(--color-red);
+	--color-accent-deep: var(--color-red-dark);
+	--color-marigold: var(--color-yellow);
 
 	/* Utility (use sparingly; not a brand accent) */
 	--color-green: #315b3b;
@@ -147,11 +151,11 @@ a {
 	display: inline-block;
 	margin: 0 0 0.8rem;
 	padding: 0.2rem 0.45rem;
-	background: var(--color-marigold);
+	background: var(--color-yellow);
 	color: var(--color-ink);
 	font-size: 0.75rem;
-	font-weight: 800;
-	letter-spacing: 0.08em;
+	font-weight: 700;
+	letter-spacing: 0.06em;
 	text-transform: uppercase;
 }
 
@@ -163,8 +167,8 @@ a {
 	border-radius: 0;
 	font-family: var(--font-body-stack);
 	font-size: 0.72rem;
-	font-weight: 800;
-	letter-spacing: 0.11em;
+	font-weight: 700;
+	letter-spacing: 0.08em;
 	line-height: 1.15;
 	text-transform: uppercase;
 }
@@ -172,6 +176,11 @@ a {
 .sign-label-yellow {
 	background: var(--color-yellow);
 	color: var(--color-ink);
+}
+
+.sign-label-blue {
+	background: var(--color-blue);
+	color: var(--color-cream);
 }
 
 .sign-label-red {
@@ -296,6 +305,11 @@ a {
 .button-light {
 	--button-slide: var(--color-yellow);
 	background: var(--color-paper);
+	color: var(--color-ink);
+}
+
+.button-light:hover,
+.button-light:focus-visible {
 	color: var(--color-ink);
 }
 

@@ -1,14 +1,22 @@
 ---
+import { formatHiringCtaText } from '../lib/hiring-copy';
+import { sanityApiVersion, sanityDataset, sanityProjectId } from '../lib/sanity';
+
 interface Props {
 	eyebrow?: string;
 	title: string;
 	text?: string;
+	/** When set, body copy refreshes from Sanity on each page load (public API). */
+	refreshHiringFromSanity?: { opening: string; initialCount: number };
 	cta: { href: string; label: string };
 }
 
-const { eyebrow, title, text, cta } = Astro.props;
+const { eyebrow, title, text, refreshHiringFromSanity, cta } = Astro.props;
 const titleLines = title.split('\n');
 const ctaLines = cta.label.split('\n');
+const hiringText =
+	refreshHiringFromSanity &&
+	formatHiringCtaText(refreshHiringFromSanity.initialCount, refreshHiringFromSanity.opening);
 ---
 
 <section class="cta-band" data-reveal="fade">
@@ -24,7 +32,11 @@ const ctaLines = cta.label.split('\n');
 				))
 			}
 		</h2>
-		{text && <p>{text}</p>}
+		{refreshHiringFromSanity && hiringText ? (
+			<p data-careers-cta-text>{hiringText}</p>
+		) : (
+			text && <p>{text}</p>
+		)}
 	</div>
 	<a class="cta-go" href={cta.href}>
 		<span>
@@ -41,28 +53,86 @@ const ctaLines = cta.label.split('\n');
 	</a>
 </section>
 
+{
+	refreshHiringFromSanity && (
+		<script
+			define:vars={{
+				projectId: sanityProjectId,
+				dataset: sanityDataset,
+				apiVersion: sanityApiVersion,
+				opening: refreshHiringFromSanity.opening,
+			}}
+		>
+			(function () {
+				const el = document.querySelector('[data-careers-cta-text]');
+				if (!el) return;
+
+				const query =
+					'count(*[_type == "job" && active == true && defined(slug.current)])';
+
+				function format(count) {
+					const openingLabel = opening.toLowerCase();
+					if (count > 0) {
+						const positionPhrase =
+							count === 1 ? '1 position is listed' : count + ' positions are listed';
+						return (
+							'Hiring for the San Antonio store is open before the expected ' +
+							openingLabel +
+							' opening. ' +
+							positionPhrase +
+							'.'
+						);
+					}
+					return 'Hiring for the San Antonio store begins before the store opens.';
+				}
+
+				const url =
+					'https://' +
+					projectId +
+					'.apicdn.sanity.io/v' +
+					apiVersion +
+					'/data/query/' +
+					dataset +
+					'?query=' +
+					encodeURIComponent(query);
+
+				fetch(url)
+					.then((res) => res.json())
+					.then((data) => {
+						const count = typeof data.result === 'number' ? data.result : 0;
+						el.textContent = format(count);
+					})
+					.catch(() => {
+						/* Keep build-time copy on failure */
+					});
+			})();
+		</script>
+	)
+}
+
 <style>
 	.cta-band {
 		display: grid;
 	}
 
 	.cta-main {
-		background: var(--color-marigold);
+		background: var(--color-warm);
 		color: var(--color-ink);
 		padding: clamp(2.25rem, 6vw, 4.25rem) max(1.25rem, calc((100vw - 72rem) / 2));
 	}
 
 	.cta-label {
 		margin-bottom: 0.85rem;
+		color: var(--color-red);
 		font-size: 0.78rem;
-		font-weight: 800;
-		letter-spacing: 0.16em;
+		font-weight: 700;
+		letter-spacing: 0.1em;
 		text-transform: uppercase;
 	}
 
 	h2 {
 		max-width: 14ch;
-		color: var(--color-accent);
+		color: var(--color-red);
 		font-size: clamp(2.35rem, 4vw, 3.5rem);
 		line-height: 0.95;
 	}

@@ -181,9 +181,7 @@ const signageItems = [
 	<CTASection
 		eyebrow="Now hiring · San Antonio"
 		title={'Join the MT\nSupermarket Team'}
-		text={openRoles > 0
-			? `Hiring for the San Antonio store is open before the expected ${site.opening.toLowerCase()} opening. ${openRoles} positions are listed.`
-			: 'Hiring for the San Antonio store begins before the store opens.'}
+		refreshHiringFromSanity={{ opening: site.opening, initialCount: openRoles }}
 		cta={{ href: '/careers', label: 'View open positions' }}
 	/>
 </Layout>
@@ -205,8 +203,8 @@ const signageItems = [
 	.opening {
 		color: var(--color-red);
 		font-size: 0.78rem;
-		font-weight: 800;
-		letter-spacing: 0.08em;
+		font-weight: 700;
+		letter-spacing: 0.06em;
 		text-transform: uppercase;
 	}
 
@@ -251,8 +249,8 @@ const signageItems = [
 	.launch-kicker {
 		color: var(--color-cream);
 		font-size: 0.75rem;
-		font-weight: 800;
-		letter-spacing: 0.1em;
+		font-weight: 700;
+		letter-spacing: 0.08em;
 		text-transform: uppercase;
 	}
 
@@ -288,8 +286,8 @@ const signageItems = [
 		background: var(--color-bg);
 		color: var(--color-red);
 		font-size: 0.82rem;
-		font-weight: 800;
-		letter-spacing: 0.06em;
+		font-weight: 700;
+		letter-spacing: 0.05em;
 		text-decoration: none;
 		text-transform: uppercase;
 		transition: color 0.35s ease;
@@ -350,20 +348,20 @@ const signageItems = [
 		gap: 0.35rem;
 		color: var(--color-cream);
 		font-size: 0.82rem;
-		font-weight: 800;
-		letter-spacing: 0.08em;
+		font-weight: 700;
+		letter-spacing: 0.06em;
 		text-decoration: none;
 		text-transform: uppercase;
 	}
 
 	.hire-link:hover,
 	.hire-link:focus-visible {
-		color: #fff;
+		color: var(--color-yellow);
 	}
 
 	.signage {
-		background: var(--color-yellow);
-		color: var(--color-ink);
+		background: var(--color-blue);
+		color: var(--color-cream);
 	}
 
 	.signage ul {
@@ -371,13 +369,13 @@ const signageItems = [
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
-		gap: 0.35rem 1rem;
-		min-height: 2.75rem;
-		padding: 0.45rem 0;
+		gap: 0.3rem 0.95rem;
+		min-height: 2.25rem;
+		padding: 0.3rem 0;
 		list-style: none;
-		font-size: 0.7rem;
-		font-weight: 800;
-		letter-spacing: 0.08em;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.06em;
 		line-height: 1.2;
 		text-transform: uppercase;
 	}
@@ -388,8 +386,8 @@ const signageItems = [
 			justify-content: space-between;
 			gap: 1rem;
 			padding: 0;
-			font-size: 0.78rem;
-			letter-spacing: 0.11em;
+			font-size: 0.74rem;
+			letter-spacing: 0.08em;
 		}
 	}
 
@@ -493,8 +491,8 @@ const signageItems = [
 		margin: 0;
 		color: var(--color-red);
 		font-size: 0.78rem;
-		font-weight: 800;
-		letter-spacing: 0.08em;
+		font-weight: 700;
+		letter-spacing: 0.06em;
 		text-transform: uppercase;
 	}
 
@@ -682,8 +680,8 @@ const signageItems = [
 		margin-top: 1rem;
 		color: var(--color-red);
 		font-size: 0.82rem;
-		font-weight: 800;
-		letter-spacing: 0.08em;
+		font-weight: 700;
+		letter-spacing: 0.06em;
 		text-decoration: none;
 		text-transform: uppercase;
 	}

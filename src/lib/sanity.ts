@@ -2,6 +2,7 @@ import {createClient} from '@sanity/client'
 
 export const sanityProjectId = '9qo9wknc'
 export const sanityDataset = 'production'
+export const sanityApiVersion = '2025-01-01'
 
 /**
  * Public Sanity client for the MT Supermarket Astro site.
@@ -13,6 +14,6 @@ export const sanityDataset = 'production'
 export const sanityClient = createClient({
 	projectId: sanityProjectId,
 	dataset: sanityDataset,
-	apiVersion: '2025-01-01',
+	apiVersion: sanityApiVersion,
 	useCdn: false,
 })
