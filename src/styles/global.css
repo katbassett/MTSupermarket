@@ -259,7 +259,7 @@ a {
 	z-index: -1;
 	inset: 0;
 	border-radius: inherit;
-	background: var(--button-slide, var(--color-yellow));
+	background: var(--button-slide, var(--color-blue));
 	transform: translateX(-105%);
 	transition: transform 0.45s ease;
 }
@@ -270,14 +270,14 @@ a {
 }
 
 .button-primary {
-	--button-slide: var(--color-yellow);
+	--button-slide: var(--color-blue);
 	background: var(--color-accent);
 	color: var(--color-paper);
 }
 
 .button-primary:hover,
 .button-primary:focus-visible {
-	color: var(--color-ink);
+	color: var(--color-cream);
 }
 
 .button-stamp {
@@ -310,14 +310,14 @@ a {
 }
 
 .button-light {
-	--button-slide: var(--color-yellow);
+	--button-slide: var(--color-blue);
 	background: var(--color-paper);
 	color: var(--color-ink);
 }
 
 .button-light:hover,
 .button-light:focus-visible {
-	color: var(--color-ink);
+	color: var(--color-cream);
 }
 
 .button-outline-light {
@@ -432,6 +432,16 @@ a {
 @media (min-width: 48rem) {
 	.container {
 		width: min(72rem, calc(100% - 3rem));
+	}
+}
+
+/* Mobile / tablet header: full-bleed (after .container rules so this wins) */
+@media (max-width: 61.99rem) {
+	.site-header .container {
+		width: 100% !important;
+		max-width: none !important;
+		margin-inline: 0 !important;
+		padding-inline: 0 !important;
 	}
 }
 

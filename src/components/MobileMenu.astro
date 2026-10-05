@@ -94,11 +94,16 @@ const pathname = Astro.url.pathname;
 		}
 	}
 
-	.mobile-nav a[aria-current='page'] {
-		color: var(--color-yellow);
+	.mobile-nav a:hover,
+	.mobile-nav a:focus-visible {
+		color: var(--color-blue);
 	}
 
-	.nav-hint {
+	.mobile-nav a[aria-current='page'] {
+		color: var(--color-blue);
+	}
+
+	.mobile-nav .nav-hint {
 		color: var(--color-yellow);
 	}
 

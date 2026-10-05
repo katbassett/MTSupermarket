@@ -295,6 +295,35 @@ const pathname = Astro.url.pathname;
 			display: none;
 		}
 
+		/* Kill the global .container side inset (100% - 2rem / 3rem) */
+		:global(.site-header .container) {
+			width: 100%;
+			max-width: none;
+			margin-inline: 0;
+			padding-inline: 0;
+		}
+
+		.utility-inner,
+		.masthead-inner {
+			width: 100%;
+			padding-inline: 0;
+		}
+
+		.wordmark {
+			padding-left: 0;
+			margin-left: 0;
+		}
+
+		.logo-icon {
+			/* PNG has a little transparent margin around the circle */
+			margin-left: -0.2rem;
+		}
+
+		.masthead-inner :global(.mobile-nav) {
+			padding-right: 0.15rem;
+			margin-right: 0;
+		}
+
 		.site-header.is-compact .masthead {
 			max-height: 4.75rem;
 			opacity: 1;
@@ -340,7 +369,7 @@ const pathname = Astro.url.pathname;
 	.desktop-nav a:hover,
 	.desktop-nav a:focus-visible,
 	.desktop-nav a[aria-current='page'] {
-		border-bottom-color: var(--color-yellow);
+		border-bottom-color: var(--color-blue);
 	}
 
 	.nav-hint {
