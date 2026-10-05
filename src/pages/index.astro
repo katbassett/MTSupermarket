@@ -241,6 +241,7 @@ const signageItems = [
 		width: calc(100% - 1rem);
 		margin-top: -2.75rem;
 		padding: clamp(1.25rem, 3.2vw, 1.75rem) clamp(0.85rem, 2vw, 1rem);
+		border-radius: var(--radius-lg);
 		background: var(--color-red);
 		color: var(--color-cream);
 		text-align: center;
@@ -282,7 +283,8 @@ const signageItems = [
 		align-items: center;
 		overflow: hidden;
 		min-height: 2.85rem;
-		padding: 0.65rem 1.05rem;
+		padding: 0.65rem 1.1rem;
+		border-radius: var(--radius-md);
 		background: var(--color-bg);
 		color: var(--color-red);
 		font-size: 0.82rem;
@@ -298,6 +300,7 @@ const signageItems = [
 		position: absolute;
 		z-index: -1;
 		inset: 0;
+		border-radius: inherit;
 		background: var(--color-yellow);
 		transform: translateX(-105%);
 		transition: transform 0.45s ease;
