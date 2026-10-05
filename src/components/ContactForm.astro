@@ -91,6 +91,10 @@ const nextUrl = new URL('/contact?sent=1', siteBase).href;
 		max-width: 36rem;
 	}
 
+	.contact-form {
+		position: relative;
+	}
+
 	.form-status {
 		padding: 1.25rem 1.15rem;
 		border: 2px solid var(--color-ink);
@@ -119,10 +123,16 @@ const nextUrl = new URL('/contact?sent=1', siteBase).href;
 
 	.hp {
 		position: absolute;
-		left: -9999px;
-		height: 0;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
 		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border: 0;
 		opacity: 0;
+		pointer-events: none;
 	}
 
 	.field {

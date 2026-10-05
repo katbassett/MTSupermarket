@@ -64,10 +64,15 @@
 html {
 	background: var(--color-paper);
 	scroll-behavior: smooth;
+	overflow-x: clip;
+	overscroll-behavior-x: none;
 }
 
 body {
 	min-height: 100svh;
+	min-width: 0;
+	overflow-x: clip;
+	overscroll-behavior-x: none;
 	background: var(--color-paper);
 	color: var(--color-ink);
 	font-family: var(--font-body-stack);
@@ -75,8 +80,11 @@ body {
 	line-height: 1.55;
 }
 
-img {
+img,
+video,
+svg {
 	max-width: 100%;
+	height: auto;
 	display: block;
 }
 
@@ -467,12 +475,15 @@ a {
 	will-change: opacity, transform;
 }
 
-.js-reveal [data-reveal='left'] {
-	transform: translate3d(-1.1rem, 0, 0);
-}
+/* Horizontal reveals only on wider screens — sideways translate expands mobile scroll width */
+@media (min-width: 48rem) {
+	.js-reveal [data-reveal='left'] {
+		transform: translate3d(-1.1rem, 0, 0);
+	}
 
-.js-reveal [data-reveal='right'] {
-	transform: translate3d(1.1rem, 0, 0);
+	.js-reveal [data-reveal='right'] {
+		transform: translate3d(1.1rem, 0, 0);
+	}
 }
 
 .js-reveal [data-reveal='fade'] {
