@@ -79,29 +79,41 @@ const pathname = Astro.url.pathname;
 
 <script>
 	const header = document.querySelector('[data-site-header]');
-	if (header) {
-		const threshold = 48;
+	if (header instanceof HTMLElement) {
+		// Hysteresis avoids flicker when collapse changes layout height near the threshold
+		const COMPACT_ON = 72;
+		const COMPACT_OFF = 28;
+		let compact = false;
 		let ticking = false;
 
-		const sync = () => {
-			header.classList.toggle('is-compact', window.scrollY > threshold);
+		const apply = () => {
+			const next = compact;
+			header.classList.toggle('is-compact', next);
+			document.documentElement.classList.toggle('header-compact', next);
 			ticking = false;
 		};
 
+		const sync = () => {
+			const y = window.scrollY || window.pageYOffset || 0;
+			if (!compact && y >= COMPACT_ON) compact = true;
+			else if (compact && y <= COMPACT_OFF) compact = false;
+			apply();
+		};
+
 		const onScroll = () => {
-			if (!ticking) {
-				ticking = true;
-				requestAnimationFrame(sync);
-			}
+			if (ticking) return;
+			ticking = true;
+			requestAnimationFrame(sync);
 		};
 
 		sync();
 		window.addEventListener('scroll', onScroll, { passive: true });
+		window.addEventListener('resize', onScroll, { passive: true });
 	}
 </script>
 
 <style>
-	:global(html:has(.site-header.is-compact)) {
+	:global(html.header-compact) {
 		--header-height: 2.875rem;
 	}
 
@@ -109,6 +121,9 @@ const pathname = Astro.url.pathname;
 		position: sticky;
 		top: 0;
 		z-index: 30;
+		background: var(--color-cream);
+		/* Avoid subpixel gaps above sticky header while scrolling */
+		box-shadow: 0 -1px 0 var(--color-cream);
 	}
 
 	.utility,
@@ -116,20 +131,37 @@ const pathname = Astro.url.pathname;
 		overflow: hidden;
 		max-height: 7rem;
 		opacity: 1;
+		border-bottom-width: 1px;
+		border-bottom-style: solid;
+		border-bottom-color: transparent;
 		transition:
-			max-height 0.35s ease,
-			opacity 0.28s ease;
+			max-height 0.28s ease,
+			opacity 0.22s ease,
+			border-bottom-width 0.28s ease;
+	}
+
+	.utility {
+		border-bottom-color: var(--color-line);
 	}
 
 	.masthead {
 		max-height: 6rem;
 	}
 
-	.site-header.is-compact .utility,
+	.site-header.is-compact .utility {
+		max-height: 0;
+		opacity: 0;
+		border-bottom-width: 0;
+		pointer-events: none;
+		visibility: hidden;
+	}
+
 	.site-header.is-compact .masthead {
 		max-height: 0;
 		opacity: 0;
+		border-bottom-width: 0;
 		pointer-events: none;
+		visibility: hidden;
 	}
 
 	.compact-wordmark {
@@ -176,7 +208,6 @@ const pathname = Astro.url.pathname;
 	.utility {
 		background: var(--color-cream);
 		color: var(--color-ink);
-		border-bottom: 1px solid var(--color-line);
 	}
 
 	.utility-inner {
@@ -295,14 +326,17 @@ const pathname = Astro.url.pathname;
 			display: none;
 		}
 
+		/* Mobile compact: hide utility only; keep logo/menu masthead */
 		.site-header.is-compact .masthead {
-			max-height: 4.75rem;
+			max-height: 5.5rem;
 			opacity: 1;
+			visibility: visible;
 			pointer-events: auto;
+			border-bottom-width: 0;
 		}
 
-		:global(html:has(.site-header.is-compact)) {
-			--header-height: 4.75rem;
+		:global(html.header-compact) {
+			--header-height: 5rem;
 		}
 
 		.logo-wordmark {

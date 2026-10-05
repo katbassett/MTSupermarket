@@ -37,7 +37,13 @@ const year = new Date().getFullYear();
 		</nav>
 	</div>
 	<div class="container footer-base">
-		<p>© {year} MT Supermarket</p>
+		<p>
+			© {year} Kat Bassett
+			<span class="footer-sep" aria-hidden="true">·</span>
+			<a href="https://lionheartgraphix.com" rel="noopener noreferrer" target="_blank"
+				>LIONHEART GRAPHIX</a
+			>
+		</p>
 	</div>
 </footer>
 
@@ -97,7 +103,23 @@ const year = new Date().getFullYear();
 		padding-top: 1.25rem;
 		border-top: 1px solid rgba(243, 238, 228, 0.2);
 		color: #e4d7c8;
-		font-size: 0.92rem;
+		font-size: 0.8rem;
+		text-align: center;
+		justify-items: center;
+	}
+
+	.footer-sep {
+		margin-inline: 0.35rem;
+	}
+
+	.footer-base a {
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
+	}
+
+	.footer-base a:hover,
+	.footer-base a:focus-visible {
+		color: var(--color-paper);
 	}
 
 	@media (min-width: 48rem) {

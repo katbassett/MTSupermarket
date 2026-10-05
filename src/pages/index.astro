@@ -3,13 +3,11 @@ import CTASection from '../components/CTASection.astro';
 import DepartmentGrid from '../components/DepartmentGrid.astro';
 import FeatureStrip from '../components/FeatureStrip.astro';
 import Photo from '../components/Photo.astro';
-import { getActiveJobs } from '../lib/jobs';
 import { photos } from '../data/images';
 import { aisleLinks, discoveries } from '../data/market';
 import { site } from '../data/site';
 import Layout from '../layouts/Layout.astro';
 
-const openRoles = (await getActiveJobs()).length;
 const signageItems = [
 	'Asian & international groceries',
 	'Fresh produce',
@@ -181,7 +179,7 @@ const signageItems = [
 	<CTASection
 		eyebrow="Now hiring · San Antonio"
 		title={'Join the MT\nSupermarket Team'}
-		refreshHiringFromSanity={{ opening: site.opening, initialCount: openRoles }}
+		text={`We're hiring for the San Antonio store ahead of the expected ${site.opening.toLowerCase()} opening. Explore current roles and apply today.`}
 		cta={{ href: '/careers', label: 'View open positions' }}
 	/>
 </Layout>
@@ -561,6 +559,11 @@ const signageItems = [
 	.welcome figure,
 	.wholesale figure {
 		aspect-ratio: 4 / 3;
+	}
+
+	.welcome figure,
+	.wholesale figure {
+		border-radius: var(--radius-lg);
 	}
 
 	.welcome h2,
