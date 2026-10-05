@@ -435,16 +435,6 @@ a {
 	}
 }
 
-/* Mobile / tablet header: full-bleed (after .container rules so this wins) */
-@media (max-width: 61.99rem) {
-	.site-header .container {
-		width: 100% !important;
-		max-width: none !important;
-		margin-inline: 0 !important;
-		padding-inline: 0 !important;
-	}
-}
-
 @media (min-width: 56rem) {
 	.split {
 		grid-template-columns: 1.05fr 0.95fr;
