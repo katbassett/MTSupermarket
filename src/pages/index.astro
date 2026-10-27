@@ -481,24 +481,33 @@ const signageItems = [
 	}
 
 	.aisles {
+		display: flex;
+		align-items: center;
+		min-height: 3.35rem;
 		background: var(--color-surface);
 		border-block: 1px solid var(--color-line);
-		padding: 0.85rem 0;
+		padding: 1rem 0;
 	}
 
 	.aisles-inner {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: 0.45rem 0.25rem;
+		column-gap: 0;
+		row-gap: 0.65rem;
+		width: 100%;
 	}
 
 	.aisles p {
-		margin: 0;
+		flex: 0 0 auto;
+		margin: 0 0.9rem 0 0;
+		padding: 0 0.9rem 0 0.02em;
+		border-right: 1px solid var(--color-line);
 		color: var(--color-red);
 		font-size: 0.78rem;
 		font-weight: 700;
 		letter-spacing: 0.06em;
+		line-height: 1.2;
 		text-transform: uppercase;
 	}
 
@@ -506,7 +515,9 @@ const signageItems = [
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
-		gap: 0.35rem 0;
+		flex: 1 1 auto;
+		gap: 0;
+		min-width: 0;
 		margin: 0;
 		padding: 0;
 		list-style: none;
@@ -515,19 +526,19 @@ const signageItems = [
 	.aisles li {
 		display: flex;
 		align-items: center;
+		line-height: 1.2;
 	}
 
-	.aisles li:not(:last-child)::after {
-		content: '';
-		width: 1px;
-		height: 0.8rem;
-		margin-inline: 0.7rem;
-		background: var(--color-line);
+	.aisles li:not(:last-child) {
+		margin-right: 0.9rem;
+		padding-right: 0.9rem;
+		border-right: 1px solid var(--color-line);
 	}
 
 	.aisles a {
 		font-size: 0.98rem;
 		font-weight: 800;
+		line-height: 1.2;
 		text-decoration: none;
 	}
 
@@ -556,14 +567,22 @@ const signageItems = [
 		background: var(--color-paper-deep);
 	}
 
-	.welcome figure,
-	.wholesale figure {
+	.welcome figure {
 		aspect-ratio: 4 / 3;
+	}
+
+	.wholesale figure {
+		aspect-ratio: 3 / 2;
 	}
 
 	.welcome figure,
 	.wholesale figure {
 		border-radius: var(--radius-lg);
+	}
+
+	/* Keep the full MT SUPERMARKET lettering in frame (sign sits on the right). */
+	.wholesale figure :global(img) {
+		object-position: 78% 42%;
 	}
 
 	.welcome h2,
@@ -649,15 +668,15 @@ const signageItems = [
 	}
 
 	.pantry .discover-media :global(img) {
-		object-position: center 45%;
+		object-position: center 55%;
 	}
 
 	.frozen .discover-media :global(img) {
-		object-position: center 50%;
+		object-position: center 45%;
 	}
 
 	.specialty .discover-media :global(img) {
-		object-position: center 40%;
+		object-position: center 50%;
 	}
 
 	.discover-grid a:hover .discover-media :global(img),

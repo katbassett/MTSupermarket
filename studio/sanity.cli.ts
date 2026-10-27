@@ -9,5 +9,9 @@ export default defineCliConfig({
     dataset,
   },
   studioHost: 'mtsupermarket',
-  autoUpdates: true,
+  // Keep classic Vite builds so basePath `/studio` works behind the Vercel rewrite.
+  // Auto-updates force basePath `/` and blank the Studio at /studio.
+  deployment: {
+    autoUpdates: false,
+  },
 })

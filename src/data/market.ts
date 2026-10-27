@@ -29,7 +29,7 @@ export const discoveries = [
 		area: 'pantry',
 		title: 'Asian pantry',
 		href: '/departments/grocery',
-		image: photos.grocery.src,
+		image: photos.pantry.src,
 	},
 	{
 		area: 'sauces',
@@ -53,12 +53,12 @@ export const discoveries = [
 		area: 'frozen',
 		title: 'Frozen foods',
 		href: '/departments/grocery',
-		image: photos.packs.src,
+		image: photos.frozen.src,
 	},
 	{
 		area: 'specialty',
 		title: 'Specialty ingredients',
 		href: '/departments/grocery',
-		image: photos.discovery.src,
+		image: photos.specialty.src,
 	},
 ] as const;
