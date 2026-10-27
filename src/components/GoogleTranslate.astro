@@ -1,0 +1,133 @@
+---
+/**
+ * Google Translate control styled like site primary buttons.
+ * Sized so “Select Language” is fully visible.
+ */
+---
+
+<div class="translate-wrap" data-google-translate>
+	<div id="google_translate_element"></div>
+</div>
+
+<script is:inline>
+	window.googleTranslateElementInit = function () {
+		new google.translate.TranslateElement(
+			{
+				pageLanguage: 'en',
+				includedLanguages: 'en,es,zh-CN,zh-TW,vi,ko,th,tl,ja',
+				autoDisplay: false,
+			},
+			'google_translate_element',
+		);
+
+		const wrap = document.querySelector('[data-google-translate]');
+		const select = wrap && wrap.querySelector('select.goog-te-combo');
+		if (!select) return;
+
+		// Shorter default label so native selects don’t clip mid-word
+		if (select.options[0] && /select language/i.test(select.options[0].text)) {
+			select.options[0].text = 'Language';
+		}
+	};
+</script>
+<script
+	is:inline
+	src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+	defer></script>
+
+<style is:global>
+	.goog-te-banner-frame,
+	.goog-te-balloon-frame,
+	#goog-gt-tt,
+	.goog-te-spinner-pos,
+	.goog-logo-link,
+	.goog-te-gadget > span {
+		display: none !important;
+	}
+
+	body {
+		top: 0 !important;
+	}
+
+	font {
+		background-color: transparent !important;
+		box-shadow: none !important;
+	}
+
+	.goog-te-gadget {
+		font-size: 0 !important;
+		color: transparent !important;
+	}
+
+	.translate-wrap,
+	.translate-wrap #google_translate_element,
+	.translate-wrap .goog-te-gadget {
+		overflow: visible !important;
+	}
+
+	.translate-wrap .goog-te-combo {
+		display: block !important;
+		box-sizing: border-box !important;
+		width: auto !important;
+		min-width: 11.5rem !important;
+		max-width: none !important;
+		min-height: 2.35rem !important;
+		height: auto !important;
+		margin: 0 !important;
+		padding: 0.4rem 2.2rem 0.4rem 1rem !important;
+		border: 0 !important;
+		border-radius: var(--radius-md) !important;
+		background-color: var(--color-accent) !important;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23fbf7ef' d='M1.4 1.2 6 5.8l4.6-4.6 1.4 1.4L6 8.6 0 2.6z'/%3E%3C/svg%3E") !important;
+		background-repeat: no-repeat !important;
+		background-position: right 1rem center !important;
+		background-size: 0.7rem !important;
+		color: var(--color-cream) !important;
+		font-family: var(--font-body-stack) !important;
+		font-size: 0.92rem !important;
+		font-weight: 700 !important;
+		letter-spacing: 0.02em !important;
+		line-height: 1.2 !important;
+		text-overflow: unset !important;
+		white-space: nowrap !important;
+		cursor: pointer !important;
+		appearance: none !important;
+		-webkit-appearance: none !important;
+		-moz-appearance: none !important;
+	}
+
+	.translate-wrap:hover .goog-te-combo,
+	.translate-wrap:focus-within .goog-te-combo {
+		background-color: var(--color-blue) !important;
+	}
+
+	.translate-wrap .goog-te-combo:focus-visible {
+		outline: 3px solid var(--color-yellow) !important;
+		outline-offset: 2px !important;
+	}
+</style>
+
+<style>
+	.translate-wrap {
+		display: inline-flex;
+		align-items: center;
+		max-width: 100%;
+		border-radius: var(--radius-md);
+	}
+
+	.translate-wrap :global(#google_translate_element),
+	.translate-wrap :global(.goog-te-gadget) {
+		display: block;
+		width: auto;
+		max-width: 100%;
+	}
+
+	@media (max-width: 40rem) {
+		.translate-wrap,
+		.translate-wrap :global(#google_translate_element),
+		.translate-wrap :global(.goog-te-gadget),
+		.translate-wrap :global(.goog-te-combo) {
+			width: 100% !important;
+		}
+	}
+</style>
