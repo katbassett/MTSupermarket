@@ -493,9 +493,10 @@ const signageItems = [
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
+		justify-content: center;
 		column-gap: 0;
 		row-gap: 0.75rem;
-		width: 100%;
+		/* Do not set width: 100% — it overrides .container and goes edge-to-edge */
 	}
 
 	.aisles p {

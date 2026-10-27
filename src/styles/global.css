@@ -157,8 +157,12 @@ a {
 }
 
 .container {
-	width: min(72rem, calc(100% - 2rem));
+	/* Padding-based inset so scoped `width: 100%` can't flush content to the viewport */
+	box-sizing: border-box;
+	width: 100%;
+	max-width: 72rem;
 	margin-inline: auto;
+	padding-inline: 1rem;
 }
 
 .section {
@@ -446,7 +450,7 @@ a {
 
 @media (min-width: 48rem) {
 	.container {
-		width: min(72rem, calc(100% - 3rem));
+		padding-inline: 1.5rem;
 	}
 }
 
