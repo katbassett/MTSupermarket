@@ -15,7 +15,8 @@ Last audit: brief gap pass (Weekly Specials architecture, About structure, email
 - [ ] Specific featured products / brands to highlight (if desired)
 - [ ] Additional wholesale information (hours, account process, categories, etc.)
 - [x] MT logo assets (icon + wordmark in header; full lockup in `src/assets/images/logos/`)
-- [ ] Final San Antonio photography (store, departments, product — replace stock as available)
+- [x] Initial store photography swapped in (hero, intro, grocery, produce, sauces, drinks, packs, wholesale, exteriors)
+- [ ] Remaining photography: meat counter, seafood tanks/counter close-ups, noodles/rice aisles, dedicated SA store shots when open
 
 ---
 

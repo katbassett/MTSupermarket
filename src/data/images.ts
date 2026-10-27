@@ -1,44 +1,44 @@
-import aisle from '../assets/images/aisle.jpg';
-import discovery from '../assets/images/discovery.jpg';
-import drinks from '../assets/images/drinks.jpg';
+import aisle from '../assets/images/aisle.webp';
+import discovery from '../assets/images/discovery.webp';
+import drinks from '../assets/images/drinks.webp';
+import exterior from '../assets/images/exterior.jpg';
 import hero from '../assets/images/hero.jpg';
 import intro from '../assets/images/intro.jpg';
 import meat from '../assets/images/meat.jpg';
 import noodles from '../assets/images/noodles.jpg';
-import packs from '../assets/images/packs.jpg';
+import packs from '../assets/images/packs.webp';
 import produce from '../assets/images/produce.jpg';
 import rice from '../assets/images/rice.jpg';
-import sauces from '../assets/images/sauces.jpg';
+import sauces from '../assets/images/sauces.webp';
 import seafood from '../assets/images/seafood.jpg';
-import wholesale from '../assets/images/wholesale.jpg';
+import storefront from '../assets/images/storefront.jpg';
+import wholesale from '../assets/images/wholesale.webp';
 
 /**
- * Placeholder photography until MT provides San Antonio store shoots.
- * Prefer aisle, shelf, counter, and produce-display photos over plated food.
+ * Store photography for the public site.
+ * Prefer real MT aisle, shelf, counter, and produce-display photos over plated food.
  *
- * Still needed from MT (or better stock):
+ * Still needed from MT (or better shoots):
  * - meat: fresh meat counter / case (current image is plated cuts)
- * - drinks: beverage cooler aisle (keeping prior cooler photo)
- * - wholesale: dedicated cash-and-carry / bulk case photography
- * - seafood: live tank close-ups from the SA store when available
- * - hero / intro: MT San Antonio store photography
+ * - seafood: live tank / counter close-ups (current image is stock)
+ * - noodles / rice: dedicated aisle photography when available
  */
 export const photos = {
 	hero: {
 		src: hero,
-		alt: 'A shopper walking down an aisle lined with packaged Asian snacks and pantry goods.',
+		alt: 'Produce and grocery aisles inside MT Supermarket, with fresh fruit displays and a live seafood section beyond.',
 	},
 	intro: {
 		src: intro,
-		alt: 'A shopper walking down an aisle lined with packaged Asian snacks and pantry goods.',
+		alt: 'A shopper smiling while holding a paper grocery bag of fresh leafy greens in the produce section.',
 	},
 	grocery: {
 		src: aisle,
-		alt: 'An Asian grocery aisle with packed shelves, snack packages, and chest freezers.',
+		alt: 'Snack and pantry aisles at MT Supermarket with yellow aisle markers and endcap displays.',
 	},
 	produce: {
 		src: produce,
-		alt: 'Fresh produce bins filled with eggplants, cucumbers, and leafy greens in a market aisle.',
+		alt: 'Fresh fruit crates and produce displays along a wide aisle at MT Supermarket.',
 	},
 	meat: {
 		src: meat,
@@ -50,28 +50,27 @@ export const photos = {
 	},
 	discovery: {
 		src: discovery,
-		alt: 'Specialty ingredients, sauces, dried goods, and pantry staples packed on market shelves.',
+		alt: 'Snack aisle endcaps and packed shelves inside MT Supermarket.',
 	},
 	noodles: {
 		src: noodles,
 		alt: 'Shelves densely stocked with packaged instant noodles and cup ramen.',
 	},
 	snacks: {
-		src: packs,
-		alt: 'An Asian grocery aisle with packed shelves of snacks and pantry packages.',
+		src: aisle,
+		alt: 'Snack aisle endcaps with Pocky and packaged treats at MT Supermarket.',
 	},
-	/** Stand-in until dedicated freezer-aisle photography arrives. */
 	packs: {
 		src: packs,
-		alt: 'Chest freezers and packed shelves in an Asian grocery aisle.',
+		alt: 'Household goods and bulk cases stacked along a grocery aisle at MT Supermarket.',
 	},
 	drinks: {
 		src: drinks,
-		alt: 'Refrigerated shelves filled with canned and bottled drinks.',
+		alt: 'Refrigerated shelves filled with canned and bottled Asian and international drinks.',
 	},
 	sauces: {
 		src: sauces,
-		alt: 'Grocery shelves stocked with sauces, seasonings, noodles, and packaged snacks.',
+		alt: 'Shelves of sauces, pastes, and condiments in a grocery aisle at MT Supermarket.',
 	},
 	rice: {
 		src: rice,
@@ -79,6 +78,14 @@ export const photos = {
 	},
 	wholesale: {
 		src: wholesale,
-		alt: 'A packed grocery aisle with shelves of pantry goods and chest freezers.',
+		alt: 'Bulk cases and packed aisle shelves suited to cash-and-carry shopping at MT Supermarket.',
+	},
+	storefront: {
+		src: storefront,
+		alt: 'The exterior entrance of MT Supermarket with pagoda-style roofs and store signage.',
+	},
+	exterior: {
+		src: exterior,
+		alt: 'MT Supermarket storefront with red-tiled roofs and blue MT SUPERMARKET lettering.',
 	},
 } as const;
