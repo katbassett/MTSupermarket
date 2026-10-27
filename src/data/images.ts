@@ -24,7 +24,8 @@ import wholesale from '../assets/images/wholesale.jpg';
  *
  * Still needed from MT (or better shoots):
  * - meat: fresh meat counter / case (current image is plated cuts)
- * - seafood: live tank / counter close-ups (current image is stock)
+ * - seafood: MT live tank / fresh counter (current image is stock Asian market counter)
+ * - produce: dedicated MT produce close-up (current tile uses stock Asian produce aisle)
  * - noodles / rice: dedicated MT aisle photography when available
  */
 export const photos = {
@@ -42,7 +43,7 @@ export const photos = {
 	},
 	produce: {
 		src: produce,
-		alt: 'Fresh fruit crates and produce displays along a wide aisle at MT Supermarket.',
+		alt: 'Eggplants, cucumbers, and leafy greens stacked in an Asian supermarket produce aisle.',
 	},
 	meat: {
 		src: meat,
@@ -50,7 +51,7 @@ export const photos = {
 	},
 	seafood: {
 		src: seafood,
-		alt: 'A seafood market aisle with live tanks, counters, and hanging market signs.',
+		alt: 'An Asian market seafood counter with trays of prepared crab, shrimp, and squid under bright lights.',
 	},
 	noodles: {
 		src: noodles,

@@ -27,6 +27,7 @@ if (!job) {
 const posted = formatPostedDate(job.postedDate)
 const external = job.applicationUrl?.startsWith('http') ?? false
 const metaBits = [job.department, job.location, job.employmentType].filter(Boolean)
+const applyHref = job.applicationUrl
 ---
 
 <Layout
@@ -43,6 +44,24 @@ const metaBits = [job.department, job.location, job.employmentType].filter(Boole
 					<p class="job-meta secondary">
 						{[posted && `Posted ${posted}`, job.compensation].filter(Boolean).join(' · ')}
 					</p>
+				)
+			}
+			{
+				applyHref && (
+					<div class="apply apply-top">
+						<a
+							class="button button-primary apply-button"
+							href={applyHref}
+							target={external ? '_blank' : undefined}
+							rel={external ? 'noopener noreferrer' : undefined}
+						>
+							Apply for this position
+							<span class="arrow" aria-hidden="true">→</span>
+						</a>
+						{job.applicationSource && (
+							<p class="apply-source">via {job.applicationSource}</p>
+						)}
+					</div>
 				)
 			}
 		</div>
@@ -86,11 +105,11 @@ const metaBits = [job.department, job.location, job.employmentType].filter(Boole
 			}
 
 			{
-				job.applicationUrl && (
-					<div class="apply">
+				applyHref && (
+					<div class="apply apply-bottom">
 						<a
-							class="apply-link"
-							href={job.applicationUrl}
+							class="button button-primary apply-button"
+							href={applyHref}
 							target={external ? '_blank' : undefined}
 							rel={external ? 'noopener noreferrer' : undefined}
 						>
@@ -170,22 +189,22 @@ const metaBits = [job.department, job.location, job.employmentType].filter(Boole
 		margin-top: 0.45rem;
 	}
 
-	.apply {
+	.apply-top {
+		margin-top: 1.5rem;
+	}
+
+	.apply-bottom {
 		margin-top: 2.75rem;
-		padding-top: 1.5rem;
+		padding-top: 1.75rem;
 		border-top: 1px solid var(--color-line);
 	}
 
-	.apply-link {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.45rem;
-		color: var(--color-red);
-		font-size: 0.92rem;
-		font-weight: 800;
-		letter-spacing: 0.08em;
-		text-decoration: none;
-		text-transform: uppercase;
+	.apply-button {
+		min-height: 3.35rem;
+		padding: 0.9rem 1.55rem;
+		font-size: 1rem;
+		letter-spacing: 0.04em;
+		gap: 0.5rem;
 	}
 
 	.arrow {
@@ -193,13 +212,13 @@ const metaBits = [job.department, job.location, job.employmentType].filter(Boole
 		transition: transform 0.2s ease;
 	}
 
-	.apply-link:hover .arrow,
-	.apply-link:focus-visible .arrow {
+	.apply-button:hover .arrow,
+	.apply-button:focus-visible .arrow {
 		transform: translateX(0.28rem);
 	}
 
 	.apply-source {
-		margin-top: 0.45rem;
+		margin-top: 0.55rem;
 		color: var(--color-muted);
 		font-size: 0.9rem;
 	}
@@ -224,8 +243,8 @@ const metaBits = [job.department, job.location, job.employmentType].filter(Boole
 			transition: none;
 		}
 
-		.apply-link:hover .arrow,
-		.apply-link:focus-visible .arrow {
+		.apply-button:hover .arrow,
+		.apply-button:focus-visible .arrow {
 			transform: none;
 		}
 	}
