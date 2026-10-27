@@ -42,7 +42,8 @@
 	--color-green: #315b3b;
 	--color-leaf: var(--color-green);
 
-	--header-height: 9.4rem;
+	/* Sticky masthead only; utility scrolls away above it */
+	--header-height: 5rem;
 	--radius-sm: 0.35rem;
 	--radius-md: 0.5rem;
 	--radius-lg: 0.75rem;

@@ -9,15 +9,17 @@ import MobileMenu from './MobileMenu.astro';
 const pathname = Astro.url.pathname;
 ---
 
-<header class="site-header" data-site-header>
-	<div class="utility">
-		<div class="container utility-inner">
-			<p><a href={site.mapsUrl}>{formatAddressLine()}</a></p>
-			<p class="utility-hours">{site.hoursPhrase}</p>
-			<p><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
-			<GoogleTranslate />
-		</div>
+{/* Utility scrolls away naturally — keeping it inside sticky was causing mobile bounce. */}
+<div class="utility">
+	<div class="container utility-inner">
+		<p><a href={site.mapsUrl}>{formatAddressLine()}</a></p>
+		<p class="utility-hours">{site.hoursPhrase}</p>
+		<p><a href={site.phoneHref}>{site.phoneDisplay}</a></p>
+		<GoogleTranslate />
 	</div>
+</div>
+
+<header class="site-header" data-site-header>
 	<div class="masthead">
 		<div class="container masthead-inner">
 			<a class="wordmark" href="/" aria-label="MT Supermarket, home">
@@ -83,16 +85,15 @@ const pathname = Astro.url.pathname;
 	const header = document.querySelector('[data-site-header]');
 	if (header instanceof HTMLElement) {
 		/**
-		 * Collapsing a sticky header shortens the document and can pull scrollY
-		 * back under the threshold (especially with the taller Translate utility).
-		 * Measure the real height delta and keep hysteresis larger than that jump,
-		 * plus a short lock while the CSS transition runs.
+		 * Desktop only: collapse masthead into the red nav bar.
+		 * Mobile never toggles height — utility already scrolls away above this sticky header.
 		 */
+		const desktopMq = window.matchMedia('(min-width: 62rem)');
 		let compact = false;
 		let ticking = false;
 		let lockedUntil = 0;
-		let compactOn = 160;
-		let compactOff = 24;
+		let compactOn = 120;
+		let compactOff = 16;
 
 		const apply = () => {
 			header.classList.toggle('is-compact', compact);
@@ -100,15 +101,23 @@ const pathname = Astro.url.pathname;
 			ticking = false;
 		};
 
-		const measure = () => {
-			const animated = header.querySelectorAll('.utility, .masthead');
-			const prev = [];
-			for (const el of animated) {
-				if (!(el instanceof HTMLElement)) continue;
-				prev.push([el, el.style.transition]);
-				el.style.transition = 'none';
+		const clearCompact = () => {
+			if (!compact) {
+				ticking = false;
+				return;
 			}
+			compact = false;
+			apply();
+		};
 
+		const measure = () => {
+			if (!desktopMq.matches) return;
+
+			const masthead = header.querySelector('.masthead');
+			if (!(masthead instanceof HTMLElement)) return;
+
+			const prevTransition = masthead.style.transition;
+			masthead.style.transition = 'none';
 			const wasCompact = header.classList.contains('is-compact');
 
 			header.classList.remove('is-compact');
@@ -120,15 +129,19 @@ const pathname = Astro.url.pathname;
 			const mini = header.getBoundingClientRect().height;
 
 			header.classList.toggle('is-compact', wasCompact);
-			for (const [el, value] of prev) el.style.transition = value;
+			masthead.style.transition = prevTransition;
 
 			const delta = Math.max(0, full - mini);
-			// Gap must exceed the scroll jump when sticky height changes
-			compactOn = Math.ceil(delta + 56);
+			compactOn = Math.ceil(delta + 48);
 			compactOff = 16;
 		};
 
 		const sync = () => {
+			if (!desktopMq.matches) {
+				clearCompact();
+				return;
+			}
+
 			if (Date.now() < lockedUntil) {
 				ticking = false;
 				return;
@@ -163,60 +176,91 @@ const pathname = Astro.url.pathname;
 		sync();
 		window.addEventListener('scroll', onScroll, { passive: true });
 		window.addEventListener('resize', onResize, { passive: true });
-		// Translate widget can grow the utility bar after first paint
-		window.setTimeout(measure, 600);
-		window.setTimeout(measure, 1600);
+		desktopMq.addEventListener('change', onResize);
 	}
 </script>
 
 <style>
+	:global(html) {
+		--header-height: 5rem;
+	}
+
 	:global(html.header-compact) {
 		--header-height: 2.875rem;
+	}
+
+	.utility {
+		background: var(--color-cream);
+		color: var(--color-ink);
+		border-bottom: 1px solid var(--color-line);
+	}
+
+	.utility-inner {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: center;
+		gap: 0.35rem 1.25rem;
+		min-height: 2rem;
+		padding: 0.45rem 0;
+		font-size: 0.72rem;
+		font-weight: 600;
+		line-height: 1.2;
+	}
+
+	.utility-inner :global(.translate-wrap) {
+		flex: 0 0 auto;
+	}
+
+	@media (max-width: 40rem) {
+		.utility-inner :global(.translate-wrap) {
+			flex: 1 1 100%;
+			order: 5;
+			width: 100%;
+		}
+	}
+
+	.utility-hours {
+		color: var(--color-blue);
+		letter-spacing: 0.04em;
+		text-transform: uppercase;
+	}
+
+	.utility a {
+		color: inherit;
+		text-decoration: none;
+	}
+
+	.utility a:hover,
+	.utility a:focus-visible {
+		color: var(--color-blue);
+		text-decoration: underline;
+		text-underline-offset: 0.15em;
 	}
 
 	.site-header {
 		position: sticky;
 		top: 0;
 		z-index: 30;
-		background: var(--color-cream);
+		background: var(--color-bg);
 		/* Avoid subpixel gaps above sticky header while scrolling */
-		box-shadow: 0 -1px 0 var(--color-cream);
+		box-shadow: 0 -1px 0 var(--color-bg);
 	}
 
-	.utility,
 	.masthead {
 		overflow: hidden;
-		max-height: 7rem;
+		max-height: 6rem;
 		opacity: 1;
-		border-bottom-width: 1px;
-		border-bottom-style: solid;
-		border-bottom-color: transparent;
+		background: var(--color-bg);
+		color: var(--color-ink);
 		transition:
 			max-height 0.28s ease,
-			opacity 0.22s ease,
-			border-bottom-width 0.28s ease;
-	}
-
-	.utility {
-		border-bottom-color: var(--color-line);
-	}
-
-	.masthead {
-		max-height: 6rem;
-	}
-
-	.site-header.is-compact .utility {
-		max-height: 0;
-		opacity: 0;
-		border-bottom-width: 0;
-		pointer-events: none;
-		visibility: hidden;
+			opacity 0.22s ease;
 	}
 
 	.site-header.is-compact .masthead {
 		max-height: 0;
 		opacity: 0;
-		border-bottom-width: 0;
 		pointer-events: none;
 		visibility: hidden;
 	}
@@ -256,63 +300,9 @@ const pathname = Astro.url.pathname;
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.utility,
 		.masthead {
 			transition: none;
 		}
-	}
-
-	.utility {
-		background: var(--color-cream);
-		color: var(--color-ink);
-	}
-
-	.utility-inner {
-		display: flex;
-		flex-wrap: wrap;
-		align-items: center;
-		justify-content: center;
-		gap: 0.35rem 1.25rem;
-		min-height: 2rem;
-		padding: 0.35rem 0;
-		font-size: 0.72rem;
-		font-weight: 600;
-		line-height: 1.2;
-	}
-
-	.utility-inner :global(.translate-wrap) {
-		flex: 0 0 auto;
-	}
-
-	@media (max-width: 40rem) {
-		.utility-inner :global(.translate-wrap) {
-			flex: 1 1 100%;
-			order: 5;
-			width: 100%;
-		}
-	}
-
-	.utility-hours {
-		color: var(--color-blue);
-		letter-spacing: 0.04em;
-		text-transform: uppercase;
-	}
-
-	.utility a {
-		color: inherit;
-		text-decoration: none;
-	}
-
-	.utility a:hover,
-	.utility a:focus-visible {
-		color: var(--color-blue);
-		text-decoration: underline;
-		text-underline-offset: 0.15em;
-	}
-
-	.masthead {
-		background: var(--color-bg);
-		color: var(--color-ink);
 	}
 
 	.masthead-inner {
@@ -395,17 +385,17 @@ const pathname = Astro.url.pathname;
 			display: none;
 		}
 
-		/* Mobile compact: hide utility only; keep logo/menu masthead */
+		/* Mobile: never collapse sticky masthead height */
+		.masthead {
+			max-height: none;
+			overflow: visible;
+		}
+
 		.site-header.is-compact .masthead {
-			max-height: 5.5rem;
+			max-height: none;
 			opacity: 1;
 			visibility: visible;
 			pointer-events: auto;
-			border-bottom-width: 0;
-		}
-
-		:global(html.header-compact) {
-			--header-height: 5rem;
 		}
 
 		.logo-wordmark {
@@ -480,6 +470,10 @@ const pathname = Astro.url.pathname;
 	}
 
 	@media (min-width: 62rem) {
+		:global(html) {
+			--header-height: 7.9rem;
+		}
+
 		.desktop-nav {
 			display: block;
 		}
