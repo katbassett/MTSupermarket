@@ -14,7 +14,7 @@
 export const site = {
 	name: 'MT Supermarket',
 	description:
-		'MT Supermarket is an established Asian and international supermarket opening at 5428 Walzem Rd. in San Antonio, Texas. Expected opening: early November. Planned hours are 9 AM–8 PM daily.',
+		'MT Supermarket is an established Asian and international supermarket opening at 5428 Walzem Rd. in San Antonio, Texas. Expected opening: early December. Planned hours are 9 AM–8 PM daily.',
 	address: {
 		street: '5428 Walzem Rd.',
 		city: 'San Antonio',
@@ -46,7 +46,7 @@ export const site = {
 	 * Prefer "Planned hours…" / "Hours upon opening…" — do not imply open now.
 	 */
 	hoursPhrase: 'Planned hours: 9 AM–8 PM daily',
-	opening: 'Early November',
+	opening: 'Early December',
 	mapsUrl:
 		'https://www.google.com/maps/search/?api=1&query=5428+Walzem+Rd,+San+Antonio,+TX',
 } as const;
