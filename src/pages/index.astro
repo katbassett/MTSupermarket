@@ -600,7 +600,8 @@ const signageItems = [
 	}
 
 	.welcome figure {
-		aspect-ratio: 4 / 3;
+		/* Match intro.jpg (~2:3) so cover doesn’t crop her face */
+		aspect-ratio: 2 / 3;
 	}
 
 	.wholesale figure {
@@ -610,6 +611,10 @@ const signageItems = [
 	.welcome figure,
 	.wholesale figure {
 		border-radius: var(--radius-lg);
+	}
+
+	.welcome figure :global(img) {
+		object-position: center top;
 	}
 
 	/* Keep the full MT SUPERMARKET lettering in frame (sign sits on the right). */
